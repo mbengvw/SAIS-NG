@@ -37,7 +37,7 @@
                                         <th>Nama</th>
                                         <th>Jenis</th>
                                         <th>Angkatan</th>
-                                        <th>Kelas</th>
+                                        <th>Kelas..</th>
                                         <th width="180px">Action</th>
                                     </tr>
                                 </thead>
