@@ -14,21 +14,9 @@ use function PHPUnit\Framework\isNull;
 
 class PresensiController extends Controller
 {
-    public function index(Request $request){
+    public function index(){
         $list_kelas=Kelas::all();
-        if ($request->ajax()) {
-            $tgl='2022-11-20';
-            $id_kelas=2;
-            $data=Grouping::select(['tst_grouping.*','mst_siswa.*','mst_kelas.*','tst_kehadiran.*'])
-            ->join('mst_siswa','tst_grouping.id_siswa','=','mst_siswa.id_siswa')
-            ->join('mst_kelas','tst_grouping.id_kelas','=','mst_kelas.id_kelas')
-            ->orderBy('mst_siswa.nama_lengkap','asc')
-            ->join('tst_kehadiran','tst_kehadiran.id_grouping','=','tst_grouping.id_grouping')
-            ->where('tst_grouping.id_kelas',$id_kelas)
-            ->where('tst_kehadiran.tanggal',$tgl)
-            ->get();
-        }
-        return view('presensi.index',['list_kelas'=>$list_kelas]);
+        return view('presensi.index',['list_kelas'=>$list_kelas,'tanggal'=>date("d/m/Y")]);
     }
 
     public function test(){
@@ -87,7 +75,61 @@ class PresensiController extends Controller
         if ($request->ajax()) {
             $id_kehadiran=$request->input('id_kehadiran');
             Presensi::find($id_kehadiran)->delete();
-            return response()->json(['success'=>'Grouping deleted successfully.']);
+            return response()->json(['message'=>'Data kehadiran berhasil dihapus']);
+        }
+    }
+
+    public function list_all(){
+        $list_kelas=Kelas::all();
+        return view('presensi.list_presensi',['list_kelas'=>$list_kelas]);
+    }
+
+    public function list_by(){
+        $id_kelas=1;
+        $peresensi=Presensi::with(['grouping'=>function($q){
+            $q->where('id_siswa','=','174');
+        }])
+        ->get();
+        dd($peresensi);
+    }
+
+    public  function ajax_list_by(Request $request){
+        if ($request->ajax()) {
+            $id_kelas=$request->input('id_kelas');
+            $tahun=$request->input('tahun');
+            $semester=$request->input('semester');
+            $tgl=$request->input('tanggal');
+            $nama=$request->input('nama');
+            
+            $query=DB::table('tst_kehadiran AS kehadiran')
+            ->select('kehadiran.id_kehadiran','kehadiran.id_grouping','kehadiran.semester','kehadiran.tanggal','kehadiran.atatus',
+            'grouping.id_siswa','grouping.id_kelas','grouping.tahun_akademik',
+            'siswa.nis','siswa.nama_lengkap','siswa.jk','siswa.angkatan','siswa.jalur','siswa.asal_sltp',
+            'kelas.id_kelas','kelas.nama_kelas')
+
+            ->join('mst_siswa AS siswa','grouping.id_siswa','=','siswa.id_siswa')
+            ->join('mst_kelas AS kelas','grouping.id_kelas','=','kelas.id_kelas')
+            ->orderBy('siswa.nama_lengkap','asc');
+            if($id_kelas){
+                $query->where('kelas.id_kelas','=',$id_kelas);
+            }
+            if($tahun){
+                $query->where('grouping.tahun_akademik','=',$tahun);
+            }
+            if($semester){
+                $query->where('kehadiran.semester','=',$semester);
+            }
+            if($tgl){
+                $query->where('kehadiran.tanggal','=',$tgl);
+            }
+            if($nama){
+                $query->where('siswa.nama_lengkap','=',$nama);
+            }
+            $result=$query->get();
+
+            return response()->json([
+                'students'=>$result,
+            ]);
         }
     }
 

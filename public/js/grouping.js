@@ -131,6 +131,7 @@ $(document).ready(function () {
                 dataType: "json",
                 data: { id: id },
                 success: function (response) {
+                    alert(response.message);
                     fetchstudent();
                     $(".students_datatable").DataTable().ajax.reload();
                 },

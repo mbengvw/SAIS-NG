@@ -21,7 +21,8 @@ class Siswa extends Model
         'asal_sltp'
     ];
 
-    // public function rel_grouping(){
-    //     return $this->belongsTo(Grouping::class);
-    // }
+    public function grouping(){
+        // return $this->hasMany(Grouping::class, 'foreign_key', 'local_key');
+        return $this->hasMany(Grouping::class,'id_grouping','id_siswa');
+    }
 }

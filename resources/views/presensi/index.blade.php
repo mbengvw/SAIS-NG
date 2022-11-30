@@ -9,13 +9,13 @@
         </div>
         <div class="row justify-content-center">
             <p>
-                Tanggal : -------------
+                Tanggal : {{ $tanggal }}
             </p>
         </div>
         <div class="row">
             <div class="col">
                 Kelas :
-                <select id="select_kelas" name="select_kelas">
+                <select id="select_kelas" name="select_kelas" style="margin-bottom: 20px;">
                     <option value="">Pilih Kelas</option>
                     @foreach ($list_kelas as $kelas)
                         <option value="{{ $kelas['id_kelas'] }}">{{ $kelas['nama_kelas'] }}</option>

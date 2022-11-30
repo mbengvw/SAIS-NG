@@ -19,4 +19,10 @@ class Presensi extends Model
         'creted_at',
         'updated_at'
     ];
+
+    public function grouping(){
+        // return $this->belongsTo(Siswa::class, 'foreign_key');
+        return $this->belongsTo(Grouping::class, 'id_grouping');
+    }
 }
+

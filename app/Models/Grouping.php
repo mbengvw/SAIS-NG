@@ -16,11 +16,17 @@ class Grouping extends Model
         'tahun_akademik',
     ];
 
-    public function rel_siswa(){
+    public function siswa(){
+        // return $this->belongsTo(Siswa::class, 'foreign_key');
         return $this->belongsTo(Siswa::class, 'id_siswa');
     }
 
-    public function rel_kelas(){
+    public function kelas(){
         return $this->belongsTo(Kelas::class,'id_kelas');
+    }
+
+    public function presensi(){
+        // return $this->hasMany(Grouping::class, 'foreign_key', 'local_key');
+        return $this->hasMany(Presensi::class,'id_grouping','id_presensi');
     }
 }

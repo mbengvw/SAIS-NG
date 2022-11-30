@@ -41,10 +41,11 @@ Route::get('presensi', [PresensiController::class, 'index'])->name('presensi.ind
 Route::get('presensi/ajaxkelastanggal', [PresensiController::class, 'ajaxkelastanggal'])->name('presensi.ajaxkelastanggal');
 Route::post('presensi/store', [PresensiController::class, 'store'])->name('presensi.store');
 Route::post('presensi/ajaxdestroy', [PresensiController::class, 'ajaxdestroy'])->name('presensi.ajaxdestroy');
-
+Route::get('presensi/all', [PresensiController::class, 'list_all'])->name('presensi.all');
 
 
 Route::get('presensi/test', [PresensiController::class, 'test'])->name('presensi.test');
+Route::get('presensi/list_by', [PresensiController::class, 'list_by'])->name('presensi.list_by');
 
 // Route::get('presensi/{id}', [PresensiController::class, 'show'])->name('presensi.show');
 // Route::post('presensi/destroy/{id}/', [PresensiController::class, 'destroy'])->name('presensi.remove');

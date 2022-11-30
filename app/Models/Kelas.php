@@ -19,7 +19,8 @@ class Kelas extends Model
         'updated_at'
     ];
 
-    // public function grouping(){
-    //     return $this->hasMany(Grouping::class);
-    // }
+    public function grouping(){
+        // return $this->hasMany(Grouping::class, 'foreign_key', 'local_key');
+        return $this->hasMany(Grouping::class,'id_kelas','id_grouping');
+    }
 }

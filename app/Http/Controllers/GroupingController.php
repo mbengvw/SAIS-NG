@@ -7,7 +7,7 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Models\Grouping;
 use App\Models\Siswa;
 use App\Models\Kelas;
-use Psy\Readline\Hoa\Console;
+use App\Models\Presensi;
 
 class GroupingController extends Controller
 {
@@ -72,8 +72,13 @@ class GroupingController extends Controller
     public function ajaxdestroy(Request $request){
         if ($request->ajax()) {
             $id_grouping=$request->input('id');
-            Grouping::find($id_grouping)->delete();
-            return response()->json(['success'=>'Grouping deleted successfully.']);
+            //cek apakah sudah ada transaksi kerhadiran
+            if(Presensi::where('id_grouping',$id_grouping)->count()<1){
+                Grouping::find($id_grouping)->delete();
+                return response()->json(['message'=>'Data grouping berhasil dihapus']);
+            }else{
+                return response()->json(['message'=>'Sudah ada transaksi kehadiran']);
+            }
         }
     }
 

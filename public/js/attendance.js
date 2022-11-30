@@ -4,6 +4,7 @@ $(document).ready(function () {
     $("#select_kelas").change(function () {
         fetchstudent();
     });
+
     function fetchstudent() {
         let id_kelas = $("#select_kelas").val();
         $.ajax({

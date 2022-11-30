@@ -4,21 +4,71 @@
     <div class="container-fluid">
         <div class="row justify-content-center" style="margin-top: 50px;">
             <h2>
-                List Kehadiran Siswa
+                Kehadiran Harian Siswa
             </h2>
         </div>
+
         <div class="row">
             <div class="col">
-                Kelas :
-                <select id="select_kelas" name="select_kelas" style="margin-bottom: 20px;">
-                    <option value="">Pilih Kelas</option>
-                    @foreach ($list_kelas as $kelas)
-                        <option value="{{ $kelas['id_kelas'] }}">{{ $kelas['nama_kelas'] }}</option>
-                    @endforeach
-                </select>
-            </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Parameter Filter</h4>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-2 col-form-label">Kelas</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" id="select_kelas" name="select_kelas"
+                                        style="margin-bottom: 20px;">
+                                        <option value="">Semua</option>
+                                        @foreach ($list_kelas as $kelas)
+                                            <option value="{{ $kelas['id_kelas'] }}">{{ $kelas['nama_kelas'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
-            <div class="col">
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-2 col-form-label">Tahun</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" id="select_kelas" name="select_kelas"
+                                        style="margin-bottom: 20px;">
+                                        <option value="">Semua</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2024">2024</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-2 col-form-label">Semester</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control" id="select_kelas" name="select_kelas"
+                                        style="margin-bottom: 20px;">
+                                        <option value="">Semua</option>
+                                        <option value="1">Ganjil</option>
+                                        <option value="2">Genap</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="inputPassword3" class="col-sm-2 col-form-label">Nama Siswa</label>
+                                <div class="col-sm-5">
+                                    <input type="password" class="form-control" id="inputPassword3">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Show Data</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
 
             </div>
         </div>
@@ -37,11 +87,7 @@
                                         <th>Nama</th>
                                         <th>JK</th>
                                         <th>Kelas</th>
-                                        <th>Sakit</th>
-                                        <th>Izin</th>
-                                        <th>Alfa</th>
-                                        <th>Ket.</th>
-                                        <th>Action</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
