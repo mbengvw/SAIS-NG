@@ -18,6 +18,8 @@ return new class extends Migration
             $table->bigInteger('id_hukdis');
             $table->bigInteger('id_grouping');
             $table->date('tanggal');
+            $table->tinyInteger('semester');
+            $table->integer('id_petugas');
             $table->timestamps();
         });
     }

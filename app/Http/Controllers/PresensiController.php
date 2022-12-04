@@ -80,17 +80,9 @@ class PresensiController extends Controller
     }
 
     public function list_all(){
+        $data_tahun=app('tahunAkademik');
         $list_kelas=Kelas::all();
-        return view('presensi.list_presensi',['list_kelas'=>$list_kelas]);
-    }
-
-    public function list_by(){
-        $id_kelas=1;
-        $peresensi=Presensi::with(['grouping'=>function($q){
-            $q->where('id_siswa','=','174');
-        }])
-        ->get();
-        dd($peresensi);
+        return view('presensi.list_presensi',['list_kelas'=>$list_kelas,'data_tahun'=>$data_tahun]);
     }
 
     public  function ajax_list_by(Request $request){
@@ -100,13 +92,13 @@ class PresensiController extends Controller
             $semester=$request->input('semester');
             $tgl=$request->input('tanggal');
             $nama=$request->input('nama');
-            
+
             $query=DB::table('tst_kehadiran AS kehadiran')
-            ->select('kehadiran.id_kehadiran','kehadiran.id_grouping','kehadiran.semester','kehadiran.tanggal','kehadiran.atatus',
+            ->select('kehadiran.id_kehadiran','kehadiran.id_grouping','kehadiran.semester','kehadiran.tanggal','kehadiran.status',
             'grouping.id_siswa','grouping.id_kelas','grouping.tahun_akademik',
             'siswa.nis','siswa.nama_lengkap','siswa.jk','siswa.angkatan','siswa.jalur','siswa.asal_sltp',
             'kelas.id_kelas','kelas.nama_kelas')
-
+            ->join('tst_grouping AS grouping','kehadiran.id_grouping','=','grouping.id_grouping')
             ->join('mst_siswa AS siswa','grouping.id_siswa','=','siswa.id_siswa')
             ->join('mst_kelas AS kelas','grouping.id_kelas','=','kelas.id_kelas')
             ->orderBy('siswa.nama_lengkap','asc');
@@ -122,10 +114,11 @@ class PresensiController extends Controller
             if($tgl){
                 $query->where('kehadiran.tanggal','=',$tgl);
             }
-            if($nama){
-                $query->where('siswa.nama_lengkap','=',$nama);
+            if($nama!=""){
+                $query->where('siswa.nama_lengkap','LIKE','%'.$nama.'%');
             }
             $result=$query->get();
+            // $result=$query->paginate(5);
 
             return response()->json([
                 'students'=>$result,

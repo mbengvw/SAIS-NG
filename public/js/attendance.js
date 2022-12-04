@@ -7,6 +7,11 @@ $(document).ready(function () {
 
     function fetchstudent() {
         let id_kelas = $("#select_kelas").val();
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        });
         $.ajax({
             type: "GET",
             url: app_path.base_path + "/ajaxkelastanggal",
