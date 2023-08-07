@@ -7,22 +7,25 @@
                 Hukuman Disiplin Siswa
             </h2>
         </div>
+
         <div class="row justify-content-center">
             <p>
                 Tahun Akademik : {{ $data_th_akademik->tahun }} / Semester : {{ $data_th_akademik->semester }}
             </p>
         </div>
+
         <div class="row">
-            <div class="col-6">
+            <div class="col-4">
                 <div class="card">
                     <div class="card-header">
                         Eksekusi Hukdis
                     </div>
                     <div class="card-body">
-                        <form>
+
+                        <form id="hukdis_form">
                             <div class="form-group row">
                                 <label for="inputEmail3" class="col-sm-2 col-form-label">Kelas</label>
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
                                     <select class="form-control" id="select_kelas" name="select_kelas">
                                         <option value="">Semua</option>
                                         @foreach ($list_kelas as $kelas)
@@ -39,25 +42,25 @@
                                         <option value="">Pilih Siswa</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-3">
-                                    Akumulasi Poin :
-                                </div>
-                                <div class="col-sm-1">
-                                    70
-                                </div>
+
                             </div>
 
                             <div class="form-group row">
                                 <label for="inputEmail3" class="col-sm-2 col-form-label">Pelanggaran</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-10">
                                     <select class="form-control" id="select_hukdis" name="select_hukdis">
                                         <option value="">Pilih Pelanggaran</option>
                                         @foreach ($list_hukdis as $hukdis)
-                                            <option value="{{ $hukdis['id_hukdi'] }}">
+                                            <option value="{{ $hukdis['id_hukdis'] }}">
                                                 {{ $hukdis['deskripsi'] }} -- Poin : {{ $hukdis['poin'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+
+                            {{-- bagian pesan kesalahan validasi --}}
+                            <div class="alert alert-danger print-error-msg" style="display:none;margin-top: 20px;">
+                                <ul></ul>
                             </div>
 
                             <div class="form-group row">
@@ -72,7 +75,7 @@
             </div>
 
 
-            <div class="col-6">
+            <div class="col-8">
                 <div class="card">
                     <div class="card-header">
                         Riwayat Hukdis
@@ -80,14 +83,18 @@
                     <div class="card-body">
                         <div class="table-responsive">
 
-                            <table class="table table-striped table-bordered hukdis_datatable">
+                            <table class="table table-striped table-bordered" id="tbl_hukdis">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>NISN</th>
+                                        <th>No</th>
                                         <th>Nama</th>
-                                        <th>Jenis</th>
-                                        <th>Angkatan</th>
+                                        <th>Kelas</th>
+                                        <th>Th. Akademik</th>
+                                        <th>Smt.</th>
+                                        <th>Tanggal</th>
+                                        <th>Pelanggaran</th>
+                                        <th>Poin</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -102,7 +109,7 @@
         </div>
 
     </div>
-@endsection.
+@endsection
 
 @section('script')
     <script>

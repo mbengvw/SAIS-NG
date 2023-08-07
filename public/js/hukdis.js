@@ -1,116 +1,197 @@
 $(document).ready(function () {
-    /*------------------------------------------
-    Pass Header Token
-    --------------------------------------------*/
-    $.ajaxSetup({
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
+    $("#select_kelas").change(function () {
+        fetchstudent();
+        fetchPelanggaran();
     });
 
-    /*------------------------------------------
-    Render DataTable
-    --------------------------------------------*/
-    let table = $(".hukdis_datatable").DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: path.base_path,
-        columns: [
-            { data: "id_siswa", name: "id_siswa" },
-            { data: "no_daftar", name: "no_daftar" },
-            { data: "nis", name: "nis" },
-            { data: "nisn", name: "nisn" },
-            { data: "nama_lengkap", name: "nama_lengkap" },
-            { data: "jk", name: "jk" },
-            { data: "angkatan", name: "angkatan" },
-            { data: "jalur", name: "jalur" },
-            { data: "asal_sltp", name: "asal_sltp" },
-            {
-                data: "action",
-                name: "action",
-                orderable: false,
-                searchable: false,
-            },
-            {
-                data: "checkbox",
-                name: "checkbox",
-                orderable: false,
-                searchable: false,
-            },
-        ],
+    $("#select_nama").change(function () {
+        fetchPelanggaran();
     });
 
-    /*------------------------------------------
-    Delete Single Student Code
-    --------------------------------------------*/
-    $("body").on("click", ".delete", function () {
-        let student_id = this.id;
-        // alert(student_id);
-        let confirmed = confirm("Are You sure want to delete !");
-        if (confirmed) {
-            $.ajax({
-                type: "POST",
-                url: path.base_path + "/destroy/" + student_id,
-                success: function (data) {
-                    table.draw();
-                },
-                error: function (data) {
-                    console.log("Error:", data);
-                },
-            });
+    function fetchstudent() {
+        let id_kelas = $("#select_kelas").val();
+        let tahun = $("#tahun_aktif").val();
+        // console.log(tahun);
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        });
+        $.ajax({
+            type: "GET",
+            url: app_path.base_path + "/ajax_list_siswa_by_tahun",
+            data: { id_kelas: id_kelas, tahun: tahun },
+            dataType: "json",
+            success: function (response) {
+                // console.log(response);
+                $("#select_nama").empty();
+                $("#select_nama").append(
+                    "<option value=''selected>Pilih Siswa</option>"
+                );
+                $.each(response.students, function (key, item) {
+                    $("#select_nama").append(
+                        "<option value='" +
+                            item.nama_lengkap +
+                            "|" +
+                            item.id_grouping +
+                            "'>" +
+                            item.nama_lengkap +
+                            "</option>"
+                    );
+                });
+            },
+        });
+    }
+
+    function fetchPelanggaran() {
+        let id_kelas = $("#select_kelas").val();
+        let tahun = $("#tahun_aktif").val();
+        let semester = null;
+        let tgl = null;
+        let raw = $("#select_nama").val();
+        let arr = raw.split("|");
+        let nama = arr[0];
+        /*------------------------------------------
+        Pass Header Token
+        --------------------------------------------*/
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        });
+
+        $.ajax({
+            type: "get",
+            url: app_path.base_path + "/ajax_list_by",
+            data: {
+                id_kelas: id_kelas,
+                tahun: tahun,
+                semester: semester,
+                tanggal: tgl,
+                nama: nama,
+            },
+            dataType: "json",
+
+            success: function (response) {
+                console.log(response);
+                $("#tbl_hukdis > tbody").html("");
+                let no = 0;
+                let content = "";
+                $.each(response, function (key, item) {
+                    no = no + 1;
+                    content +=
+                        "<tr>\
+                <td>" +
+                        no +
+                        "</td>\
+                <td>" +
+                        item.nama_lengkap +
+                        "</td>\
+                <td>" +
+                        item.nama_kelas +
+                        "</td>\
+                <td>" +
+                        item.tahun_akademik +
+                        "</td>\
+                <td>" +
+                        item.semester +
+                        "</td>\
+                <td>" +
+                        item.tanggal +
+                        "</td>\
+                <td>" +
+                        item.deskripsi +
+                        "</td>\
+                <td>" +
+                        item.poin +
+                        "</td>\
+                <td> <button type='button' name='delete' value='" +
+                        item.id_pelanggaran +
+                        "' class='delete btn btn-danger btn-sm'>Delete</button></td>";
+                });
+
+                $("#tbl_hukdis > tbody").append(content);
+            },
+            error: function (data) {
+                var errors = data.responseJSON.errors;
+                console.log(data);
+                // printErrorMsg(errors);
+            },
+        });
+    }
+
+    $("#hukdis_form").on("submit", function (event) {
+        event.preventDefault();
+        let semester = $("#semester").val();
+        let id_hukdis = $("#select_hukdis").val();
+        let raw = $("#select_nama").val();
+        let arr = raw.split("|");
+        let id_grouping = arr[1];
+        if (id_hukdis == "" || id_grouping == "" || raw == "") {
+            alert("Silahkan lengkapi data terlebih dahulu !");
+        } else {
+            if (confirm("Yakin mau menyimpan data?")) {
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content"
+                        ),
+                    },
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: app_path.base_path + "/store",
+                    data: {
+                        id_hukdis: id_hukdis,
+                        id_grouping: id_grouping,
+                        semester: semester,
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        fetchPelanggaran();
+                    },
+
+                    error: function (data) {
+                        // var errors = data.responseJSON.errors;
+                        console.log(data);
+                    },
+                });
+            }
         }
     });
 
-    /*------------------------------------------
-    Add/Eit student code
-    --------------------------------------------*/
+    $(document).on("click", ".delete", function (e) {
+        e.preventDefault();
+        let id_pelanggaran = $(this).val();
+        if (confirm("Yakin mau menghapus data?")) {
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+            });
 
-    $("#create_record").click(function () {
-        $("#id_siswa").val("");
-        $("#student_form").trigger("reset");
-        $("#action").val("Add");
-        $("#ajaxModal").modal("show");
-        $("#modal_heading").html("Tambah Siswa");
-    });
+            $.ajax({
+                type: "POST",
+                url: app_path.base_path + "/ajaxdestroy",
+                dataType: "json",
+                data: { id_pelanggaran: id_pelanggaran },
+                success: function (response) {
+                    // console.log(response.status);
+                    if (response.status == "0") {
+                        alert("Maaf, hanya admin yang dapat menghapus data!");
+                    }
 
-    $("body").on("click", ".edit", function () {
-        let student_id = this.id;
-        let show_path = path.base_path + "/" + student_id;
-
-        $("#id_siswa").val(student_id);
-        //ambil data detail siswa pake jquery get()
-        $.get(show_path, function (data) {
-            $("#modal_heading").html("Edit Siswa");
-            $("#action").val("Edit");
-            $("#no_daftar").val(data.no_daftar);
-            $("#nis").val(data.nis);
-            $("#nisn").val(data.nisn);
-            $("#nama").val(data.nama_lengkap);
-            $("#jk").val(data.jk);
-            $("#angkatan").val(data.angkatan);
-            $("#jalur").val(data.jalur);
-            $("#asal_sltp").val(data.asal_sltp);
-        });
-        $("#student_form").trigger("reset");
-        $("#ajaxModal").modal("show");
-    });
-
-    $("#student_form").on("submit", function (event) {
-        event.preventDefault();
-        $.ajax({
-            type: "post",
-            url: path.base_path + "/store",
-            data: $(this).serialize(),
-            dataType: "json",
-            success: function (data) {
-                $("#student_form").trigger("reset");
-                $("#ajaxModal").modal("hide");
-                table.draw();
-            },
-            error: function (data) {
-                var errors = data.responseJSON;
-                console.log(errors);
-            },
-        });
+                    fetchPelanggaran();
+                },
+                error: function (data) {
+                    // var errors = data.responseJSON.errors;
+                    console.log(data);
+                    // printErrorMsg(errors);
+                },
+            });
+        }
     });
 });

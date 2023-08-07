@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
     <div class="container">
-        <a class="navbar-brand" href="#">SAIS-MAN 2 Kuningan</a>
+        <a class="navbar-brand" href="#">SIS-MAN 2 Kuningan</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,28 +11,60 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Tentang</a>
-                </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Tutorial
+                        Master Data<span class="sr-only"></span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Tutorial HTML</a>
-                        <a class="dropdown-item" href="#">Tutorial CSS</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Tutorial Bootstrap</a>
+                        <a class="dropdown-item" href="{{ route('siswa.index') }}">Data Siswa</a>
+                        <a class="dropdown-item" href="{{ route('grouping.index') }}">Pengkelasasn</a>
+                        <hr>
+                        <a class="dropdown-item" href="{{ route('userman.index') }}">Manajemen User</a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Link Mati</a>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Transaksi
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('presensi.index') }}">Absensi Kehadiran</a>
+                        <a class="dropdown-item" href="{{ route('hukdis.index') }}">Pelanggaran Disiplin</a>
+                    </div>
                 </li>
+
+                <li class="nav-item dropdown" style="margin-right: 20px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Data Transaksi
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('presensi.show_all') }}">Kehadiran</a>
+                        <a class="dropdown-item" href="{{ route('hukdisman.index') }}">Pelanggaran</a>
+                    </div>
+                </li>
+                {{-- <li class="nav-item">
+                    <a class="nav-link" href="{{ route('logout') }}">Logout <span class="sr-only"></span></a>
+                </li> --}}
+
+
             </ul>
+            <li class="nav-item dropdown">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{ asset('images/user.png') }}" width="40" height="40" class="rounded-circle">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                        <a class="dropdown-item" href="{{ route('profile.index') }}">Profile</a>
+                        <a class="dropdown-item" href="{{ route('logout') }}">Log Out</a>
+                    </div>
+                </div>
+            </li>
 
         </div>
     </div>

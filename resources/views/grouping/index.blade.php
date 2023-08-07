@@ -7,6 +7,13 @@
                 Grouping / Pengkelasan
             </h2>
         </div>
+        <div class="row justify-content-center">
+            <p>
+                Tahun Akademik : {{ $data_th_akademik->tahun }} / Semester : {{ $data_th_akademik->semester }}
+                <input type="text" id="tahun_aktif" value="{{ $data_th_akademik->tahun }}" hidden>
+                <input type="text" id="semester" value="{{ $data_th_akademik->semester }}" hidden>
+            </p>
+        </div>
         <div class="row">
             <div class="col" style="margin-bottom: 20px;">
                 Kelas :
@@ -97,7 +104,7 @@
         </div>
 
     </div>
-@endsection.
+@endsection
 
 @section('script')
     <script>

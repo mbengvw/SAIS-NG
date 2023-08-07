@@ -19,4 +19,17 @@
     @yield('script')
 </body>
 
+<script>
+    $(document).ready(function() {
+        const menuItems = document.getElementsByClassName("nav-link");
+        const navItems = document.getElementsByClassName("nav-item");
+
+        for (let i = 0; i < menuItems.length; i++) {
+            if (menuItems[i].href === location.href) {
+                navItems[i].className += " active"
+            }
+        }
+    });
+</script>
+
 </html>

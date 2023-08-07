@@ -9,6 +9,14 @@
         </div>
         <div class="row justify-content-center">
             <p>
+                Tahun Akademik : {{ $data_th_akademik->tahun }} / Semester : {{ $data_th_akademik->semester }}
+                <input type="text" id="tahun_aktif" value="{{ $data_th_akademik->tahun }}" hidden>
+                <input type="text" id="semester" value="{{ $data_th_akademik->semester }}" hidden>
+            </p>
+        </div>
+
+        <div class="row justify-content-center">
+            <p>
                 Tanggal : {{ $tanggal }}
             </p>
         </div>
@@ -57,7 +65,7 @@
             </div>
         </div>
     </div>
-@endsection.
+@endsection
 
 @section('script')
     <script>

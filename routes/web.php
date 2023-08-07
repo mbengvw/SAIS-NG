@@ -1,12 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\ProductAjaxController;
-// use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\GroupingController;
 use App\Http\Controllers\HukdisController;
+use App\Http\Controllers\HukdismanController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UsermanController;
+use App\Http\Controllers\ProfileController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,40 +26,68 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('siswa', [SiswaController::class, 'index'])->name('siswa.index');
-Route::get('siswa/{id}', [SiswaController::class, 'show'])->name('siswa.show');
-Route::post('siswa/destroy/{id}/', [SiswaController::class, 'destroy'])->name('siswa.remove');
-Route::post('siswa/store', [SiswaController::class, 'store'])->name('siswa.store');
-Route::get('siswa/removeall', [SiswaController::class, 'removeall'])->name('siswa.removeall');
+
+Route::get('login', [LoginController::class, 'index'])->name('login');
+Route::post('/login/validate_login', [LoginController::class, 'validate_login'])->name('login.validate_login');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/dashboard', [LoginController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/userman', [UsermanController::class, 'index'])->name('userman.index')->middleware('admin');
+    Route::post('userman/destroy/{id}/', [UsermanController::class, 'destroy'])->name('userman.remove')->middleware('admin');
+    Route::post('userman/store', [UsermanController::class, 'store'])->name('userman.store')->middleware('admin');
+    Route::get('userman/{id}', [UsermanController::class, 'show'])->name('userman.show')->middleware('admin');
+    Route::post('userman/reset/{id}', [UsermanController::class, 'reset'])->name('userman.reset')->middleware('admin');
+
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('profile/change_pass', [ProfileController::class, 'change_pass'])->name('profile.change_pass');
+
+
+    Route::get('/login/registration', [LoginController::class, 'registration'])->name('registration')->middleware('admin');
+    Route::post('/login/validate_registration', [LoginController::class, 'validate_registration'])->name('login.validate_registration');
 
 
 
-Route::get('grouping', [GroupingController::class, 'index'])->name('grouping.index');
-Route::get('grouping/create', [GroupingController::class, 'create'])->name('grouping.create');
-Route::get('grouping/createall', [GroupingController::class, 'createall'])->name('grouping.createall');
-Route::get('grouping/store', [GroupingController::class, 'store'])->name('grouping.store');
-Route::get('grouping/ajaxbykelas', [GroupingController::class, 'ajaxbykelas'])->name('grouping.ajaxbykelas');
-Route::post('grouping/ajaxdestroy', [GroupingController::class, 'ajaxdestroy'])->name('grouping.ajaxdestroy');
+    Route::get('siswa', [SiswaController::class, 'index'])->name('siswa.index')->middleware('admin');
+    Route::get('siswa/{id}', [SiswaController::class, 'show'])->name('siswa.show')->middleware('admin');
+    Route::post('siswa/destroy/{id}/', [SiswaController::class, 'destroy'])->name('siswa.remove')->middleware('admin');
+    Route::post('siswa/store', [SiswaController::class, 'store'])->name('siswa.store')->middleware('admin');
+    Route::get('siswa/removeall', [SiswaController::class, 'removeall'])->name('siswa.removeall')->middleware('admin');
 
-Route::get('presensi', [PresensiController::class, 'index'])->name('presensi.index');
-Route::get('presensi/ajaxkelastanggal', [PresensiController::class, 'ajaxkelastanggal'])->name('presensi.ajaxkelastanggal');
-Route::post('presensi/store', [PresensiController::class, 'store'])->name('presensi.store');
-Route::post('presensi/ajaxdestroy', [PresensiController::class, 'ajaxdestroy'])->name('presensi.ajaxdestroy');
-Route::get('presensi/all', [PresensiController::class, 'list_all'])->name('presensi.all');
-Route::post('presensi/ajax_list_by', [PresensiController::class, 'ajax_list_by'])->name('presensi.all');
 
-Route::get('hukdis', [HukdisController::class, 'index'])->name('hukdis.index');
-Route::get('hukdis/list_by', [HukdisController::class, 'list_by'])->name('hukdis.list_by');
-Route::get('hukdis/list_siswa_by_tahun/{tahun}', [HukdisController::class, 'list_siswa_by_tahun']);
+    Route::get('grouping', [GroupingController::class, 'index'])->name('grouping.index')->middleware('admin');
+    Route::get('grouping/create', [GroupingController::class, 'create'])->name('grouping.create')->middleware('admin');
+    Route::get('grouping/createall', [GroupingController::class, 'createall'])->name('grouping.createall')->middleware('admin');
+    Route::get('grouping/store', [GroupingController::class, 'store'])->name('grouping.store')->middleware('admin');
+    Route::get('grouping/ajaxbykelas', [GroupingController::class, 'ajaxbykelas'])->name('grouping.ajaxbykelas')->middleware('admin');
+    Route::post('grouping/ajaxdestroy', [GroupingController::class, 'ajaxdestroy'])->name('grouping.ajaxdestroy')->middleware('admin');
+
+    Route::get('presensi', [PresensiController::class, 'index'])->name('presensi.index');
+    Route::get('presensi/ajaxkelastanggal', [PresensiController::class, 'ajaxkelastanggal'])->name('presensi.ajaxkelastanggal');
+    Route::post('presensi/store', [PresensiController::class, 'store'])->name('presensi.store');
+    Route::post('presensi/ajaxdestroy', [PresensiController::class, 'ajaxdestroy'])->name('presensi.ajaxdestroy');
+    Route::get('presensi/show_all', [PresensiController::class, 'list_all'])->name('presensi.show_all');
+    Route::post('presensi/ajax_list_by', [PresensiController::class, 'ajax_list_by'])->name('presensi.all');
+
+    Route::get('hukdis', [HukdisController::class, 'index'])->name('hukdis.index');
+    Route::get('hukdis/all', [HukdisController::class, 'list_all'])->name('hukdis.all');
+    Route::get('hukdis/list_by', [HukdisController::class, 'list_by'])->name('hukdis.list_by');
+    Route::get('hukdis/ajax_list_by', [HukdisController::class, 'ajax_list_by'])->name('hukdis.ajax_list_by');
+    Route::post('hukdis/store', [HukdisController::class, 'ajaxStore'])->name('hukdis.store');
+    Route::post('hukdis/ajaxdestroy', [HukdisController::class, 'ajaxdestroy'])->middleware('ajax_admin');
+    Route::get('hukdis/list_siswa_by_tahun/{tahun}', [HukdisController::class, 'list_siswa_by_tahun']);
+    Route::get('hukdis/ajax_list_siswa_by_tahun', [HukdisController::class, 'ajax_list_siswa_by_tahun']);
+
+    Route::get('hukdisman', [HukdismanController::class, 'index'])->name('hukdisman.index');
+    Route::post('hukdisman/list_by', [HukdismanController::class, 'list_by'])->name('hukdisman.list_by');
+
+    Route::get('error/admin_only', function () {
+        return view('error.restricted');
+    })->name('error.admin_only');
+});
 
 
 Route::get('presensi/test', [PresensiController::class, 'test'])->name('presensi.test');
 Route::get('presensi/list_by', [PresensiController::class, 'list_by'])->name('presensi.list_by');
-
-// Route::get('presensi/{id}', [PresensiController::class, 'show'])->name('presensi.show');
-// Route::post('presensi/destroy/{id}/', [PresensiController::class, 'destroy'])->name('presensi.remove');
-// Route::post('presensi/store', [PresensiController::class, 'store'])->name('presensi.store');
-
-
 
 Route::get('presensi/test', [PresensiController::class, 'test'])->name('presensi.test');

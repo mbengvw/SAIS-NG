@@ -83,33 +83,31 @@ $(document).ready(function () {
         $(document).on("click", "#bulk_pilih", function () {
             let id_kelas = $("#select_kelas").val();
             let id = [];
-            if (confirm("Yakin mau dikelaskan?")) {
-                $(".users_checkbox:checked").each(function () {
-                    id.push($(this).val());
+            $(".users_checkbox:checked").each(function () {
+                id.push($(this).val());
+            });
+            if (id.length > 0) {
+                $.ajax({
+                    url: app_path.base_path + "/createall",
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content"
+                        ),
+                    },
+                    method: "get",
+                    data: { list_id: id, id_kelas: id_kelas },
+                    success: function (data) {
+                        console.log(data);
+                        fetchstudent();
+                        $(".students_datatable").DataTable().ajax.reload();
+                    },
+                    error: function (data) {
+                        var errors = data.responseJSON;
+                        console.log(errors);
+                    },
                 });
-                if (id.length > 0) {
-                    $.ajax({
-                        url: app_path.base_path + "/createall",
-                        headers: {
-                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                                "content"
-                            ),
-                        },
-                        method: "get",
-                        data: { list_id: id, id_kelas: id_kelas },
-                        success: function (data) {
-                            console.log(data);
-                            fetchstudent();
-                            $(".students_datatable").DataTable().ajax.reload();
-                        },
-                        error: function (data) {
-                            var errors = data.responseJSON;
-                            console.log(errors);
-                        },
-                    });
-                } else {
-                    alert("Please select atleast one checkbox");
-                }
+            } else {
+                alert("Please select atleast one checkbox");
             }
         });
     }
@@ -124,18 +122,16 @@ $(document).ready(function () {
             },
         });
         // console.log(id);
-        if (confirm("Yakin mau dikeluarkan dari kelas?")) {
-            $.ajax({
-                type: "POST",
-                url: app_path.base_path + "/ajaxdestroy",
-                dataType: "json",
-                data: { id: id },
-                success: function (response) {
-                    alert(response.message);
-                    fetchstudent();
-                    $(".students_datatable").DataTable().ajax.reload();
-                },
-            });
-        }
+        $.ajax({
+            type: "POST",
+            url: app_path.base_path + "/ajaxdestroy",
+            dataType: "json",
+            data: { id: id },
+            success: function (response) {
+                alert(response.message);
+                fetchstudent();
+                $(".students_datatable").DataTable().ajax.reload();
+            },
+        });
     });
 });

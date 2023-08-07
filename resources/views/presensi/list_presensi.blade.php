@@ -9,16 +9,16 @@
         </div>
 
         <div class="row">
-            <div class="col" style="margin-bottom: 30px;">
+            <div class="col-sm-4" style="margin-bottom: 30px;">
                 <div class="card">
                     <div class="card-header">
                         <h4>Parameter Filter</h4>
                     </div>
                     <div class="card-body">
                         <form>
-                            <div class="form-group row">
-                                <label for="inputEmail3" class="col-sm-2 col-form-label">Kelas</label>
-                                <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm col-form-label">Kelas</label>
+                                <div class="col-sm">
                                     <select class="form-control" id="select_kelas" name="select_kelas">
                                         <option value="">Semua</option>
                                         @foreach ($list_kelas as $kelas)
@@ -28,9 +28,9 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label for="inputEmail3" class="col-sm-2 col-form-label">Tahun</label>
-                                <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm col-form-label">Tahun</label>
+                                <div class="col-sm">
                                     <select class="form-control" id="select_tahun" name="select_tahun">
                                         <option value="">Semua</option>
                                         @for ($i = 2022; $i < 2030; $i++)
@@ -44,9 +44,9 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label for="inputEmail3" class="col-sm-2 col-form-label">Semester</label>
-                                <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm col-form-label">Semester</label>
+                                <div class="col-sm">
                                     <select class="form-control" id="select_semester" name="select_semester">
                                         <option value="">Semua</option>
                                         <option value="1">Ganjil</option>
@@ -55,21 +55,21 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label for="inputTanggal" class="col-sm-2 col-form-label">Tanggal</label>
-                                <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="inputTanggal" class="col-sm col-form-label">Tanggal</label>
+                                <div class="col-sm">
                                     <input type="text" class="form-control date" name="tanggal" id="tanggal">
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label for="inputnama" class="col-sm-2 col-form-label">Nama Siswa</label>
-                                <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="inputnama" class="col-sm col-form-label">Nama Siswa</label>
+                                <div class="col-sm">
                                     <input type="text" class="form-control" name="nama" id="nama">
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            <div class="form-group">
                                 <div class="col-sm-10">
                                     <button type="submit" class="btn btn-primary" id="showbtn">Show Data</button>
                                 </div>
@@ -80,12 +80,11 @@
                 </div>
 
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
+
+            <div class="col-sm-8">
                 <div class="card">
                     <div class="card-header">
-                        Siswa - Kelas
+                        Data Kehadiran
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -108,7 +107,7 @@
             </div>
         </div>
     </div>
-@endsection.
+@endsection
 
 @section('script')
     <script>
