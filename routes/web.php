@@ -6,10 +6,11 @@ use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\GroupingController;
 use App\Http\Controllers\HukdisController;
 use App\Http\Controllers\HukdismanController;
+use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UsermanController;
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\TahunAkademikController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('userman/store', [UsermanController::class, 'store'])->name('userman.store')->middleware('admin');
     Route::get('userman/{id}', [UsermanController::class, 'show'])->name('userman.show')->middleware('admin');
     Route::post('userman/reset/{id}', [UsermanController::class, 'reset'])->name('userman.reset')->middleware('admin');
+
+    Route::get('/tahun', [TahunAkademikController::class, 'index'])->name('tahun.index')->middleware('admin');
+    Route::post('/tahun/ajaxAdd', [TahunAkademikController::class, 'add'])->name('tahun.add')->middleware('admin');
+    Route::post('/tahun/ajaxSetActive', [TahunAkademikController::class, 'setActive'])->name('tahun.set')->middleware('admin');
+
+    Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index')->middleware('admin');
+    Route::get('/kelas/show', [KelasController::class, 'show'])->name('kelas.show')->middleware('admin');
+    Route::post('/kelas', [KelasController::class, 'add'])->name('kelas.add')->middleware('admin'); #create /update
+    Route::delete('/kelas', [KelasController::class, 'destroy'])->name('kelas.destroy')->middleware('admin');
 
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('profile/change_pass', [ProfileController::class, 'change_pass'])->name('profile.change_pass');
@@ -87,7 +97,4 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::get('presensi/test', [PresensiController::class, 'test'])->name('presensi.test');
-Route::get('presensi/list_by', [PresensiController::class, 'list_by'])->name('presensi.list_by');
-
-Route::get('presensi/test', [PresensiController::class, 'test'])->name('presensi.test');
+Route::get('test', [TahunAkademikController::class, 'setActive']);

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id('id_grouping');
             $table->bigInteger('id_siswa');
             $table->bigInteger('id_kelas');
-            $table->string('tahun_akademik',10);
+            $table->bigInteger('id_tahun');
             $table->timestamps();
         });
     }

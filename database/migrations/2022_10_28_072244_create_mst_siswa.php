@@ -15,14 +15,15 @@ return new class extends Migration
     {
         Schema::create('mst_siswa', function (Blueprint $table) {
             $table->id('id_siswa');
-            $table->string('no_daftar',20);
-            $table->string('nis',20);
-            $table->string('nisn',20);
-            $table->string('nama_lengkap',200);
-            $table->enum('jk',['L','P']);
-            $table->string('angkatan',10);
-            $table->enum('jalur',['REGULER','PRESTASI','PINDAHAN']);
-            $table->string('asal_sltp',300);
+            $table->string('no_daftar', 20);
+            $table->string('nis', 20);
+            $table->string('nisn', 20);
+            $table->string('nama_lengkap', 200);
+            $table->enum('jk', ['L', 'P']);
+            $table->string('angkatan', 10);
+            $table->enum('jalur', ['REGULER', 'PRESTASI', 'PINDAHAN']);
+            $table->string('asal_sltp', 300);
+            $table->enum('status', ['A', 'T'])->default('A');
             $table->timestamps();
         });
     }

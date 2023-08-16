@@ -76,41 +76,38 @@ $(document).ready(function () {
                 },
             ],
         });
-
-        /*------------------------------------------
-        Delete Bulk Select Code
-        --------------------------------------------*/
-        $(document).on("click", "#bulk_pilih", function () {
-            let id_kelas = $("#select_kelas").val();
-            let id = [];
-            $(".users_checkbox:checked").each(function () {
-                id.push($(this).val());
-            });
-            if (id.length > 0) {
-                $.ajax({
-                    url: app_path.base_path + "/createall",
-                    headers: {
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                            "content"
-                        ),
-                    },
-                    method: "get",
-                    data: { list_id: id, id_kelas: id_kelas },
-                    success: function (data) {
-                        console.log(data);
-                        fetchstudent();
-                        $(".students_datatable").DataTable().ajax.reload();
-                    },
-                    error: function (data) {
-                        var errors = data.responseJSON;
-                        console.log(errors);
-                    },
-                });
-            } else {
-                alert("Please select atleast one checkbox");
-            }
-        });
     }
+
+    $(document).on("click", "#bulk_pilih", function () {
+        let id_kelas = $("#select_kelas").val();
+        let id = [];
+        $(".users_checkbox:checked").each(function () {
+            id.push($(this).val());
+        });
+        if (id.length > 0) {
+            $.ajax({
+                url: app_path.base_path + "/createall",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                method: "get",
+                data: { list_id: id, id_kelas: id_kelas },
+                success: function (data) {
+                    console.log(data);
+                    fetchstudent();
+                    $(".students_datatable").DataTable().ajax.reload();
+                },
+                error: function (data) {
+                    var errors = data.responseJSON;
+                    console.log(errors);
+                },
+            });
+        } else {
+            alert("Please select atleast one checkbox");
+        }
+    });
 
     $(document).on("click", ".deletebtn", function (e) {
         e.preventDefault();

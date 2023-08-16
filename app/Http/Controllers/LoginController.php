@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use App\Services\TahunService;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -64,7 +65,8 @@ class LoginController extends Controller
     function dashboard()
     {
         if (Auth::check()) {
-            return view('home', ['nama' => Auth::user()->name]);
+            $tahun = TahunService::getActive()->alias_tahun;
+            return view('home', ['nama' => Auth::user()->name, 'tahun' => $tahun]);
         }
 
         return redirect('login')->with('success', 'you are not allowed to access');

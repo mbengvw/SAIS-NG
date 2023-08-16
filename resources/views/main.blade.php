@@ -4,7 +4,6 @@
 <head>
     @include('partials/_head')
     @include('partials/_css')
-    @include('partials/_script')
 </head>
 
 <body>
@@ -17,6 +16,7 @@
     @include('partials/_footer')
 
     @yield('script')
+    @include('partials/_script')
 </body>
 
 <script>

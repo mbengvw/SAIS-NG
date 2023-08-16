@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('mst_kelas', function (Blueprint $table) {
             $table->id('id_kelas');
-            $table->enum('jurusan',['IPA','IPS','BHS','PK']);
+            $table->bigInteger('id_tahun');
+            $table->string('jurusan');
             $table->integer('tingkat');
             $table->integer('paralel');
-            $table->string('nama_kelas',20);
+            $table->string('nama_kelas', 20);
             $table->timestamps();
         });
     }

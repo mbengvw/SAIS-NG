@@ -18,8 +18,9 @@
                         Master Data<span class="sr-only"></span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('siswa.index') }}">Data Siswa</a>
-                        <a class="dropdown-item" href="{{ route('grouping.index') }}">Pengkelasasn</a>
+                        <a class="dropdown-item" href="{{ route('siswa.index') }}">Master Siswa</a>
+                        <a class="dropdown-item" href="{{ route('kelas.index') }}">Master Kelas</a>
+                        <a class="dropdown-item" href="{{ route('tahun.index') }}">Tahun Akademik</a>
                         <hr>
                         <a class="dropdown-item" href="{{ route('userman.index') }}">Manajemen User</a>
                     </div>
@@ -31,6 +32,7 @@
                         Transaksi
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('grouping.index') }}">Pengkelasan</a>
                         <a class="dropdown-item" href="{{ route('presensi.index') }}">Absensi Kehadiran</a>
                         <a class="dropdown-item" href="{{ route('hukdis.index') }}">Pelanggaran Disiplin</a>
                     </div>

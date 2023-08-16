@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Kelas extends Model
 {
     use HasFactory;
-    protected $table='mst_kelas';
-    protected $primaryKey='id_kelas';
-    protected $fillable=[
-        'id_jurusan',
+    protected $table = 'mst_kelas';
+    protected $primaryKey = 'id_kelas';
+    protected $fillable = [
+        'id_tahun',
+        'jurusan',
         'tingkat',
         'paralel',
         'nama_kelas',
@@ -19,8 +20,9 @@ class Kelas extends Model
         'updated_at'
     ];
 
-    public function grouping(){
+    public function grouping()
+    {
         // return $this->hasMany(Grouping::class, 'foreign_key', 'local_key');
-        return $this->hasMany(Grouping::class,'id_kelas','id_grouping');
+        return $this->hasMany(Grouping::class, 'id_kelas', 'id_grouping');
     }
 }
