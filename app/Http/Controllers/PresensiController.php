@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Kelas;
 use App\Models\Presensi;
+use App\Services\KelasService;
 use App\Services\PresensiService;
+use App\Services\TahunService;
+use Illuminate\Support\Carbon;
 
 class PresensiController extends Controller
 {
     public function index()
     {
-        $list_kelas = Kelas::all();
+        $id_tahun = TahunService::getActive()->id;
+        $list_kelas = KelasService::listKelas($id_tahun);
         return view('presensi.index', ['list_kelas' => $list_kelas, 'tanggal' => date("d/m/Y"), 'data_th_akademik' => app('tahunAkademik')]);
     }
 
@@ -59,13 +63,15 @@ class PresensiController extends Controller
 
     public function list_all()
     {
-        $data_tahun = app('tahunAkademik');
-        $list_kelas = Kelas::all();
+        $data_tahun = TahunService::getActive();
+        $id_tahun = $data_tahun->id;
+        $list_kelas = KelasService::listKelas($id_tahun);
         return view('presensi.list_presensi', ['list_kelas' => $list_kelas, 'data_tahun' => $data_tahun]);
     }
 
     public  function ajax_list_by(Request $request, PresensiService $presensi)
     {
+
         if ($request->ajax()) {
             $id_kelas = $request->input('id_kelas');
             $tahun = $request->input('tahun');

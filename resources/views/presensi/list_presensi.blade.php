@@ -58,7 +58,7 @@
                             <div class="form-group">
                                 <label for="inputTanggal" class="col-sm col-form-label">Tanggal</label>
                                 <div class="col-sm">
-                                    <input type="text" class="form-control date" name="tanggal" id="tanggal">
+                                    <input type="text" class="form-control tanggal" name="tanggal" id="tanggal">
                                 </div>
                             </div>
 
@@ -111,8 +111,11 @@
 
 @section('script')
     <script>
-        $("#tanggal").datepicker({
-            format: "yyyy/mm/dd"
+        $('.tanggal').datepicker({
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            selectOtherYears: true,
+            dateFormat: 'yy-mm-dd',
         });
     </script>
     <script>

@@ -4,15 +4,17 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Presensi;
+use Carbon\Carbon;
 
 class PresensiService
 {
-    /**
-     * Fungsi untuk menampilkan daftar siswa di daftar absen
-     */
+
 
     public  function get_siswa_tanggal_kelas($id_kelas, $tgl)
     {
+        /**
+         * Fungsi untuk menampilkan daftar siswa di daftar absen
+         */
         $data_peresensi = DB::table('tst_kehadiran')
             ->select('*')
             ->where('tanggal', $tgl);
@@ -52,7 +54,10 @@ class PresensiService
                 'kehadiran.status',
                 'grouping.id_siswa',
                 'grouping.id_kelas',
-                'grouping.tahun_akademik',
+                'grouping.id_tahun',
+                'tahun.tahun',
+                'tahun.semester',
+                'tahun.alias_tahun',
                 'siswa.nis',
                 'siswa.nama_lengkap',
                 'siswa.jk',
@@ -63,6 +68,7 @@ class PresensiService
                 'kelas.nama_kelas'
             )
             ->join('tst_grouping AS grouping', 'kehadiran.id_grouping', '=', 'grouping.id_grouping')
+            ->join('mst_tahun AS tahun', 'grouping.id_tahun', '=', 'tahun.id')
             ->join('mst_siswa AS siswa', 'grouping.id_siswa', '=', 'siswa.id_siswa')
             ->join('mst_kelas AS kelas', 'grouping.id_kelas', '=', 'kelas.id_kelas')
             ->orderBy('siswa.nama_lengkap', 'asc');
@@ -70,13 +76,14 @@ class PresensiService
             $query->where('kelas.id_kelas', '=', $id_kelas);
         }
         if ($tahun) {
-            $query->where('grouping.tahun_akademik', '=', $tahun);
+            $query->where('tahun.tahun', '=', $tahun);
         }
         if ($semester) {
-            $query->where('kehadiran.semester', '=', $semester);
+            $query->where('tahun.semester', '=', $semester);
         }
         if ($tgl) {
-            $query->where('kehadiran.tanggal', '=', $tgl);
+            $newDate = Carbon::createFromFormat('m/d/Y', $tgl)->format('Y-m-d');
+            $query->where('kehadiran.tanggal', '=', $newDate);
         }
         if ($nama != "") {
             $query->where('siswa.nama_lengkap', 'LIKE', '%' . $nama . '%');

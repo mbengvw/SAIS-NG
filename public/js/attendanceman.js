@@ -12,7 +12,7 @@ $(document).ready(function () {
         let semester = $("#select_semester").val();
         let tanggal = $("#tanggal").val();
         let nama = $("#nama").val();
-        console.log(nama);
+        // console.log(tanggal);
 
         $.ajaxSetup({
             headers: {
@@ -20,7 +20,7 @@ $(document).ready(function () {
             },
         });
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: app_path.base_path + "/ajax_list_by",
             data: {
                 id_kelas: id_kelas,
@@ -31,7 +31,7 @@ $(document).ready(function () {
             },
             dataType: "json",
             success: function (response) {
-                console.log(response);
+                // console.log(response);
                 $("#tbl_kehadiran > tbody").html("");
                 let no = 0;
                 let content = "";
@@ -59,6 +59,9 @@ $(document).ready(function () {
                         "</td></tr>";
                 });
                 $("#tbl_kehadiran > tbody").append(content);
+            },
+            error: function (data) {
+                console.log(data);
             },
         });
     }

@@ -41,10 +41,10 @@
                 <li class="nav-item dropdown" style="margin-right: 20px;">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Data Transaksi
+                        Data
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('presensi.show_all') }}">Kehadiran</a>
+                        <a class="dropdown-item" href="{{ route('presensi.show_all') }}">Kehadiran Siswa</a>
                         <a class="dropdown-item" href="{{ route('hukdisman.index') }}">Pelanggaran</a>
                     </div>
                 </li>

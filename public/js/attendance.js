@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    // fetchDataTable();
+    fetchstudent();
 
     $("#select_kelas").change(function () {
         fetchstudent();
@@ -108,8 +108,8 @@ $(document).ready(function () {
             });
 
             $.ajax({
-                type: "POST",
-                url: app_path.base_path + "/ajaxdestroy",
+                type: "DELETE",
+                url: app_path.base_path,
                 dataType: "json",
                 data: { id_kehadiran: id_kehadiran },
                 success: function (response) {
@@ -135,7 +135,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: app_path.base_path + "/store",
+            url: app_path.base_path,
             dataType: "json",
             data: {
                 status: status,

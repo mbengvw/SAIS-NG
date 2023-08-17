@@ -36,4 +36,17 @@ class KelasService
     {
         return (Kelas::where('id_kelas', '=', $id_kelas)->first());
     }
+
+    public static function listKelas($id_tahun = null)
+    {
+        $query = Kelas::query();
+
+        if ($id_tahun != null) {
+            $query->where('id_tahun', '=', $id_tahun);
+        }
+
+        $data = $query->get('*');
+
+        return $data;
+    }
 }

@@ -74,10 +74,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('presensi', [PresensiController::class, 'index'])->name('presensi.index');
     Route::get('presensi/ajaxkelastanggal', [PresensiController::class, 'ajaxkelastanggal'])->name('presensi.ajaxkelastanggal');
-    Route::post('presensi/store', [PresensiController::class, 'store'])->name('presensi.store');
-    Route::post('presensi/ajaxdestroy', [PresensiController::class, 'ajaxdestroy'])->name('presensi.ajaxdestroy');
+    Route::post('presensi', [PresensiController::class, 'store'])->name('presensi.store');
+    Route::DELETE('presensi', [PresensiController::class, 'ajaxdestroy'])->name('presensi.ajaxdestroy');
     Route::get('presensi/show_all', [PresensiController::class, 'list_all'])->name('presensi.show_all');
-    Route::post('presensi/ajax_list_by', [PresensiController::class, 'ajax_list_by'])->name('presensi.all');
+    Route::get('presensi/ajax_list_by', [PresensiController::class, 'ajax_list_by'])->name('presensi.all');
 
     Route::get('hukdis', [HukdisController::class, 'index'])->name('hukdis.index');
     Route::get('hukdis/all', [HukdisController::class, 'list_all'])->name('hukdis.all');
