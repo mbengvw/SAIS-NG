@@ -20,9 +20,10 @@
                     <th>Angkatan</th>
                     <th>Jalur</th>
                     <th>Asal SLTP</th>
-                    <th width="180px">Action</th>
-                    <th width="50px"><button type="button" name="bulk_delete" id="bulk_delete"
-                            class="btn btn-danger btn-xs">Delete</button></th>
+                    <th>Action</th>
+
+                    <th><button type="button" name="bulk_delete" id="bulk_delete" class="btn btn-danger btn-xs">Delete</button>
+                    </th>
                 </tr>
             </thead>
             <tbody></tbody>

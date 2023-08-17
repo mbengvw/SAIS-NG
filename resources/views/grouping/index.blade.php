@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-6">
+            <div class="col-5">
                 <div class="card">
                     <div class="card-header">
                         Siswa - Kelas
@@ -56,7 +56,7 @@
             </div>
 
 
-            <div class="col-6">
+            <div class="col-7">
                 <div class="card">
                     <div class="card-header">
                         Daftar Siswa
@@ -69,7 +69,7 @@
                                         <th>ID</th>
                                         <th>NISN</th>
                                         <th>Nama</th>
-                                        <th>Jenis</th>
+                                        <th>JK</th>
                                         <th>Angkatan</th>
                                         <th width="50px"><button type="button" value="test" name="bulk_pilih"
                                                 id="bulk_pilih" class="btn btn-danger btn-xs">Kelaskan</button></th>

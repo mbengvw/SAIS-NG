@@ -15,10 +15,12 @@ class SiswaController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $button = '<button type="button" name="edit" id="' . $row->id_siswa . '" class="edit btn btn-primary btn-sm"> <i class="bi bi-pencil-square"></i>Edit</button>';
-                    $button .= '   <button type="button" name="delete" id="' . $row->id_siswa . '" class="delete btn btn-danger btn-sm"> <i class="bi bi-backspace-reverse-fill"></i> Delete</button>';
+                    $button = '<button type="button" name="edit" id="' . $row->id_siswa . '" class="edit btn btn-primary btn-sm">Edit</button>';
+                    $button .= '<button type="button" name="delete" id="' . $row->id_siswa . '" class="delete btn btn-danger btn-sm">Delete</button>';
+                    $button .= '<button type="button" name="non" id="' . $row->id_siswa . '" class="non btn btn-warning btn-sm">Non-aktif</button>';
                     return $button;
                 })
+
                 ->addColumn('checkbox', '<input type="checkbox" name="users_checkbox[]" class="users_checkbox" value="{{$id_siswa}}" />')
                 ->rawColumns(['checkbox', 'action'])
                 ->make(true);
