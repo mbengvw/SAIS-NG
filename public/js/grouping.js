@@ -13,7 +13,7 @@ $(document).ready(function () {
             data: { id_kelas: id_kelas },
             dataType: "json",
             success: function (response) {
-                console.log(response);
+                // console.log(response);
                 $("#tbl_grouping > tbody").html("");
                 let no = 0;
                 $.each(response.students, function (key, item) {
