@@ -94,14 +94,20 @@ $(document).ready(function () {
                 },
                 method: "get",
                 data: { list_id: id, id_kelas: id_kelas },
+                beforeSend: function () {
+                    $("#bulk_pilih")
+                        .attr("disabled", true)
+                        .html("Processing...");
+                },
                 success: function (data) {
-                    console.log(data);
+                    // console.log(data);
+                    $("#bulk_pilih").attr("disabled", false).html("Kelaskan");
                     fetchstudent();
                     $(".students_datatable").DataTable().ajax.reload();
                 },
                 error: function (data) {
-                    var errors = data.responseJSON;
-                    console.log(errors);
+                    console.log(data);
+                    $("#bulk_pilih").attr("disabled", false).html("Kelaskan");
                 },
             });
         } else {
