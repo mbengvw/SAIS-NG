@@ -77,13 +77,12 @@ $(function () {
             data: $(this).serialize(),
             dataType: "json",
             success: function (data) {
-                $("#student_form").trigger("reset");
+                $("#user_form").trigger("reset");
                 $("#ajaxModal").modal("hide");
                 table.draw();
             },
             error: function (data) {
-                var errors = data.responseJSON;
-                console.log(errors);
+                console.log(data);
             },
         });
     });
