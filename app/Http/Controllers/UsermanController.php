@@ -55,7 +55,7 @@ class UsermanController extends Controller
             'password' => Hash::make($data['password']),
             'admin' => $data['level']
         );
-
+        // dd($form_data);
         $post = User::updateOrCreate(['id' => $id_user], $form_data);
         return response()->json($post);
     }
