@@ -27,16 +27,20 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             dataType: "json",
-
+            beforeSend: function () {
+                $("#simpan").attr("disabled", true).html("Processing...");
+            },
             success: function (data) {
                 $("#form_kelas").trigger("reset");
+                $("#simpan").attr("disabled", false).html("Simpan Data");
+
                 $("#modal_add_edit").modal("hide");
                 fetchKelas();
             },
             error: function (data) {
                 // var errors = data.responseJSON.errors;
                 console.log(data.responseText);
-                // printErrorMsg(errors);
+                $("#simpan").attr("disabled", false).html("Simpan Data");
             },
         });
 
