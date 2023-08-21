@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewSiswaRequest;
 use Illuminate\Http\Request;
 use App\Models\Siswa;
 use Yajra\DataTables\Facades\DataTables;
@@ -43,7 +44,7 @@ class SiswaController extends Controller
         }
     }
 
-    function store(Request $request)
+    function store(NewSiswaRequest $request)
     {
 
         $id_siswa = $request->id_siswa;

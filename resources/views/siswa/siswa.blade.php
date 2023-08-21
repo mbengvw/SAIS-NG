@@ -7,7 +7,10 @@
                 Data Siswa
             </h2>
         </div>
-
+        <div align="right">
+            <button style="margin-bottom: 10px;" type="button" name="create_record" id="create_record"
+                class="btn btn-success">Tambah Siswa</button>
+        </div>
         <table class="table table-striped table-bordered students_datatable">
             <thead>
                 <tr>
@@ -22,7 +25,8 @@
                     <th>Asal SLTP</th>
                     <th>Action</th>
 
-                    <th><button type="button" name="bulk_delete" id="bulk_delete" class="btn btn-danger btn-xs">Delete</button>
+                    <th><button type="button" name="bulk_delete" id="bulk_delete"
+                            class="btn btn-danger btn-xs">Delete</button>
                     </th>
                 </tr>
             </thead>
@@ -31,25 +35,7 @@
     </div>
     </div>
 
-    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form method="post" id="sample_form" class="form-horizontal">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="ModalLabel">Confirmation</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h4 align="center" style="margin:0;">Are you sure you want to remove this data?</h4>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    {{-- MODAL TAMBAH/EDIT --}}
 
     <div class="modal fade" id="ajaxModal" aria-hidden="true">
         <div class="modal-dialog">
@@ -84,8 +70,12 @@
                         </div>
                         <div class="form-group">
                             Jenis Kelamin:<br>
-                            <input type="text" class="form-control" id="jk" name="jk"
-                                placeholder="Jenis Kelamin">
+                            <select class="form-control select2" name="jk" id="jk">
+                                <option value="" selected>Pilih</option>
+                                <option value="L">L</option>
+                                <option value="P">P</option>
+                            </select>
+
                         </div>
                         <div class="form-group">
                             Angkatan:<br>
@@ -94,15 +84,27 @@
                         </div>
                         <div class="form-group">
                             Jalur:<br>
-                            <input type="text" class="form-control" id="jalur" name="jalur"
-                                placeholder="Jalur Penerimaan">
+                            <select class="form-control select2" name="jalur" id="jalur">
+                                <option value="" selected>Pilih</option>
+                                <option value="PRESTASI">PRESTASI</option>
+                                <option value="REGULER">REGULER</option>
+                                <option value="PINDAHAN">PINDAHAN</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             Asala SLTP:<br>
                             <input type="text" class="form-control" id="asal_sltp" name="asal_sltp"
                                 placeholder="Asal SLTP">
                         </div>
+
+                        @if ($errors->any())
+                            @foreach ($errors->all() as $error)
+                                <div>{{ $error }}</div>
+                            @endforeach
+                        @endif
+
                         <input type="submit" class="btn btn-primary" id="btn_simpan" name="btn_simpan" value="Simpan">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                     </form>
                 </div>
