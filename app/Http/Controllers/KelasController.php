@@ -20,9 +20,9 @@ class KelasController extends Controller
 
     public function index(Request $request)
     {
-        $id_tahun = TahunService::getActive()->id;
+        $tahun = TahunService::getActive()->tahun;
         if ($request->ajax()) {
-            $data = Kelas::where('id_tahun', '=', $id_tahun)->get();
+            $data = Kelas::where('tahun', '=', $tahun)->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {

@@ -12,6 +12,7 @@ class KelasService
         $new_data = [
             'id_kelas' => $data_kelas['id_kelas'],
             'id_tahun' => $data_kelas['id_tahun'],
+            'tahun' => $data_kelas['tahun'],
             'jurusan' => $data_kelas['jurusan'],
             'tingkat' => $data_kelas['tingkat'],
             'paralel' => $data_kelas['paralel'],
@@ -43,6 +44,19 @@ class KelasService
 
         if ($id_tahun != null) {
             $query->where('id_tahun', '=', $id_tahun);
+        }
+
+        $data = $query->get('*');
+
+        return $data;
+    }
+
+    public static function listKelasByTahun($tahun = null)
+    {
+        $query = Kelas::query();
+
+        if ($tahun != null) {
+            $query->where('tahun', '=', $tahun);
         }
 
         $data = $query->get('*');

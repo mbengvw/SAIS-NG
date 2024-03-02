@@ -22,7 +22,7 @@ class GroupingController extends Controller
 
     public function index(Request $request)
     {
-        $list_kelas = Kelas::where('id_tahun', '=', TahunService::getActive()->id)->get();
+        $list_kelas = Kelas::where('tahun', '=', TahunService::getActive()->tahun)->get();
         if ($request->ajax()) {
             $grouped_id = Grouping::all()->where('id_tahun', '=', TahunService::getActive()->id)->pluck('id_siswa');
             $data = Siswa::whereNotIn('id_siswa', $grouped_id)->where('status', '=', 'A')->get();
@@ -48,11 +48,10 @@ class GroupingController extends Controller
          * Fungsi untuk mengambil data siswa hasil pengkelasan bedasarkan kelas dan tahun aktif 
          */
 
-        $id_tahun = TahunService::getActive()->id;
-
+        $tahun = TahunService::getActive()->tahun;
         if ($request->ajax()) {
             $id_kelas = $request->input('id_kelas');
-            $list_grouping = $this->groupingService->listGrouping($id_kelas, $id_tahun);
+            $list_grouping = $this->groupingService->listGroupingByTahun($id_kelas, $tahun);
 
             return response()->json([
                 'students' => $list_grouping,
@@ -71,8 +70,9 @@ class GroupingController extends Controller
         $list_id = $request->input('list_id');
         $id_kelas = $request->input('id_kelas');
         $id_tahun = TahunService::getActive()->id;
+        $tahun = TahunService::getActive()->tahun;
 
-        $this->groupingService->doGrouping($list_id, $id_kelas, $id_tahun);
+        $this->groupingService->doGrouping($list_id, $id_kelas, $id_tahun,$tahun);
     }
 
 

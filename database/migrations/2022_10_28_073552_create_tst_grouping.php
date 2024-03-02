@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('id_siswa');
             $table->bigInteger('id_kelas');
             $table->bigInteger('id_tahun');
+            $table->integer('tahun');
             $table->timestamps();
         });
     }

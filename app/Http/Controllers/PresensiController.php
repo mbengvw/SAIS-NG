@@ -14,8 +14,8 @@ class PresensiController extends Controller
 {
     public function index()
     {
-        $id_tahun = TahunService::getActive()->id;
-        $list_kelas = KelasService::listKelas($id_tahun);
+        $tahun = TahunService::getActive()->tahun;
+        $list_kelas = KelasService::listKelasByTahun($tahun);
         return view('presensi.index', ['list_kelas' => $list_kelas, 'tanggal' => date("d/m/Y"), 'data_th_akademik' => app('tahunAkademik')]);
     }
 

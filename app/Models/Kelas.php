@@ -12,6 +12,7 @@ class Kelas extends Model
     protected $primaryKey = 'id_kelas';
     protected $fillable = [
         'id_tahun',
+        'tahun',
         'jurusan',
         'tingkat',
         'paralel',

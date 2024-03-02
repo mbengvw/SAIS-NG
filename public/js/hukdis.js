@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $("#select_kelas").change(function () {
         fetchstudent();
-        fetchPelanggaran();
+        // fetchPelanggaran();
     });
 
     $("#select_nama").change(function () {
@@ -73,7 +73,7 @@ $(document).ready(function () {
             dataType: "json",
 
             success: function (response) {
-                console.log(response);
+                // console.log(response);
                 $("#tbl_hukdis > tbody").html("");
                 let no = 0;
                 let content = "";

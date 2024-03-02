@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('mst_kelas', function (Blueprint $table) {
             $table->id('id_kelas');
-            $table->bigInteger('id_tahun');
+            $table->integer('id_tahun');
+            $table->integer('tahun');
             $table->string('jurusan');
             $table->integer('tingkat');
             $table->integer('paralel');

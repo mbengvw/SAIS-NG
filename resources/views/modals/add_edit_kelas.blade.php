@@ -11,7 +11,8 @@
                     <input type="hidden" class="form-control" id="id_kelas" name="id_kelas">
                     <input type="hidden" class="form-control" id="id_tahun" name="id_tahun"
                         value="{{ $id_tahun }}">
-
+                    <input type="hidden" class="form-control" id="tahun" name="tahun"
+                        value="{{ $tahun }}">
                     <div class="form-group">
                         <label class="col-sm-4 form-control-label">Jurusan : </label>
                         <div class="col-sm-12 mg-t-10 mg-sm-t-0">

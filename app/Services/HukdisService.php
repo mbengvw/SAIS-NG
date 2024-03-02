@@ -19,7 +19,7 @@ class HukdisService
                 'pelanggaran.id_petugas',
                 'grouping.id_siswa',
                 'grouping.id_kelas',
-                'grouping.tahun_akademik',
+                'grouping.tahun',
                 'hukdis.deskripsi',
                 'hukdis.poin',
                 'siswa.nis',
@@ -41,7 +41,7 @@ class HukdisService
             $query->where('kelas.id_kelas', '=', $id_kelas);
         }
         if ($tahun) {
-            $query->where('grouping.tahun_akademik', '=', $tahun);
+            $query->where('grouping.tahun', '=', $tahun);
         }
         if ($semester) {
             $query->where('pelanggaran.semester', '=', $semester);
