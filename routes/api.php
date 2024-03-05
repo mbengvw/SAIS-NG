@@ -19,6 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::GET('/siswa-nisn', [ApiSiswaController::class, 'showByNisn']);
-Route::GET('/siswa-nis', [ApiSiswaController::class, 'showByNis']);
+Route::POST('/siswa-nisn', [ApiSiswaController::class, 'showByNisn']);
+Route::POST('/siswa-nis', [ApiSiswaController::class, 'showByNis']);
 
