@@ -13,7 +13,7 @@ class Grouping extends Model
     protected $fillable=[
         'id_siswa',
         'id_kelas',
-        'tahun_akademik',
+        'id_tahun',
     ];
 
     public function siswa(){
