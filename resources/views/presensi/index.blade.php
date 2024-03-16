@@ -62,6 +62,9 @@
                         </div>
                     </div>
                 </div>
+                <div>
+                    <a href="{{ route('piket.index') }}" role="button" class="btn btn-primary" style="margin-top: 20px;">Home</a>
+                </div>
             </div>
         </div>
     </div>

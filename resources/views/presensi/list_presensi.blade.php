@@ -71,7 +71,8 @@
 
                             <div class="form-group">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary" id="showbtn">Show Data</button>
+                                    <button type="submit" class="btn btn-primary" id="showbtn" style="margin-right:50px;">Show Data</button>
+                                    <a href="{{ route('piket.index') }}" role="button" class="btn btn-warning">Back To Home</a>
                                 </div>
                             </div>
                         </form>

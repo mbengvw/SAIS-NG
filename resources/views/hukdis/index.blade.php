@@ -65,7 +65,8 @@
 
                             <div class="form-group row">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary" id="showbtn">Simpan Data</button>
+                                    <button type="submit" class="btn btn-primary" id="showbtn" style="margin-right: 50px">Simpan Data</button>
+                                    <a href="{{ route('piket.index') }}" role="button" class="btn btn-warning">Back To Home</a>
                                 </div>
                             </div>
                         </form>
