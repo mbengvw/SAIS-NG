@@ -15,7 +15,7 @@
         </div>
 
         <div class="row">
-            <div class="col-4">
+            <div class="col-sm-4">
                 <div class="card">
                     <div class="card-header">
                         Eksekusi Hukdis
@@ -66,7 +66,9 @@
                             <div class="form-group row">
                                 <div class="col-sm-10">
                                     <button type="submit" class="btn btn-primary" id="showbtn" style="margin-right: 50px">Simpan Data</button>
-                                    <a href="{{ route('piket.index') }}" role="button" class="btn btn-warning">Back To Home</a>
+                                    <a href="{{ route('piket.index') }}" role="button" class="btn btn-warning">Home</a>
+                                </div>
+                                <div class="col-sm-10">
                                 </div>
                             </div>
                         </form>
@@ -76,7 +78,7 @@
             </div>
 
 
-            <div class="col-8">
+            <div class="col-sm-8">
                 <div class="card">
                     <div class="card-header">
                         Riwayat Hukdis
