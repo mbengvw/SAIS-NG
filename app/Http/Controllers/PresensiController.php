@@ -64,8 +64,8 @@ class PresensiController extends Controller
     public function list_all()
     {
         $data_tahun = TahunService::getActive();
-        $id_tahun = $data_tahun->id;
-        $list_kelas = KelasService::listKelas($id_tahun);
+        $tahun = $data_tahun->tahun;
+        $list_kelas = KelasService::listKelasByTahun($tahun);
         return view('presensi.list_presensi', ['list_kelas' => $list_kelas, 'data_tahun' => $data_tahun]);
     }
 

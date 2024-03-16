@@ -15,7 +15,14 @@ class LoginController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            return redirect('/admin/dashboard');
+            // return redirect('/admin/dashboard');
+
+            if (auth()->user()->admin == 1) {
+                return redirect('/admin/dashboard');
+            } elseif (auth()->user()->piket == 1) {
+                return redirect('/piket');
+            } else {
+            }
         }
         return view('welcome');
     }
@@ -56,7 +63,14 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect('admin/dashboard');
+            $user = auth()->user();
+            if ($user->admin == 1) {
+                return redirect('admin/dashboard');
+            } elseif ($user->piket == 1) {
+                return redirect('piket');
+            } else {
+                return "Hai Guess";
+            }
         }
 
         return redirect('login')->with('success', 'Login details are not valid');
@@ -78,6 +92,6 @@ class LoginController extends Controller
 
         Auth::logout();
 
-        return Redirect('login');
+        return Redirect('/');
     }
 }

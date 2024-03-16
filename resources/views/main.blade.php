@@ -9,7 +9,11 @@
 </head>
 
 <body>
-    @include('partials/_nav')
+    @if (Auth::user()->admin == 1)
+        @include('partials/_nav')
+    @elseif (Auth::user()->piket == 1)
+        @include('partials._nav_piket')
+    @endif
 
     <div>
         @yield('content')

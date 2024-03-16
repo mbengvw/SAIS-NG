@@ -8,6 +8,7 @@ use App\Http\Controllers\HukdisController;
 use App\Http\Controllers\HukdismanController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PiketController;
 use App\Http\Controllers\UsermanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TahunAkademikController;
@@ -23,15 +24,18 @@ use App\Http\Controllers\TahunAkademikController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 
-Route::get('login', [LoginController::class, 'index'])->name('login');
+Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/login/validate_login', [LoginController::class, 'validate_login'])->name('login.validate_login');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/piket', [PiketController::class, 'index'])->name('piket.index');
+
+
     Route::get('/admin/dashboard', [LoginController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/userman', [UsermanController::class, 'index'])->name('userman.index')->middleware('admin');
@@ -90,6 +94,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('hukdisman', [HukdismanController::class, 'index'])->name('hukdisman.index');
     Route::post('hukdisman/list_by', [HukdismanController::class, 'list_by'])->name('hukdisman.list_by');
+
+
+
 
     Route::get('error/admin_only', function () {
         return view('error.restricted');
