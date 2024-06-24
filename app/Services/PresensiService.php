@@ -26,17 +26,17 @@ class PresensiService
             'data_presensi.tanggal',
             'data_presensi.status',
             'data_presensi.keterangan',
-            'mst_siswa.nis',
-            'mst_siswa.nama_lengkap',
-            'mst_siswa.jk',
+            'students.nisn',
+            'students.nama',
+            'students.jenis_kelamin',
             'mst_kelas.nama_kelas'
         )
             ->leftJoinSub($data_peresensi, 'data_presensi', function ($join) {
                 $join->on('tst_grouping.id_grouping', '=', 'data_presensi.id_grouping');
             })
-            ->join('mst_siswa', 'tst_grouping.id_siswa', '=', 'mst_siswa.id_siswa')
+            ->join('students', 'tst_grouping.id_siswa', '=', 'students.id')
             ->join('mst_kelas', 'tst_grouping.id_kelas', '=', 'mst_kelas.id_kelas')
-            ->orderBy('mst_siswa.nama_lengkap', 'asc')
+            ->orderBy('students.nama', 'asc')
             ->where('tst_grouping.id_kelas', $id_kelas)
             ->get();
         return $result;

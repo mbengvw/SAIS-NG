@@ -8,6 +8,7 @@ use App\Models\Grouping;
 use App\Models\Siswa;
 use App\Models\Kelas;
 use App\Models\Presensi;
+use App\Models\Student;
 use App\Services\GroupingService;
 use App\Services\TahunService;
 
@@ -25,7 +26,7 @@ class GroupingController extends Controller
         $list_kelas = Kelas::where('tahun', '=', TahunService::getActive()->tahun)->get();
         if ($request->ajax()) {
             $grouped_id = Grouping::all()->where('tahun', '=', TahunService::getActive()->tahun)->pluck('id_siswa');
-            $data = Siswa::whereNotIn('id_siswa', $grouped_id)->where('status', '=', 'A')->get();
+            $data = Student::whereNotIn('id', $grouped_id)->where('status', '=', 'A')->get();
 
             return Datatables::of($data)
                 ->addIndexColumn()
@@ -34,7 +35,7 @@ class GroupingController extends Controller
                     $button .= '   <button type="button" name="edit" id="' . $row->id_siswa . '" class="delete btn btn-danger btn-sm"> <i class="bi bi-backspace-reverse-fill"></i> Delete</button>';
                     return $button;
                 })
-                ->addColumn('checkbox', '<input type="checkbox" name="users_checkbox[]" class="users_checkbox" value="{{$id_siswa}}" />')
+                ->addColumn('checkbox', '<input type="checkbox" name="users_checkbox[]" class="users_checkbox" value="{{$id}}" />')
                 ->rawColumns(['checkbox', 'action'])
                 ->make(true);
         }

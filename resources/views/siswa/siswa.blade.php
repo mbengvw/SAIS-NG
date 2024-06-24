@@ -15,19 +15,21 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>No. Daftar</th>
-                    <th>NIS</th>
-                    <th>NISN</th>
                     <th>Nama</th>
-                    <th>Jenis</th>
-                    <th>Angkatan</th>
-                    <th>Jalur</th>
-                    <th>Asal SLTP</th>
-                    <th>Action</th>
-
-                    <th><button type="button" name="bulk_delete" id="bulk_delete"
-                            class="btn btn-danger btn-xs">Delete</button>
-                    </th>
+                    <th>NISN</th>
+                    {{-- <th>NIK</th> --}}
+                    <th>Tahun Masuk</th>
+                    <th>Tempat Lahir</th>
+                    <th>Tgl. Lahir</th>
+                    <th>Status</th>
+                    <th>Gender</th>
+                    <th>Alamat</th>
+                    {{-- <th>Nama Ayah</th>
+                    <th>Nama Ibu</th>
+                    <th>Nama Wali</th> --}}
+                    <th width="180px">Action</th>
+                    <th width="50px"><button type="button" name="bulk_delete" id="bulk_delete"
+                            class="btn btn-danger btn-xs">Delete</button></th>
                 </tr>
             </thead>
             <tbody></tbody>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmisController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\PresensiController;
@@ -31,6 +32,14 @@ use App\Http\Controllers\TahunAkademikController;
 
 Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/login/validate_login', [LoginController::class, 'validate_login'])->name('login.validate_login');
+
+Route::prefix('public')->group(function () {
+    Route::get('/rekap-siswa', [EmisController::class, 'rekap'])->name('emis.rekap');
+
+    // Route::post('/detail', [PegawaiDashboardController::class, 'show'])->name('team-member.detail');
+});
+
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/piket', [PiketController::class, 'index'])->name('piket.index');

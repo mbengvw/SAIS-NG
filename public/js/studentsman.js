@@ -1,48 +1,6 @@
-$(function () {
-    /*------------------------------------------
-    Pass Header Token
-    --------------------------------------------*/
-    $.ajaxSetup({
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-    });
+$(document).ready(function () {
+    fetchDataTable();
 
-    /*------------------------------------------
-    Render DataTable
-    --------------------------------------------*/
-    let table = $(".students_datatable").DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: path.base_path,
-        columns: [
-            { data: "id_siswa", name: "id_siswa" },
-            { data: "no_daftar", name: "no_daftar" },
-            { data: "nis", name: "nis" },
-            { data: "nisn", name: "nisn" },
-            { data: "nama_lengkap", name: "nama_lengkap" },
-            { data: "jk", name: "jk" },
-            { data: "angkatan", name: "angkatan" },
-            { data: "jalur", name: "jalur" },
-            { data: "asal_sltp", name: "asal_sltp" },
-            {
-                data: "action",
-                name: "action",
-                orderable: false,
-                searchable: false,
-            },
-            {
-                data: "checkbox",
-                name: "checkbox",
-                orderable: false,
-                searchable: false,
-            },
-        ],
-    });
-
-    /*------------------------------------------
-    Delete Single Student Code
-    --------------------------------------------*/
     $("body").on("click", ".delete", function () {
         let student_id = this.id;
         // alert(student_id);
@@ -61,9 +19,6 @@ $(function () {
         }
     });
 
-    /*------------------------------------------
-    Delete Bulk Student Code
-    --------------------------------------------*/
     $(document).on("click", "#bulk_delete", function () {
         let id = [];
         if (confirm("Are you sure you want to Delete this data?")) {
@@ -95,10 +50,6 @@ $(function () {
             }
         }
     });
-
-    /*------------------------------------------
-    Add/Eit student code
-    --------------------------------------------*/
 
     $("#create_record").click(function () {
         $("#id_siswa").val("");
@@ -148,4 +99,52 @@ $(function () {
             },
         });
     });
+
+    function fetchDataTable() {
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        });
+
+        let table = $(".students_datatable").DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: path.base_path,
+            success: function(data){
+                console.log(data);
+            },
+            error: function(data){
+                console.log(data);
+            },
+            columns: [
+                { data: "id" },
+                { data: "nama" },
+                { data: "nisn" },
+                // { data: "nik" },
+                { data: "tahun_masuk" },
+                { data: "tempat_lahir" },
+                { data: "tanggal_lahir" },
+                { data: "status" },
+                { data: "jenis_kelamin" },
+                { data: "alamat" },
+                // { data: "nama_ayah" },
+                // { data: "nama_ibu" },
+                // { data: "nama_wali" },
+                {
+                    data: "action",
+                    name: "action",
+                    orderable: false,
+                    searchable: false,
+                },
+                {
+                    data: "checkbox",
+                    name: "checkbox",
+                    orderable: false,
+                    searchable: false,
+                },
+            ],
+        });
+    }
 });
+

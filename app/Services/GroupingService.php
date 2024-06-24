@@ -28,9 +28,9 @@ class GroupingService
 
     public function listGroupingByTahun($id_kelas = null, $tahun = null)
     {
-        $query = Grouping::join('mst_siswa', 'tst_grouping.id_siswa', '=', 'mst_siswa.id_siswa')
+        $query = Grouping::join('students', 'tst_grouping.id_siswa', '=', 'students.id')
         ->join('mst_kelas', 'tst_grouping.id_kelas', '=', 'mst_kelas.id_kelas')
-        ->orderBy('mst_siswa.nama_lengkap', 'asc');
+        ->orderBy('students.nama', 'asc');
 
         if ($id_kelas != null) {
             $query->where('tst_grouping.id_kelas', '=', $id_kelas);
@@ -39,7 +39,7 @@ class GroupingService
             $query->where('tst_grouping.tahun', '=', $tahun);
         }
 
-        $data = $query->get(['tst_grouping.*', 'mst_siswa.*', 'mst_kelas.*']);
+        $data = $query->get(['tst_grouping.*', 'students.*', 'mst_kelas.*']);
 
         return $data;
     }

@@ -24,13 +24,16 @@ $(document).ready(function () {
                             no +
                             "</td>\
                         <td>" +
-                            item.nama_lengkap +
+                            item.id +
                             "</td>\
                         <td>" +
-                            item.jk +
+                            item.nama +
                             "</td>\
                         <td>" +
-                            item.angkatan +
+                            item.jenis_kelamin +
+                            "</td>\
+                        <td>" +
+                            item.tahun_masuk +
                             "</td>\
                         <td>" +
                             item.nama_kelas +
@@ -63,11 +66,11 @@ $(document).ready(function () {
             serverSide: true,
             ajax: app_path.base_path,
             columns: [
-                { data: "id_siswa", name: "id_siswa" },
-                { data: "nisn", name: "nisn" },
-                { data: "nama_lengkap", name: "nama_lengkap" },
-                { data: "jk", name: "jk" },
-                { data: "angkatan", name: "angkatan" },
+                { data: "id"},
+                { data: "nisn" },
+                { data: "nama"},
+                { data: "jenis_kelamin"},
+                { data: "tahun_masuk"},
                 {
                     data: "checkbox",
                     name: "checkbox",

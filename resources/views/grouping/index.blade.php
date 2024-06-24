@@ -41,6 +41,7 @@
                                 <thead>
                                     <tr>
                                         <th>No.</th>
+                                        <th>ID.</th>
                                         <th>Nama</th>
                                         <th>Jenis</th>
                                         <th>Angkatan</th>
