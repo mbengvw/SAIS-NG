@@ -23,6 +23,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>ID</th>
                         <th>Jurusan</th>
                         <th>Tingkat</th>
                         <th>Paralel</th>

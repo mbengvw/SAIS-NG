@@ -119,6 +119,7 @@ $(document).ready(function () {
             ajax: app_path.base_path,
             columns: [
                 { data: "DT_RowIndex", name: "DT_RowIndex" },
+                { data: "id_kelas", name: "id_kelas" },
                 { data: "jurusan", name: "jurusan" },
                 { data: "tingkat", name: "tingkat" },
                 { data: "paralel", name: "paralel" },
