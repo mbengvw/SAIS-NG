@@ -58,20 +58,18 @@ class PresensiService
                 'tahun.tahun',
                 'tahun.semester',
                 'tahun.alias_tahun',
-                'siswa.nis',
-                'siswa.nama_lengkap',
-                'siswa.jk',
-                'siswa.angkatan',
-                'siswa.jalur',
-                'siswa.asal_sltp',
+                'siswa.nisn',
+                'siswa.nama',
+                'siswa.jenis_kelamin',
+                'siswa.tahun_masuk',
                 'kelas.id_kelas',
                 'kelas.nama_kelas'
             )
             ->join('tst_grouping AS grouping', 'kehadiran.id_grouping', '=', 'grouping.id_grouping')
             ->join('mst_tahun AS tahun', 'grouping.id_tahun', '=', 'tahun.id')
-            ->join('mst_siswa AS siswa', 'grouping.id_siswa', '=', 'siswa.id_siswa')
+            ->join('students AS siswa', 'grouping.id_siswa', '=', 'siswa.id')
             ->join('mst_kelas AS kelas', 'grouping.id_kelas', '=', 'kelas.id_kelas')
-            ->orderBy('siswa.nama_lengkap', 'asc');
+            ->orderBy('siswa.nama', 'asc');
         if ($id_kelas) {
             $query->where('kelas.id_kelas', '=', $id_kelas);
         }
@@ -86,7 +84,7 @@ class PresensiService
             $query->where('kehadiran.tanggal', '=', $newDate);
         }
         if ($nama != "") {
-            $query->where('siswa.nama_lengkap', 'LIKE', '%' . $nama . '%');
+            $query->where('siswa.nama', 'LIKE', '%' . $nama . '%');
         }
         $result = $query->get();
         return $result;

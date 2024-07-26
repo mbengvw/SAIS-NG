@@ -43,10 +43,10 @@ $(document).ready(function () {
                         no +
                         "</td>\
                     <td>" +
-                        item.nama_lengkap +
+                        item.nama +
                         "</td>\
                     <td>" +
-                        item.jk +
+                        item.jenis_kelamin +
                         "</td>\
                     <td>" +
                         item.tanggal +
