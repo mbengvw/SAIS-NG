@@ -44,7 +44,10 @@ $(document).ready(function () {
                         "' class='radio-presensi'";
                     if (item.status == "S") {
                         content += "checked>";
+                    }else{
+                        content += ">";
                     }
+
                     content +=
                         "</td>\
                     <td><input type='radio' id='I-" +
@@ -56,6 +59,8 @@ $(document).ready(function () {
                         "' class='radio-presensi'";
                     if (item.status == "I") {
                         content += "checked>";
+                    }else{
+                        content += ">";
                     }
                     content +=
                         "</td>\
@@ -68,6 +73,8 @@ $(document).ready(function () {
                         "' class='radio-presensi'";
                     if (item.status == "A") {
                         content += "checked>";
+                    }else{
+                        content += ">";
                     }
                     content += "</td>";
                     content +=
@@ -76,6 +83,8 @@ $(document).ready(function () {
                         "' value='";
                     if (item.keterangan != null) {
                         content += item.keterangan;
+                    }else{
+                        content += "";
                     }
 
                     content += "'></td>";
