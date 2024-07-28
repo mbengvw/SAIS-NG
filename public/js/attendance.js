@@ -35,9 +35,6 @@ $(document).ready(function () {
                     <td>" +
                         item.jenis_kelamin +
                         "</td>\
-                    <td>" +
-                        item.nama_kelas +
-                        "</td>\
                     <td><input type='radio' id='S-" +
                         item.id_grouping +
                         "' name='status" +

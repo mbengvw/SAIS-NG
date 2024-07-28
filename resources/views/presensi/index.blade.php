@@ -42,14 +42,13 @@
                         Siswa - Kelas
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
+                        <div class="table-wrapper" style="overflow-x:auto;">
                             <table class="table table-striped table-bordered" id="tbl_kehadiran">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
                                         <th>Nama</th>
                                         <th>JK</th>
-                                        <th>Kelas</th>
                                         <th>Sakit</th>
                                         <th>Izin</th>
                                         <th>Alfa</th>
