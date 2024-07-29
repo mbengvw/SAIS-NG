@@ -14,7 +14,7 @@
                 </h4>
             </div>
         </div>
-<hr>
+        <hr>
         <div class="text-center">
             <a href="{{ route('presensi.index') }}" role="button" class="btn btn-primary"
                 style="border-radius: 20px;padding: 20px 30px;margin: 10px;"><strong> ABSENSI HARIAN </strong></a>
@@ -27,6 +27,20 @@
                 style="border-radius: 20px;padding: 20px 30px;margin: 10px;"><strong> PELANGGARAN DISIPLIN </strong></a>
             <a href="{{ route('presensi.show_all') }}" role="button" class="btn btn-danger"
                 style="border-radius: 20px;padding: 20px 30px;margin: 10px;"><strong> LIHAT </strong></a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                One of three columns
+            </div>
+            <div class="col-sm">
+                One of three columns
+            </div>
+            <div class="col-sm">
+                One of three columns
+            </div>
         </div>
     </div>
 @endsection
