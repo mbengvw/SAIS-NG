@@ -5,42 +5,49 @@
         <div style="padding: 50px 0px;">
             <div class="row justify-content-center">
                 <h2>
-                    Selamat Datang {{ $nama }}
+                    Hai {{ $nama }}...wilujeng sumping<br>
                 </h2>
             </div>
             <div class="row justify-content-center">
+                
                 <h4>
                     Tahun Akademik Aktif :{{ $tahun }}
                 </h4>
             </div>
-        </div>
-        <hr>
-        <div class="text-center">
-            <a href="{{ route('presensi.index') }}" role="button" class="btn btn-primary"
-                style="border-radius: 20px;padding: 20px 30px;margin: 10px;"><strong> ABSENSI HARIAN </strong></a>
-            <a href="{{ route('presensi.show_all') }}" role="button" class="btn btn-primary"
-                style="border-radius: 20px;padding: 20px 30px;margin: 10px;"><strong> LIHAT </strong></a>
-        </div>
-        <hr>
-        <div class="text-center">
-            <a href="{{ route('hukdis.index') }}" role="button" class="btn btn-danger"
-                style="border-radius: 20px;padding: 20px 30px;margin: 10px;"><strong> PELANGGARAN DISIPLIN </strong></a>
-            <a href="{{ route('presensi.show_all') }}" role="button" class="btn btn-danger"
-                style="border-radius: 20px;padding: 20px 30px;margin: 10px;"><strong> LIHAT </strong></a>
         </div>
     </div>
 
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                One of three columns
+                <div class="text-center">
+                    <a href="{{ route('presensi.index') }}">
+                        <img src="{{ asset('images/legalisir.png') }}" class="rounded-circle" style="max-width: 50%;">
+                    </a>
+                </div>
             </div>
             <div class="col-sm">
-                One of three columns
+                <div class="text-center">
+                    <a href="{{ route('presensi.show_all') }}">
+                        <img src="{{ asset('images/absen.png') }}" class="rounded-circle" style="max-width: 50%;">
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <div class="text-center">
+                    <a href="{{ route('presensi.index') }}"><strong> Absensi Harian Siswa </strong></a>
+                </div>
             </div>
             <div class="col-sm">
-                One of three columns
+                <div class="text-center">
+                    <a href="{{ route('presensi.show_all') }}"><strong> Lihat Data Kehadiran</strong></a>
+                </div>
             </div>
+
         </div>
     </div>
 @endsection
