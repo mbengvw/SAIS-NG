@@ -15,8 +15,6 @@ class LoginController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            // return redirect('/admin/dashboard');
-
             if (auth()->user()->admin == 1) {
                 return redirect('/admin/dashboard');
             } elseif (auth()->user()->piket == 1) {
@@ -73,7 +71,7 @@ class LoginController extends Controller
             }
         }
 
-        return redirect('login')->with('success', 'Login details are not valid');
+        return redirect(url('/'))->with('success', 'Akun login salah');
     }
 
     function dashboard()
