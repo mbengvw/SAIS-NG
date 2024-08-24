@@ -41,8 +41,7 @@ class PenetapanWalasController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $button = ' <button type="button" name="edit" id="' . $row->id_kelas . '" class="edit btn btn-primary btn-sm">Edit</button>
-                                <button type="button" name="delete" id="' . $row->id . '" class="delete btn btn-primary btn-sm">Hapus</button>';
+                    $button = ' <button type="button" name="delete" id="' . $row->id . '" class="delete btn btn-primary btn-sm">Hapus</button>';
 
                     return $button;
                 })
