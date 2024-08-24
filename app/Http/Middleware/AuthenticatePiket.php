@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthenticateWalas
+class AuthenticatePiket
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class AuthenticateWalas
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() &&  Auth::user()->admin == 2) {
+        if (Auth::user() &&  Auth::user()->piket == 1) {
             return $next($request);
         }
         return redirect()->route('error.admin_only');

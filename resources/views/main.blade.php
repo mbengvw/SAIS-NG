@@ -13,6 +13,8 @@
         @include('partials/_nav')
     @elseif (Auth::user()->piket == 1)
         @include('partials._nav_piket')
+    @elseif (auth()->user()->isWalikelas())
+        @include('partials._nav_walikelas')
     @endif
 
     <div>

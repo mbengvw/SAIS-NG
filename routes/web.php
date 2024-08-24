@@ -9,25 +9,12 @@ use App\Http\Controllers\HukdisController;
 use App\Http\Controllers\HukdismanController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PenetapanWalasController;
 use App\Http\Controllers\PiketController;
 use App\Http\Controllers\UsermanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TahunAkademikController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+use App\Http\Controllers\WalikelasController;
 
 
 Route::get('/', [LoginController::class, 'index'])->name('login');
@@ -35,15 +22,16 @@ Route::post('/login/validate_login', [LoginController::class, 'validate_login'])
 
 Route::prefix('public')->group(function () {
     Route::get('/rekap-siswa', [EmisController::class, 'rekap'])->name('emis.rekap');
-
-    // Route::post('/detail', [PegawaiDashboardController::class, 'show'])->name('team-member.detail');
 });
 
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/piket', [PiketController::class, 'index'])->name('piket.index');
+    Route::get('/piket', [PiketController::class, 'index'])->name('piket.index')->middleware('piket');
+    Route::get('/piket/logout', [LoginController::class, 'logout'])->name('logout');
 
+    Route::get('/walikelas', [WalikelasController::class, 'index'])->name('walas.index');
+    Route::get('/walikelas/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/admin/dashboard', [LoginController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/logout', [LoginController::class, 'logout'])->name('logout');
@@ -65,11 +53,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('profile/change_pass', [ProfileController::class, 'change_pass'])->name('profile.change_pass');
 
-
     Route::get('/login/registration', [LoginController::class, 'registration'])->name('registration')->middleware('admin');
     Route::post('/login/validate_registration', [LoginController::class, 'validate_registration'])->name('login.validate_registration');
-
-
 
     Route::get('siswa', [SiswaController::class, 'index'])->name('siswa.index')->middleware('admin');
     Route::get('siswa/{id}', [SiswaController::class, 'show'])->name('siswa.show')->middleware('admin');
@@ -77,13 +62,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('siswa/store', [SiswaController::class, 'store'])->name('siswa.store')->middleware('admin');
     Route::get('siswa/removeall', [SiswaController::class, 'removeall'])->name('siswa.removeall')->middleware('admin');
 
-
     Route::get('grouping', [GroupingController::class, 'index'])->name('grouping.index')->middleware('admin');
     Route::get('grouping/create', [GroupingController::class, 'create'])->name('grouping.create')->middleware('admin');
     Route::get('grouping/createall', [GroupingController::class, 'createall'])->name('grouping.createall')->middleware('admin');
     Route::get('grouping/store', [GroupingController::class, 'store'])->name('grouping.store')->middleware('admin');
     Route::get('grouping/ajaxbykelas', [GroupingController::class, 'ajaxbykelas'])->name('grouping.ajaxbykelas')->middleware('admin');
     Route::post('grouping/ajaxdestroy', [GroupingController::class, 'ajaxdestroy'])->name('grouping.ajaxdestroy')->middleware('admin');
+
+    Route::get('setwalas', [PenetapanWalasController::class, 'index'])->name('setwalas.index')->middleware('admin');
 
     Route::get('presensi', [PresensiController::class, 'index'])->name('presensi.index');
     Route::get('presensi/ajaxkelastanggal', [PresensiController::class, 'ajaxkelastanggal'])->name('presensi.ajaxkelastanggal');
@@ -114,3 +100,5 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::get('test', [TahunAkademikController::class, 'setActive']);
+
+require __DIR__ . '/ajax.php';

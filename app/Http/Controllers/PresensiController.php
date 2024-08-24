@@ -8,6 +8,7 @@ use App\Models\Presensi;
 use App\Services\KelasService;
 use App\Services\PresensiService;
 use App\Services\TahunService;
+use App\Services\WalikelasService;
 use Illuminate\Support\Carbon;
 
 class PresensiController extends Controller
@@ -15,7 +16,9 @@ class PresensiController extends Controller
     public function index()
     {
         $tahun = TahunService::getActive()->tahun;
+
         $list_kelas = KelasService::listKelasByTahun($tahun);
+
         return view('presensi.index', ['list_kelas' => $list_kelas, 'tanggal' => date("d/m/Y"), 'data_th_akademik' => app('tahunAkademik')]);
     }
 
@@ -65,7 +68,13 @@ class PresensiController extends Controller
     {
         $data_tahun = TahunService::getActive();
         $tahun = $data_tahun->tahun;
-        $list_kelas = KelasService::listKelasByTahun($tahun);
+        if (WalikelasService::isWalikelas(auth()->user()->id, $data_tahun->id)) {
+            $id_kelas = WalikelasService::getIdKelas(auth()->user()->id, $data_tahun->id);
+            $list_kelas = KelasService::listKelasById($id_kelas);
+            // dd($list_kelas);
+        } else {
+            $list_kelas = KelasService::listKelasByTahun($tahun);
+        }
         return view('presensi.list_presensi', ['list_kelas' => $list_kelas, 'data_tahun' => $data_tahun]);
     }
 

@@ -60,7 +60,9 @@
                         <div class="col-sm-10">
                             <button type="submit" class="btn btn-primary" id="showbtn" style="margin-right:50px;">Show
                                 Data</button>
-                            <a href="{{ route('piket.index') }}" role="button" class="btn btn-warning">Home</a>
+                            @if (auth()->user()->piket == 1)
+                                <a href="{{ route('piket.index') }}" role="button" class="btn btn-warning">Home</a>
+                            @endif
                         </div>
                     </div>
                 </form>

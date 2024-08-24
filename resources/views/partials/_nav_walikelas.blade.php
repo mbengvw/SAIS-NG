@@ -12,35 +12,7 @@
 
             <ul class="navbar-nav ml-auto">
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Master Data<span class="sr-only"></span>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('siswa.index') }}">Master Siswa</a>
-                        <a class="dropdown-item" href="{{ route('kelas.index') }}">Master Kelas</a>
-                        <a class="dropdown-item" href="{{ route('tahun.index') }}">Tahun Akademik</a>
-                        <hr>
-                        <a class="dropdown-item" href="{{ route('userman.index') }}">Manajemen User</a>
-                    </div>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Transaksi
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('grouping.index') }}">Pengkelasan</a>
-                        <a class="dropdown-item" href="{{ route('setwalas.index') }}">Penetapan Walikelas</a>
-                        <hr>
-                        <a class="dropdown-item" href="{{ route('presensi.index') }}">Absensi Kehadiran</a>
-                        <a class="dropdown-item" href="{{ route('hukdis.index') }}">Pelanggaran Disiplin</a>
-                    </div>
-                </li>
-
-                <li class="nav-item dropdown" style="margin-right: 20px;">
+               <li class="nav-item dropdown" style="margin-right: 20px;">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Data
@@ -50,12 +22,7 @@
                         <a class="dropdown-item" href="{{ route('hukdisman.index') }}">Pelanggaran</a>
                     </div>
                 </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link" href="{{ route('logout') }}">Logout <span class="sr-only"></span></a>
-                </li> --}}
-
-
-            </ul>
+             </ul>
             <li class="nav-item dropdown">
                 <div class="navbar-nav ms-auto">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"

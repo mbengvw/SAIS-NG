@@ -63,4 +63,9 @@ class KelasService
 
         return $data;
     }
+
+    public static function listKelasById($id_kelas)
+    {
+        return Kelas::where('id_kelas','=',$id_kelas)->get();
+    }
 }

@@ -7,7 +7,7 @@
             <li class="nav-item dropdown">
                 <div class="navbar-nav ms-auto">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-bottom: 30px;">
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="{{ asset('images/user.png') }}" width="40" height="40" class="rounded-circle">
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use App\Services\TahunService;
+use App\Services\WalikelasService;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -20,6 +21,13 @@ class LoginController extends Controller
             } elseif (auth()->user()->piket == 1) {
                 return redirect('/piket');
             } else {
+                $tahun = TahunService::getActive();
+                $walikelas = WalikelasService::isWalikelas(auth()->user()->id,$tahun->id);
+                if($walikelas){
+                    return redirect('/walikelas');
+                }else{
+                    return redirect('/guess');
+                }
             }
         }
         return view('welcome');
@@ -61,16 +69,8 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            $user = auth()->user();
-            if ($user->admin == 1) {
-                return redirect('admin/dashboard');
-            } elseif ($user->piket == 1) {
-                return redirect('piket');
-            } else {
-                return "Hai Guess";
-            }
+            return redirect(url('/'))->with('success', 'Akun login salah');
         }
-
         return redirect(url('/'))->with('success', 'Akun login salah');
     }
 
