@@ -37,6 +37,7 @@ Route::middleware(['auth'])->group(function () {
         $tahun = TahunService::getActive()->alias_tahun;
         return view('guess',['tahun'=>$tahun]);
     });
+    Route::get('/guess/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/admin/dashboard', [LoginController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/logout', [LoginController::class, 'logout'])->name('logout');

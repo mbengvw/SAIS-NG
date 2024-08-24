@@ -12,6 +12,9 @@
                 Tahun Akademik Aktif saat ini: {{ $tahun }}
             </h4>
         </div>
+        <div class="text-center">
+           <a href="{{url('/guess/logout')}}" class="btn btn-info" role="button">Logout</a>
+        </div>
     </div>
 @endsection
 
