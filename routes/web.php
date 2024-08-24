@@ -15,7 +15,7 @@ use App\Http\Controllers\UsermanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TahunAkademikController;
 use App\Http\Controllers\WalikelasController;
-
+use App\Services\TahunService;
 
 Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/login/validate_login', [LoginController::class, 'validate_login'])->name('login.validate_login');
@@ -32,6 +32,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/walikelas', [WalikelasController::class, 'index'])->name('walas.index');
     Route::get('/walikelas/logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::get('/guess',function(){
+        $tahun = TahunService::getActive()->alias_tahun;
+        return view('guess',['tahun'=>$tahun]);
+    });
 
     Route::get('/admin/dashboard', [LoginController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/logout', [LoginController::class, 'logout'])->name('logout');
