@@ -9,7 +9,7 @@
                 </h2>
             </div>
             <div class="row justify-content-center">
-                
+
                 <h4>
                     Tahun Akademik Aktif :{{ $tahun }}
                 </h4>
@@ -22,14 +22,14 @@
             <div class="col-sm">
                 <div class="text-center">
                     <a href="{{ route('presensi.index') }}">
-                        <img src="{{ asset('images/legalisir.png') }}" class="rounded-circle" style="max-width: 50%;">
+                        <img src="{{ asset('images/legalisir.png') }}" class="rounded-circle" style="max-width: 200px;">
                     </a>
                 </div>
             </div>
             <div class="col-sm">
                 <div class="text-center">
                     <a href="{{ route('presensi.show_all') }}">
-                        <img src="{{ asset('images/absen.png') }}" class="rounded-circle" style="max-width: 50%;">
+                        <img src="{{ asset('images/absen.png') }}" class="rounded-circle" style="max-width: 200px;">
                     </a>
                 </div>
             </div>
@@ -49,6 +49,26 @@
             </div>
 
         </div>
+
+
+        <div class="row">
+            <div class="col-sm">
+                <div class="text-center">
+                    <a href="{{ route('presensi.index') }}">
+                        <img src="{{ asset('images/peoples.png') }}" class="rounded-circle" style="max-width: 200px;">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <div class="text-center">
+                    <a href="{{ route('piket.list-students') }}"><strong> Daftar Siswa </strong></a>
+                </div>
+            </div>
+        </div>
+
     </div>
 @endsection
 

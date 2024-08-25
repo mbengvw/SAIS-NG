@@ -18,7 +18,7 @@ class Grouping extends Model
 
     public function siswa(){
         // return $this->belongsTo(Siswa::class, 'foreign_key');
-        return $this->belongsTo(Siswa::class, 'id_siswa');
+        return $this->belongsTo(Student::class, 'id_siswa');
     }
 
     public function kelas(){

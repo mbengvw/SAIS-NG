@@ -6,15 +6,14 @@ use App\Http\Requests\NewSiswaRequest;
 use Illuminate\Http\Request;
 use App\Models\Siswa;
 use App\Models\Student;
+use App\Services\SiswaService;
+use App\Services\TahunService;
 use Yajra\DataTables\Facades\DataTables;
 
 class SiswaController extends Controller
 {
     public function index(Request $request)
     {
-        // $data = Siswa::all();
-        // dd($data);
-
         if ($request->ajax()) {
             $data = Student::all();
             return Datatables::of($data)
@@ -75,5 +74,12 @@ class SiswaController extends Controller
         $siswa  = Siswa::where($where)->first();
 
         return response()->json($siswa);
+    }
+
+    public function detail($id_siswa)
+    {
+        $tahun = TahunService::getActive()->tahun;
+        $res = SiswaService::detail($id_siswa,$tahun);
+        return $res;
     }
 }
