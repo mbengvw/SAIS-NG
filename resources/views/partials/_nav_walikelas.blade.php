@@ -19,6 +19,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('presensi.show_all') }}">Kehadiran Siswa</a>
+                        <a class="dropdown-item" href="{{ route('presensi.rekap') }}">Rekap Kehadiran Siswa</a>
                         <a class="dropdown-item" href="{{ route('hukdisman.index') }}">Pelanggaran</a>
                     </div>
                 </li>

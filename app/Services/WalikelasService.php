@@ -14,6 +14,10 @@ class WalikelasService
     public static function getIdKelas($id_user,$id_tahun)
     {
         $walikelas = Walikelas::where('id_user', '=', $id_user)->where('id_tahun', '=', $id_tahun)->first();
-        return $walikelas->id_kelas;
+        if($walikelas){
+            return $walikelas->id_kelas;
+        }else{
+            return null;
+        }
     }
 }

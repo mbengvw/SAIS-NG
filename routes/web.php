@@ -8,6 +8,7 @@ use App\Http\Controllers\GroupingController;
 use App\Http\Controllers\HukdisController;
 use App\Http\Controllers\HukdismanController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\LaporanPresensiController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PenetapanWalasController;
 use App\Http\Controllers\PiketController;
@@ -83,6 +84,7 @@ Route::middleware(['auth'])->group(function () {
     Route::DELETE('presensi', [PresensiController::class, 'ajaxdestroy'])->name('presensi.ajaxdestroy');
     Route::get('presensi/show_all', [PresensiController::class, 'list_all'])->name('presensi.show_all');
     Route::get('presensi/ajax_list_by', [PresensiController::class, 'ajax_list_by'])->name('presensi.all');
+    Route::get('presensi/rekap', [LaporanPresensiController::class, 'index'])->name('presensi.rekap');
 
     Route::get('hukdis', [HukdisController::class, 'index'])->name('hukdis.index');
     Route::get('hukdis/all', [HukdisController::class, 'list_all'])->name('hukdis.all');

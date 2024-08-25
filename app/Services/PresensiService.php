@@ -8,8 +8,6 @@ use Carbon\Carbon;
 
 class PresensiService
 {
-
-
     public  function get_siswa_tanggal_kelas($id_kelas, $tgl)
     {
         /**
@@ -89,4 +87,6 @@ class PresensiService
         $result = $query->get();
         return $result;
     }
+
+    
 }

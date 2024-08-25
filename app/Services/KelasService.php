@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Grouping;
 use App\Models\Kelas;
+use Illuminate\Support\Facades\DB;
 
 class KelasService
 {
@@ -67,5 +68,17 @@ class KelasService
     public static function listKelasById($id_kelas)
     {
         return Kelas::where('id_kelas','=',$id_kelas)->get();
+    }
+
+    public static function listSiswaByKelasTahun($id_kelas,$tahun)
+    {
+        $res=DB::select('
+        SELECT G.*,S.nama,S.nisn FROM
+        (SELECT * FROM `tst_grouping` WHERE `id_kelas`=? AND `tahun`=?) AS G
+        LEFT JOIN students AS S ON G.id_siswa=S.id
+        ORDER BY S.nama
+        ',[$id_kelas,$tahun]);
+        
+        return $res;
     }
 }
