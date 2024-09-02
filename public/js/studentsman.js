@@ -131,11 +131,13 @@ $(document).ready(function () {
             data: $(this).serialize(),
             dataType: "json",
             success: function (data) {
+                alert("Data berhasil disimpan");
                 $("#student_form").trigger("reset");
                 $("#ajaxModal").modal("hide");
                 table.draw();
             },
             error: function (data) {
+                alert("Data gagal disimpan");
                 console.log(data);
             },
         });
