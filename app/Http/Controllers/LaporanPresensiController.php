@@ -36,10 +36,23 @@ class LaporanPresensiController extends Controller
     {
         if ($request->ajax()) {
             $data_tahun = TahunService::getActive();
-            $id_kelas= $request->input('id_kelas');
+            $id_kelas = $request->input('id_kelas');
             // $id_kelas = WalikelasService::getIdKelas(auth()->user()->id, $data_tahun->id);
             $data = $this->rekapPresensiService->rekapByKelasTahunSemeseter($id_kelas, $data_tahun->tahun, $data_tahun->semester);
 
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->make(true);
+        }
+    }
+
+    public function getRekapPresensiBulanan(Request $request)
+    {
+        if ($request->ajax()) {
+            $data_tahun = TahunService::getActive();
+            $id_kelas = $request->input('id_kelas');
+            $bulan = $request->input('bulan');
+            $data = $this->rekapPresensiService->rekapByKelasTahunBulan($id_kelas, $data_tahun->tahun, $bulan);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->make(true);

@@ -24,14 +24,14 @@ class NewSiswaRequest extends FormRequest
     public function rules()
     {
         return [
-            'no_daftar' => 'required',
-            'nis' => 'required',
-            'nisn' => 'required',
             'nama' => 'required',
-            'jk' => 'required|in:L,P',
-            'angkatan' => 'required',
-            'jalur' => 'required|in:PRESTASI,REGULER,PINDAHAN',
-            'asal_sltp' => 'required',
+            'nisn' => 'required',
+            'nik' => 'required',
+            'tahun_masuk'=>'required',
+            'tempat_lahir'=>'required',
+            'tanggal_lahir'=>'required',
+            'jenis_kelamin' => 'required',
+            'alamat' => 'required',
         ];
     }
 }

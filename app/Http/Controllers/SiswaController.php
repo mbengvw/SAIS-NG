@@ -34,7 +34,7 @@ class SiswaController extends Controller
 
     public function destroy($id_siswa)
     {
-        Siswa::find($id_siswa)->delete();
+        Student::find($id_siswa)->delete();
         return response()->json(['success' => 'Product deleted successfully.']);
     }
 
@@ -53,25 +53,28 @@ class SiswaController extends Controller
         $id_siswa = $request->id_siswa;
 
         $form_data = array(
-            'no_daftar'     =>  $request->no_daftar,
-            'nis'           =>  $request->nis,
+            'nama'          =>  $request->nama,
             'nisn'          =>  $request->nisn,
-            'nama_lengkap'  =>  $request->nama,
-            'jk'            =>  $request->jk,
-            'angkatan'      =>  $request->angkatan,
-            'jalur'         =>  $request->jalur,
-            'asal_sltp'     =>  $request->asal_sltp
+            'nik'           =>  $request->nik,
+            'tahun_masuk'   =>  $request->tahun_masuk,
+            'tempat_lahir'  =>  $request->tempat_lahir,
+            'tanggal_lahir' =>  $request->tanggal_lahir,
+            'status'        =>  $request->status,
+            'jenis_kelamin' =>  $request->jenis_kelamin,
+            'alamat'        =>  $request->alamat,
+            'nama_ayah'     =>  $request->nama_ayah,
+            'nama_ibu'      =>  $request->nama_ibu,
+            'nama_wali'     =>  $request->nama_wali,
         );
 
-        $post = Siswa::updateOrCreate(['id_siswa' => $id_siswa], $form_data);
+        $post = Student::updateOrCreate(['id' => $id_siswa], $form_data);
         return response()->json($post);
     }
 
-
     function show($id_siswa)
     {
-        $where = array('id_siswa' => $id_siswa);
-        $siswa  = Siswa::where($where)->first();
+        $where = array('id' => $id_siswa);
+        $siswa  = Student::where($where)->first();
 
         return response()->json($siswa);
     }
@@ -79,7 +82,7 @@ class SiswaController extends Controller
     public function detail($id_siswa)
     {
         $tahun = TahunService::getActive()->tahun;
-        $res = SiswaService::detail($id_siswa,$tahun);
+        $res = SiswaService::detail($id_siswa, $tahun);
         return $res;
     }
 }

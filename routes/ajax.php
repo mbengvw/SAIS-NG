@@ -14,6 +14,7 @@ Route::middleware('auth')->group(function () {
         Route::DELETE('/walas', [PenetapanWalasController::class, 'destroy']);
 
         Route::GET('/rekap_presensi', [LaporanPresensiController::class, 'getRekapPresensi']);
+        Route::GET('/rekap_presensi_bulanan', [LaporanPresensiController::class, 'getRekapPresensiBulanan']);
 
         Route::GET('/list_siswa', [PiketController::class, 'listStudents']);
 
