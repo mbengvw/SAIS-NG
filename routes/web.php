@@ -14,6 +14,7 @@ use App\Http\Controllers\PenetapanWalasController;
 use App\Http\Controllers\PiketController;
 use App\Http\Controllers\UsermanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RekapPresensiController;
 use App\Http\Controllers\TahunAkademikController;
 use App\Http\Controllers\WalikelasController;
 use App\Services\TahunService;
@@ -86,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('presensi/show_all', [PresensiController::class, 'list_all'])->name('presensi.show_all');
     Route::get('presensi/ajax_list_by', [PresensiController::class, 'ajax_list_by'])->name('presensi.all');
     Route::get('presensi/rekap', [LaporanPresensiController::class, 'index'])->name('presensi.rekap');
+    Route::get('presensi/rekap_bulanan', [RekapPresensiController::class, 'index'])->name('presensi.bulanan');
 
     Route::get('hukdis', [HukdisController::class, 'index'])->name('hukdis.index');
     Route::get('hukdis/all', [HukdisController::class, 'list_all'])->name('hukdis.all');

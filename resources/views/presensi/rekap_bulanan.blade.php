@@ -7,16 +7,52 @@
                 Rekap Presensi Siswa
             </h2>
         </div>
-        <div class="row justify-content-center">
-            <h4>Tahun Akademik {{ $data_tahun->tahun }}/{{$data_tahun->tahun+1}} - Semester {{ $data_tahun->semester }}</h4>
-        </div>
-        <div style="width: max-content;margin-bottom: 20px;margin-top: 20px;">
-            <select class="form-control" id="select_kelas" name="select_kelas">
-                <option value="">Pilih Kelas</option>
-                @foreach ($list_kelas as $kelas)
-                    <option value="{{ $kelas['id_kelas'] }}">{{ $kelas['nama_kelas'] }}</option>
-                @endforeach
-            </select>
+        <div class="card" style="margin-bottom: 20px">
+            <div class="card-header">
+                Filter Data
+            </div>
+            <div class="card-body">
+                <form action="" id="frm_bulanan">
+                    <div class="row" style="padding-bottom: 20px">
+                        <div class="col-sm-10">
+                            <div class="form-row">
+                                <div class="col">
+                                    <select class="form-control" id="select_kelas" name="select_kelas">
+                                        <option value="">Pilih Kelas</option>
+                                        @foreach ($list_kelas as $kelas)
+                                            <option value="{{ $kelas['id_kelas'] }}">{{ $kelas['nama_kelas'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <select class="form-control" id="select_bulan" name="select_bulan">
+                                        <option value="">Pilih Bulan</option>
+                                        <option value="1">Januari</option>
+                                        <option value="2">Februari</option>
+                                        <option value="3">Maret</option>
+                                        <option value="4">April</option>
+                                        <option value="5">Mei</option>
+                                        <option value="6">Juni</option>
+                                        <option value="7">Juli</option>
+                                        <option value="8">Agustus</option>
+                                        <option value="9">September</option>
+                                        <option value="10">Oktober</option>
+                                        <option value="11">November</option>
+                                        <option value="12">Desember</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary" id="show_btn" style="margin-right:50px;">Show Data</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <table class="table table-striped table-bordered rekap_datatable">

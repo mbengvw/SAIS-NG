@@ -46,7 +46,7 @@ class LaporanPresensiController extends Controller
         }
     }
 
-    public function getRekapPresensiBulanan(Request $request)
+    public function listRekapPresensiBulanan(Request $request)
     {
         if ($request->ajax()) {
             $data_tahun = TahunService::getActive();
@@ -59,5 +59,5 @@ class LaporanPresensiController extends Controller
         }
     }
 
-    
+
 }
