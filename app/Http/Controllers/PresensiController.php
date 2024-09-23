@@ -80,7 +80,6 @@ class PresensiController extends Controller
 
     public  function ajax_list_by(Request $request, PresensiService $presensi)
     {
-
         if ($request->ajax()) {
             $id_kelas = $request->input('id_kelas');
             $tahun = $request->input('tahun');

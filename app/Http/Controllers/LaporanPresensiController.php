@@ -58,4 +58,6 @@ class LaporanPresensiController extends Controller
                 ->make(true);
         }
     }
+
+    
 }
