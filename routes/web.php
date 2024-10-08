@@ -36,9 +36,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/walikelas', [WalikelasController::class, 'index'])->name('walas.index');
     Route::get('/walikelas/logout', [LoginController::class, 'logout'])->name('logout');
 
-    Route::get('/guess',function(){
+    Route::get('/guess', function () {
         $tahun = TahunService::getActive()->alias_tahun;
-        return view('guess',['tahun'=>$tahun]);
+        return view('guess', ['tahun' => $tahun]);
     });
     Route::get('/guess/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -54,10 +54,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/tahun/ajaxAdd', [TahunAkademikController::class, 'add'])->name('tahun.add')->middleware('admin');
     Route::post('/tahun/ajaxSetActive', [TahunAkademikController::class, 'setActive'])->name('tahun.set')->middleware('admin');
 
-    Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index')->middleware('admin');
-    Route::get('/kelas/show', [KelasController::class, 'show'])->name('kelas.show')->middleware('admin');
-    Route::post('/kelas', [KelasController::class, 'add'])->name('kelas.add')->middleware('admin'); #create /update
-    Route::delete('/kelas', [KelasController::class, 'destroy'])->name('kelas.destroy')->middleware('admin');
+    Route::middleware('tahun')->group(function () {
+        Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index')->middleware('admin');
+        Route::get('/kelas/show', [KelasController::class, 'show'])->name('kelas.show')->middleware('admin');
+        Route::post('/kelas', [KelasController::class, 'add'])->name('kelas.add')->middleware('admin'); #create /update
+        Route::delete('/kelas', [KelasController::class, 'destroy'])->name('kelas.destroy')->middleware('admin');
+    });
+
 
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('profile/change_pass', [ProfileController::class, 'change_pass'])->name('profile.change_pass');
@@ -71,35 +74,42 @@ Route::middleware(['auth'])->group(function () {
     Route::post('siswa/store', [SiswaController::class, 'store'])->name('siswa.store')->middleware('admin');
     Route::get('siswa/removeall', [SiswaController::class, 'removeall'])->name('siswa.removeall')->middleware('admin');
 
-    Route::get('grouping', [GroupingController::class, 'index'])->name('grouping.index')->middleware('admin');
-    Route::get('grouping/create', [GroupingController::class, 'create'])->name('grouping.create')->middleware('admin');
-    Route::get('grouping/createall', [GroupingController::class, 'createall'])->name('grouping.createall')->middleware('admin');
-    Route::get('grouping/store', [GroupingController::class, 'store'])->name('grouping.store')->middleware('admin');
-    Route::get('grouping/ajaxbykelas', [GroupingController::class, 'ajaxbykelas'])->name('grouping.ajaxbykelas')->middleware('admin');
-    Route::post('grouping/ajaxdestroy', [GroupingController::class, 'ajaxdestroy'])->name('grouping.ajaxdestroy')->middleware('admin');
+    Route::middleware('tahun')->group(function () {
+        Route::get('grouping', [GroupingController::class, 'index'])->name('grouping.index')->middleware('admin');
+        Route::get('grouping/create', [GroupingController::class, 'create'])->name('grouping.create')->middleware('admin');
+        Route::get('grouping/createall', [GroupingController::class, 'createall'])->name('grouping.createall')->middleware('admin');
+        Route::get('grouping/store', [GroupingController::class, 'store'])->name('grouping.store')->middleware('admin');
+        Route::get('grouping/ajaxbykelas', [GroupingController::class, 'ajaxbykelas'])->name('grouping.ajaxbykelas')->middleware('admin');
+        Route::post('grouping/ajaxdestroy', [GroupingController::class, 'ajaxdestroy'])->name('grouping.ajaxdestroy')->middleware('admin');
 
-    Route::get('setwalas', [PenetapanWalasController::class, 'index'])->name('setwalas.index')->middleware('admin');
+        Route::get('setwalas', [PenetapanWalasController::class, 'index'])->name('setwalas.index')->middleware('admin');
 
-    Route::get('presensi', [PresensiController::class, 'index'])->name('presensi.index');
-    Route::get('presensi/ajaxkelastanggal', [PresensiController::class, 'ajaxkelastanggal'])->name('presensi.ajaxkelastanggal');
-    Route::post('presensi', [PresensiController::class, 'store'])->name('presensi.store');
-    Route::DELETE('presensi', [PresensiController::class, 'ajaxdestroy'])->name('presensi.ajaxdestroy');
-    Route::get('presensi/show_all', [PresensiController::class, 'list_all'])->name('presensi.show_all');
-    Route::get('presensi/ajax_list_by', [PresensiController::class, 'ajax_list_by'])->name('presensi.all');
-    Route::get('presensi/rekap', [LaporanPresensiController::class, 'index'])->name('presensi.rekap');
-    Route::get('presensi/rekap_bulanan', [RekapPresensiController::class, 'index'])->name('presensi.bulanan');
+        Route::get('presensi', [PresensiController::class, 'index'])->name('presensi.index')->middleware('tahun');
+        Route::get('presensi/ajaxkelastanggal', [PresensiController::class, 'ajaxkelastanggal'])->name('presensi.ajaxkelastanggal');
+        Route::post('presensi', [PresensiController::class, 'store'])->name('presensi.store');
+        Route::DELETE('presensi', [PresensiController::class, 'ajaxdestroy'])->name('presensi.ajaxdestroy');
+        Route::get('presensi/show_all', [PresensiController::class, 'list_all'])->name('presensi.show_all')->middleware('tahun');
+        Route::get('presensi/ajax_list_by', [PresensiController::class, 'ajax_list_by'])->name('presensi.all');
+        Route::get('presensi/rekap', [LaporanPresensiController::class, 'index'])->name('presensi.rekap');
+        Route::get('presensi/rekap_bulanan', [RekapPresensiController::class, 'index'])->name('presensi.bulanan');
+    
+        Route::get('hukdis', [HukdisController::class, 'index'])->name('hukdis.index');
+        Route::get('hukdis/all', [HukdisController::class, 'list_all'])->name('hukdis.all');
+        Route::get('hukdis/list_by', [HukdisController::class, 'list_by'])->name('hukdis.list_by');
+        Route::get('hukdis/ajax_list_by', [HukdisController::class, 'ajax_list_by'])->name('hukdis.ajax_list_by');
+        Route::post('hukdis/store', [HukdisController::class, 'ajaxStore'])->name('hukdis.store');
+        Route::post('hukdis/ajaxdestroy', [HukdisController::class, 'ajaxdestroy'])->middleware('ajax_admin');
+        Route::get('hukdis/list_siswa_by_tahun/{tahun}', [HukdisController::class, 'list_siswa_by_tahun']);
+        Route::get('hukdis/ajax_list_siswa_by_tahun', [HukdisController::class, 'ajax_list_siswa_by_tahun']);
+    
+        Route::get('hukdisman', [HukdismanController::class, 'index'])->name('hukdisman.index');
+        Route::post('hukdisman/list_by', [HukdismanController::class, 'list_by'])->name('hukdisman.list_by');
+    });
 
-    Route::get('hukdis', [HukdisController::class, 'index'])->name('hukdis.index');
-    Route::get('hukdis/all', [HukdisController::class, 'list_all'])->name('hukdis.all');
-    Route::get('hukdis/list_by', [HukdisController::class, 'list_by'])->name('hukdis.list_by');
-    Route::get('hukdis/ajax_list_by', [HukdisController::class, 'ajax_list_by'])->name('hukdis.ajax_list_by');
-    Route::post('hukdis/store', [HukdisController::class, 'ajaxStore'])->name('hukdis.store');
-    Route::post('hukdis/ajaxdestroy', [HukdisController::class, 'ajaxdestroy'])->middleware('ajax_admin');
-    Route::get('hukdis/list_siswa_by_tahun/{tahun}', [HukdisController::class, 'list_siswa_by_tahun']);
-    Route::get('hukdis/ajax_list_siswa_by_tahun', [HukdisController::class, 'ajax_list_siswa_by_tahun']);
 
-    Route::get('hukdisman', [HukdismanController::class, 'index'])->name('hukdisman.index');
-    Route::post('hukdisman/list_by', [HukdismanController::class, 'list_by'])->name('hukdisman.list_by');
+
+
+
 
 
 
@@ -107,6 +117,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('error/admin_only', function () {
         return view('error.restricted');
     })->name('error.admin_only');
+
+    Route::get('error/tahun_aktif', function () {
+        return view('error.no_tahun_aktif');
+    })->name('error.no_tahun_aktif');
 });
 
 

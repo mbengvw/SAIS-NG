@@ -22,10 +22,13 @@ class LoginController extends Controller
                 return redirect('/piket');
             } else {
                 $tahun = TahunService::getActive();
-                $walikelas = WalikelasService::isWalikelas(auth()->user()->id,$tahun->id);
-                if($walikelas){
+                if (!$tahun) {
+                    return "Tidak ada tahun aktif";
+                }
+                $walikelas = WalikelasService::isWalikelas(auth()->user()->id, $tahun->id);
+                if ($walikelas) {
                     return redirect('/walikelas');
-                }else{
+                } else {
                     return redirect('/guess');
                 }
             }
@@ -77,7 +80,8 @@ class LoginController extends Controller
     function dashboard()
     {
         if (Auth::check()) {
-            $tahun = TahunService::getActive()->alias_tahun;
+            $data_tahun = TahunService::getActive();
+            $tahun = $data_tahun ? $data_tahun->alias_tahun : null;
             return view('home', ['nama' => Auth::user()->name, 'tahun' => $tahun]);
         }
 

@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'ajax_admin' => \App\Http\Middleware\isAdmin_ajax::class,
         'admin' => \App\Http\Middleware\isAdmin::class,
         'piket' => \App\Http\Middleware\AuthenticatePiket::class,
+        'tahun'=> \App\Http\Middleware\VerifyTahunAktif::class,
     ];
 }

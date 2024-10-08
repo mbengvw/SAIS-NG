@@ -12,7 +12,8 @@ class PiketController extends Controller
 {
     public function index(){
         if (Auth::check()) {
-            $tahun = TahunService::getActive()->alias_tahun;
+            $data_tahun = TahunService::getActive();
+            $tahun = $data_tahun ? $data_tahun->alias_tahun:"Belum Tersedia";
             return view('piket.index', ['nama' => Auth::user()->name, 'tahun' => $tahun]);
         }
 
