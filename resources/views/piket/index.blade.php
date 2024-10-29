@@ -51,11 +51,18 @@
         </div>
 
 
-        <div class="row">
+        <div class="row" style="margin-top: 100px">
             <div class="col-sm">
                 <div class="text-center">
-                    <a href="{{ route('presensi.index') }}">
+                    <a href="{{ route('piket.list-students') }}">
                         <img src="{{ asset('images/peoples.png') }}" class="rounded-circle" style="max-width: 200px;">
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="text-center">
+                    <a href="{{ route('piket.hukdis') }}">
+                        <img src="{{ asset('images/hukdis.png') }}" class="rounded-circle" style="max-width: 200px;">
                     </a>
                 </div>
             </div>
@@ -67,7 +74,14 @@
                     <a href="{{ route('piket.list-students') }}"><strong> Daftar Siswa </strong></a>
                 </div>
             </div>
+            <div class="col-sm">
+                <div class="text-center">
+                    <a href="{{ route('piket.hukdis') }}"><strong> Hukuman Disiplin </strong></a>
+                </div>
+            </div>
         </div>
+
+
 
     </div>
 @endsection
