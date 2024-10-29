@@ -14,29 +14,29 @@ class HukdisService
                 'pelanggaran.id_pelanggaran',
                 'pelanggaran.id_hukdis',
                 'pelanggaran.id_grouping',
-                'pelanggaran.semester',
+                // 'pelanggaran.semester',
                 'pelanggaran.tanggal',
                 'pelanggaran.id_petugas',
                 'grouping.id_siswa',
                 'grouping.id_kelas',
-                'grouping.tahun',
+                // 'grouping.tahun',
                 'hukdis.deskripsi',
                 'hukdis.poin',
-                'siswa.nis',
                 'siswa.nisn',
-                'siswa.nama_lengkap',
-                'siswa.jk',
-                'siswa.angkatan',
-                'siswa.jalur',
-                'siswa.asal_sltp',
+                'siswa.nama',
+                'siswa.jenis_kelamin',
+                'siswa.tahun_masuk',
                 'kelas.id_kelas',
-                'kelas.nama_kelas'
+                'kelas.nama_kelas',
+                'tahun.semester',
+                'tahun.tahun',
             )
             ->join('mst_hukdis AS hukdis', 'hukdis.id_hukdis', '=', 'pelanggaran.id_hukdis')
             ->join('tst_grouping AS grouping', 'pelanggaran.id_grouping', '=', 'grouping.id_grouping')
-            ->join('mst_siswa AS siswa', 'grouping.id_siswa', '=', 'siswa.id_siswa')
+            ->join('students AS siswa', 'grouping.id_siswa', '=', 'siswa.id')
             ->join('mst_kelas AS kelas', 'grouping.id_kelas', '=', 'kelas.id_kelas')
-            ->orderBy('siswa.nama_lengkap', 'asc');
+            ->join('mst_tahun AS tahun','grouping.id_tahun','=','tahun.id')
+            ->orderBy('siswa.nama', 'asc');
         if ($id_kelas) {
             $query->where('kelas.id_kelas', '=', $id_kelas);
         }
@@ -50,7 +50,7 @@ class HukdisService
             $query->where('pelanggaran.tanggal', '=', $tgl);
         }
         if ($nama != "") {
-            $query->where('siswa.nama_lengkap', 'LIKE', '%' . $nama . '%');
+            $query->where('siswa.nama', 'LIKE', '%' . $nama . '%');
         }
         $result = $query->get();
 

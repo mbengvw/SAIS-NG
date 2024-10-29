@@ -26,7 +26,7 @@ class PiketController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $button = '<button type="button" name="show" id="' . $row->id . '" class="show btn btn-primary btn-sm">Detail</button>';
+                    $button = '<button type="button" name="show" id="' . $row->id . '" class="show-detail btn btn-primary btn-sm">Detail</button>';
                     return $button;
                 })
                 ->make(true);

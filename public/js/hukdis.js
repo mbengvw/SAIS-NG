@@ -31,11 +31,11 @@ $(document).ready(function () {
                 $.each(response.students, function (key, item) {
                     $("#select_nama").append(
                         "<option value='" +
-                            item.nama_lengkap +
+                            item.nama +
                             "|" +
                             item.id_grouping +
                             "'>" +
-                            item.nama_lengkap +
+                            item.nama +
                             "</option>"
                     );
                 });
@@ -85,13 +85,13 @@ $(document).ready(function () {
                         no +
                         "</td>\
                 <td>" +
-                        item.nama_lengkap +
+                        item.nama +
                         "</td>\
                 <td>" +
                         item.nama_kelas +
                         "</td>\
                 <td>" +
-                        item.tahun_akademik +
+                        item.tahun +
                         "</td>\
                 <td>" +
                         item.semester +
@@ -113,7 +113,7 @@ $(document).ready(function () {
                 $("#tbl_hukdis > tbody").append(content);
             },
             error: function (data) {
-                var errors = data.responseJSON.errors;
+                // var errors = data.responseJSON.errors;
                 console.log(data);
                 // printErrorMsg(errors);
             },

@@ -1,9 +1,8 @@
 $(document).ready(function () {
     fetchDataTable();
 
-    $("body").on("click", ".show", function () {
+    $("body").on("click", ".show-detail", function () {
         let student_id = this.id;
-        console.log(student_id);
         let show_path = path.ajax + "/siswa/detail/" + student_id;
 
         $("#id_siswa").val(student_id);
@@ -11,8 +10,6 @@ $(document).ready(function () {
 
         //ambil data detail siswa pake jquery get()
         $.get(show_path, function (data) {
-            console.log(data);
-            // $("#action").val("Edit");
             $("#detail_nama").text(data[0].nama);
             $("#detail_tempat").text(data[0].tempat_lahir);
             $("#detail_tgl").text(data[0].tanggal_lahir);
@@ -22,7 +19,6 @@ $(document).ready(function () {
             $("#detail_kelas").text(data[0].nama_kelas);
 
         });
-        $("#student_form").trigger("reset");
         $("#ajaxModal").modal("show");
     });
 

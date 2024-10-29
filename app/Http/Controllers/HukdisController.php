@@ -9,16 +9,23 @@ use App\Models\Kelas;
 use App\Models\Pelanggaran;
 use App\Traits\SiswaTrait;
 use App\Services\HukdisService;
+use App\Services\KelasService;
 use Illuminate\Support\Facades\Auth;
 
 class HukdisController extends Controller
 {
     use SiswaTrait;
+    private KelasService $kelasService;
+
+    public function __construct(KelasService $kelasService)
+    {
+        $this->kelasService = $kelasService;
+    }
 
     public function index()
     {
         $data_ta = app('tahunAkademik');
-        $list_kelas = Kelas::all();
+        $list_kelas = $this->kelasService->listKelasByTahun($data_ta->tahun);
         $list_hukdis = Hukdis::all();
         return view('hukdis.index', [
             'list_kelas' => $list_kelas,

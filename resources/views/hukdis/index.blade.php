@@ -23,11 +23,12 @@
                     <div class="card-body">
 
                         <form id="hukdis_form">
+                            <input type="text" value="{{$data_th_akademik->tahun}}" id="tahun_aktif" hidden>
                             <div class="form-group row">
-                                <label for="inputEmail3" class="col-sm-2 col-form-label">Kelas</label>
-                                <div class="col-sm-4">
+                                {{-- <label for="inputEmail3" class="col-sm-2 col-form-label">Kelas</label> --}}
+                                <div class="col-sm-12">
                                     <select class="form-control" id="select_kelas" name="select_kelas">
-                                        <option value="">Semua</option>
+                                        <option value="">Pilih Kelas</option>
                                         @foreach ($list_kelas as $kelas)
                                             <option value="{{ $kelas['id_kelas'] }}">{{ $kelas['nama_kelas'] }}</option>
                                         @endforeach
@@ -36,8 +37,8 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="inputnama" class="col-sm-2 col-form-label">Nama Siswa</label>
-                                <div class="col-sm-6">
+                                {{-- <label for="inputnama" class="col-sm-2 col-form-label">Nama Siswa</label> --}}
+                                <div class="col-sm-12">
                                     <select class="form-control" id="select_nama" name="select_nama">
                                         <option value="">Pilih Siswa</option>
                                     </select>
@@ -46,8 +47,8 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="inputEmail3" class="col-sm-2 col-form-label">Pelanggaran</label>
-                                <div class="col-sm-10">
+                                {{-- <label for="inputEmail3" class="col-sm-2 col-form-label">Pelanggaran</label> --}}
+                                <div class="col-sm-12">
                                     <select class="form-control" id="select_hukdis" name="select_hukdis">
                                         <option value="">Pilih Pelanggaran</option>
                                         @foreach ($list_hukdis as $hukdis)
@@ -65,8 +66,8 @@
 
                             <div class="form-group row">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary" id="showbtn" style="margin-right: 50px">Simpan Data</button>
-                                    <a href="{{ route('piket.index') }}" role="button" class="btn btn-warning">Home</a>
+                                    <button type="submit" class="btn btn-primary" id="showbtn" style="display: inline-block">Simpan</button>
+                                    <a href="{{ route('piket.index') }}" role="button" class="btn btn-warning"  style="display: inline-block">Home</a>
                                 </div>
                                 <div class="col-sm-10">
                                 </div>

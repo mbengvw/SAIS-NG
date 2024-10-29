@@ -19,18 +19,16 @@ trait SiswaTrait
                 'grouping.id_siswa',
                 'grouping.id_kelas',
                 'grouping.tahun',
-                'siswa.nis',
-                'siswa.nama_lengkap',
-                'siswa.jk',
-                'siswa.angkatan',
-                'siswa.jalur',
-                'siswa.asal_sltp',
+                'siswa.nisn',
+                'siswa.nama',
+                'siswa.jenis_kelamin',
+                'siswa.tahun_masuk',
                 'kelas.id_kelas',
                 'kelas.nama_kelas'
             )
-            ->join('mst_siswa AS siswa', 'grouping.id_siswa', '=', 'siswa.id_siswa')
+            ->join('students AS siswa', 'grouping.id_siswa', '=', 'siswa.id')
             ->join('mst_kelas AS kelas', 'grouping.id_kelas', '=', 'kelas.id_kelas')
-            ->orderBy('siswa.nama_lengkap', 'asc');
+            ->orderBy('siswa.nama', 'asc');
         if ($tahun_akademik!=null) {
             $query->where('grouping.tahun', '=', $tahun_akademik);
         }
