@@ -23,7 +23,7 @@
                     <div class="card-body">
 
                         <form id="hukdis_form">
-                            <input type="text" value="{{$data_th_akademik->tahun}}" id="tahun_aktif" hidden>
+                            <input type="text" value="{{ $data_th_akademik->tahun }}" id="tahun_aktif" hidden>
                             <div class="form-group row">
                                 {{-- <label for="inputEmail3" class="col-sm-2 col-form-label">Kelas</label> --}}
                                 <div class="col-sm-12">
@@ -66,8 +66,12 @@
 
                             <div class="form-group row">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary" id="showbtn" style="display: inline-block">Simpan</button>
-                                    <a href="{{ route('piket.index') }}" role="button" class="btn btn-warning"  style="display: inline-block">Home</a>
+                                    <button type="submit" class="btn btn-primary" id="showbtn"
+                                        style="display: inline-block">Simpan</button>
+                                    @if (auth()->user()->admin != 1)
+                                        <a href="{{ route('piket.index') }}" role="button" class="btn btn-warning"
+                                            style="display: inline-block">Home</a>
+                                    @endif
                                 </div>
                                 <div class="col-sm-10">
                                 </div>
