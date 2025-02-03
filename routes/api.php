@@ -22,3 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::POST('/siswa-nisn', [ApiSiswaController::class, 'showByNisn']);
 Route::POST('/siswa-nis', [ApiSiswaController::class, 'showByNis']);
 
+Route::get('/list-siswa/{tahun}',[ApiSiswaController::class,'listByTahun']);
+

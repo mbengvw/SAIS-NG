@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use App\Services\SiswaService;
 use Exception;
 use Illuminate\Http\Request;
@@ -33,5 +34,12 @@ class ApiSiswaController extends Controller
         } catch (Exception $e) {
             return response()->json(['status' => 'failed', 'message' => $e->getMessage(), 'data' => null], 401);
         }
+    }
+
+    public function listByTahun(Request $request)
+    {
+        // dd($request->tahun);
+        $data=$this->siswaService->listByAngkatan($request->tahun);
+        return response()->json(['status' => 'success', 'message' => 'OK', 'data' => $data], 200);
     }
 }

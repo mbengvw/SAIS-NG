@@ -42,7 +42,8 @@ class PresensiController extends Controller
 
             $id_grouping = $request->input('id_grouping');
             $tgl = date("Y/m/d");
-            $semester = 1;
+            $data_tahun = TahunService::getActive();
+            $semester = $data_tahun->semester;
             $my_data = array(
                 'id_grouping'   =>  $id_grouping,
                 'status'        => $request->input('status'),

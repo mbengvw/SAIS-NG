@@ -41,4 +41,9 @@ class SiswaService
         return $res;
     }
 
+    public  function listByAngkatan($tahun)
+    {
+        return Student::where('tahun_masuk','=',$tahun)->get();
+    }
+
 }
