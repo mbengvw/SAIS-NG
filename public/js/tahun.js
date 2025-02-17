@@ -27,23 +27,29 @@ $(document).ready(function () {
 
     $("body").on("click", ".set", function () {
         id = this.id;
-        $.ajaxSetup({
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            },
-        });
-        $.ajax({
-            type: "post",
-            url: app_path.base_path + "/ajaxSetActive",
-            data: { id: id },
-            success: function (data) {
-                fetchTahun();
-                // table.draw();
-            },
-            error: function (data) {
-                console.log(data);
-            },
-        });
+        let confirmed = confirm("Apakah anda yakin merubah status?");
+        if (confirmed) {
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+            });
+
+            $.ajax({
+                type: "post",
+                url: app_path.base_path + "/ajaxSetActive",
+                data: { id: id },
+                success: function (data) {
+                    fetchTahun();
+                    // table.draw();
+                },
+                error: function (data) {
+                    console.log(data);
+                },
+            });
+        }
     });
 
     function fetchTahun() {
