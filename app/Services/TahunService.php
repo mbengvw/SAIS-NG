@@ -29,9 +29,9 @@ class TahunService
     public static function setActive($id)
     {
         // set 0 field is_active untuk semua record
-        Tahun::query()->update(['is_active' => 0]);
+        // Tahun::query()->update(['is_active' => 0]);
         // set 1 untuk id yg diinginkan
-        Tahun::where('id', '=', $id)->update(['is_active' => 1]);
+        // Tahun::where('id', '=', $id)->update(['is_active' => 1]);
     }
 
     public static function getActive()
