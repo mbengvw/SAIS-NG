@@ -55,7 +55,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/tahun', [TahunAkademikController::class, 'index'])->name('tahun.index')->middleware('admin');
     Route::post('/tahun/ajaxAdd', [TahunAkademikController::class, 'add'])->name('tahun.add')->middleware('admin');
-    // Route::post('/tahun/ajaxSetActive', [TahunAkademikController::class, 'setActive'])->name('tahun.set')->middleware('admin');
+    Route::post('/tahun/ajaxSetActive', [TahunAkademikController::class, 'setActive'])->name('tahun.set')->middleware('admin');
 
     Route::middleware('tahun')->group(function () {
         Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index')->middleware('admin');

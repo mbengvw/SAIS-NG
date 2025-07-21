@@ -42,6 +42,7 @@ $(document).ready(function () {
                 url: app_path.base_path + "/ajaxSetActive",
                 data: { id: id },
                 success: function (data) {
+                    // console.log(data);
                     fetchTahun();
                     // table.draw();
                 },
