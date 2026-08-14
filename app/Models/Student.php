@@ -16,7 +16,7 @@ class Student extends Model
         'nik',
         'tahun_masuk',
         'tempat_lahir',
-        'tgl_lahir',
+        'tanggal_lahir',
         'status',
         'jenis_kelamin',
         'alamat',

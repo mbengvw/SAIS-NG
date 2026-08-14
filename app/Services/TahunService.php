@@ -10,8 +10,16 @@ class TahunService
     public static function addNew()
     {
         $new_rec = array();
-        $last = Tahun::orderBy('id', 'desc')
-            ->first();
+        $last = Tahun::orderBy('id', 'desc')->first();
+
+        if (!$last) {
+            $new_rec['tahun'] = date('Y');
+            $new_rec['semester'] = 1;
+            $new_rec['alias_tahun'] = date('Y') . "1";
+            $new_rec['is_active'] = 0;
+            return $new_rec;
+        }
+
         if ($last->semester == 1) {
             $new_rec['tahun'] = $last->tahun;
             $new_rec['semester'] = 2;
@@ -20,7 +28,7 @@ class TahunService
         } else {
             $new_rec['tahun'] = $last->tahun + 1;
             $new_rec['semester'] = 1;
-            $new_rec['alias_tahun'] = $last->tahun + 1 . "1";
+            $new_rec['alias_tahun'] = ($last->tahun + 1) . "1";
             $new_rec['is_active'] = 0;
         }
         return $new_rec;
@@ -28,10 +36,13 @@ class TahunService
 
     public static function setActive($id)
     {
-        // set 0 field is_active untuk semua record
-        // Tahun::query()->update(['is_active' => 0]);
-        // set 1 untuk id yg diinginkan
-        // Tahun::where('id', '=', $id)->update(['is_active' => 1]);
+        DB::transaction(function () use ($id) {
+            // set 0 field is_active untuk semua record
+            Tahun::query()->update(['is_active' => 0]);
+            // set 1 untuk id yg diinginkan
+            Tahun::where('id', '=', $id)->update(['is_active' => 1]);
+        });
+        return true;
     }
 
     public static function getActive()

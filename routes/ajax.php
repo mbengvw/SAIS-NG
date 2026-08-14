@@ -19,7 +19,5 @@ Route::middleware('auth')->group(function () {
         Route::GET('/list_siswa', [PiketController::class, 'listStudents']);
 
         Route::GET('siswa/detail/{id_siswa}', [SiswaController::class, 'detail'])->name('siswa.detail');
-
     });
-
 });

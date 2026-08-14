@@ -85,4 +85,63 @@ class SiswaController extends Controller
         $res = SiswaService::detail($id_siswa, $tahun);
         return $res;
     }
+
+    public function downloadTemplate()
+    {
+        $headers = [
+            'Content-type'        => 'text/csv',
+            'Content-Disposition' => 'attachment; filename=template_siswa.csv',
+            'Pragma'              => 'no-cache',
+            'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires'             => '0'
+        ];
+
+        $columns = ['Nama', 'NISN', 'NIK', 'Tahun Masuk', 'Tempat Lahir', 'Tanggal Lahir (YYYY-MM-DD)', 'Status', 'Jenis Kelamin (L/P)', 'Alamat', 'Nama Ayah', 'Nama Ibu', 'Nama Wali'];
+
+        $callback = function() use($columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function uploadCSV(Request $request)
+    {
+        $request->validate([
+            'csv_file' => 'required|file|mimes:csv,txt|max:2048',
+        ]);
+
+        $file = $request->file('csv_file');
+        
+        $fileHandle = fopen($file->getPathname(), 'r');
+        $header = fgetcsv($fileHandle); // Read first row as header
+
+        while (($data = fgetcsv($fileHandle)) !== FALSE) {
+            // Check if row has enough columns
+            if (count($data) >= 12 && !empty($data[1])) {
+                Student::updateOrCreate(
+                    ['nisn' => $data[1]], // using nisn as unique identifier
+                    [
+                        'nama' => $data[0],
+                        'nik' => $data[2],
+                        'tahun_masuk' => $data[3],
+                        'tempat_lahir' => $data[4],
+                        'tanggal_lahir' => $data[5],
+                        'status' => $data[6],
+                        'jenis_kelamin' => $data[7],
+                        'alamat' => $data[8],
+                        'nama_ayah' => $data[9],
+                        'nama_ibu' => $data[10],
+                        'nama_wali' => $data[11],
+                    ]
+                );
+            }
+        }
+        
+        fclose($fileHandle);
+
+        return redirect()->back()->with('success', 'Data siswa berhasil diupload dari CSV.');
+    }
 }

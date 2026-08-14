@@ -73,44 +73,37 @@ $(document).ready(function () {
             dataType: "json",
 
             success: function (response) {
-                // console.log(response);
-                $("#tbl_hukdis > tbody").html("");
-                let no = 0;
+                let container = $("#history_container");
+                container.html("");
+                
+                if (response.length === 0) {
+                    container.html('<div class="text-center text-muted" style="padding: 20px;">Belum ada riwayat pelanggaran.</div>');
+                    return;
+                }
+
                 let content = "";
                 $.each(response, function (key, item) {
-                    no = no + 1;
-                    content +=
-                        "<tr>\
-                <td>" +
-                        no +
-                        "</td>\
-                <td>" +
-                        item.nama +
-                        "</td>\
-                <td>" +
-                        item.nama_kelas +
-                        "</td>\
-                <td>" +
-                        item.tahun +
-                        "</td>\
-                <td>" +
-                        item.semester +
-                        "</td>\
-                <td>" +
-                        item.tanggal +
-                        "</td>\
-                <td>" +
-                        item.deskripsi +
-                        "</td>\
-                <td>" +
-                        item.poin +
-                        "</td>\
-                <td> <button type='button' name='delete' value='" +
-                        item.id_pelanggaran +
-                        "' class='delete btn btn-danger btn-sm'>Delete</button></td>";
+                    content += `
+                    <div class="card student-card" style="margin-bottom: 12px; border-left: 5px solid #e74c3c; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                        <div class="card-body" style="padding: 15px; display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <div style="font-weight: 800; font-size: 1.1rem; color: #2c3e50; line-height: 1.3;">${item.deskripsi}</div>
+                                <div style="font-size: 0.9rem; color: #e74c3c; font-weight: bold; margin-top: 6px;">
+                                    💯 -${item.poin} Poin
+                                </div>
+                                <div style="font-size: 0.85rem; color: #7f8c8d; margin-top: 4px;">
+                                    📅 ${item.tanggal} <br>
+                                    👤 ${item.nama} (${item.nama_kelas})
+                                </div>
+                            </div>
+                            <div>
+                                <button type="button" name="delete" value="${item.id_pelanggaran}" class="delete btn btn-danger btn-sm" style="border-radius: 8px; padding: 6px 12px;">Hapus</button>
+                            </div>
+                        </div>
+                    </div>`;
                 });
 
-                $("#tbl_hukdis > tbody").append(content);
+                container.append(content);
             },
             error: function (data) {
                 // var errors = data.responseJSON.errors;

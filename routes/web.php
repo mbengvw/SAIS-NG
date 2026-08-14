@@ -9,6 +9,7 @@ use App\Http\Controllers\HukdisController;
 use App\Http\Controllers\HukdismanController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LaporanPresensiController;
+use App\Http\Controllers\MstHukdisController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PenetapanWalasController;
 use App\Http\Controllers\PiketController;
@@ -55,9 +56,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/tahun', [TahunAkademikController::class, 'index'])->name('tahun.index')->middleware('admin');
     Route::post('/tahun/ajaxAdd', [TahunAkademikController::class, 'add'])->name('tahun.add')->middleware('admin');
-    // Route::post('/tahun/ajaxSetActive', [TahunAkademikController::class, 'setActive'])->name('tahun.set')->middleware('admin');
+    Route::post('/tahun/ajaxSetActive', [TahunAkademikController::class, 'setActive'])->name('tahun.set')->middleware('admin');
 
     Route::middleware('tahun')->group(function () {
+        Route::get('/mst_hukdis', [MstHukdisController::class, 'index'])->name('mst_hukdis.index');
+        Route::post('/mst_hukdis', [MstHukdisController::class, 'store'])->name('mst_hukdis.store');
+        Route::get('/mst_hukdis/{id}/edit', [MstHukdisController::class, 'edit'])->name('mst_hukdis.edit');
+        Route::delete('/mst_hukdis/{id}', [MstHukdisController::class, 'destroy'])->name('mst_hukdis.destroy');
+        Route::post('/mst_hukdis/upload', [MstHukdisController::class, 'uploadCSV'])->name('mst_hukdis.upload');
+        Route::get('/mst_hukdis/download/template', [MstHukdisController::class, 'downloadTemplate'])->name('mst_hukdis.template');
+
         Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index')->middleware('admin');
         Route::get('/kelas/show', [KelasController::class, 'show'])->name('kelas.show')->middleware('admin');
         Route::post('/kelas', [KelasController::class, 'add'])->name('kelas.add')->middleware('admin'); #create /update
@@ -72,6 +80,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/login/validate_registration', [LoginController::class, 'validate_registration'])->name('login.validate_registration');
 
     Route::get('siswa', [SiswaController::class, 'index'])->name('siswa.index')->middleware('admin');
+    Route::post('siswa/upload-csv', [SiswaController::class, 'uploadCSV'])->name('siswa.upload_csv')->middleware('admin');
+    Route::get('siswa/download-template', [SiswaController::class, 'downloadTemplate'])->name('siswa.download_template')->middleware('admin');
     Route::get('siswa/{id}', [SiswaController::class, 'show'])->name('siswa.show')->middleware('admin');
     Route::post('siswa/destroy/{id}/', [SiswaController::class, 'destroy'])->name('siswa.remove')->middleware('admin');
     Route::post('siswa/store', [SiswaController::class, 'store'])->name('siswa.store')->middleware('admin');

@@ -33,5 +33,6 @@ class TahunAkademikController extends Controller
     {
         $id = $request->id;
         TahunService::setActive($id);
+        return response()->json(['success' => true]);
     }
 }

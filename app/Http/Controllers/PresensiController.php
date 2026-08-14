@@ -47,12 +47,12 @@ class PresensiController extends Controller
             $my_data = array(
                 'id_grouping'   =>  $id_grouping,
                 'status'        => $request->input('status'),
-                'keterangan'    => $request->input('keterangan'),
+                'keterangan'    => $request->input('keterangan') ?? '',
                 'tanggal'       => $tgl,
                 'semester'      => $semester
             );
             $post = Presensi::updateOrCreate(['id_grouping' => $id_grouping, 'tanggal' => $tgl], $my_data);
-            return response()->json($my_data);
+            return response()->json($post);
         }
     }
 

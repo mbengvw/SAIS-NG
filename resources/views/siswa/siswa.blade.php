@@ -7,7 +7,30 @@
                 Data Siswa
             </h2>
         </div>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
         <div align="right">
+            <a href="{{ route('siswa.download_template') }}" style="margin-bottom: 10px;" class="btn btn-info">Download Template CSV</a>
+            <button style="margin-bottom: 10px;" type="button" class="btn btn-warning" data-toggle="modal" data-target="#uploadCsvModal">Upload CSV</button>
             <button style="margin-bottom: 10px;" type="button" name="create_record" id="create_record"
                 class="btn btn-success">Tambah Siswa</button>
         </div>
@@ -31,6 +54,34 @@
             <tbody></tbody>
         </table>
     </div>
+    </div>
+
+    {{-- MODAL UPLOAD CSV --}}
+    <div class="modal fade" id="uploadCsvModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Upload Data Siswa (CSV)</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('siswa.upload_csv') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <label for="csv_file">Pilih file CSV</label>
+                            <input type="file" class="form-control" name="csv_file" id="csv_file" required accept=".csv">
+                            <small class="form-text text-muted">Pastikan format kolom sesuai dengan template yang disediakan. Gunakan NISN sebagai unik ID (update data jika NISN sudah ada).</small>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     {{-- MODAL TAMBAH/EDIT --}}
