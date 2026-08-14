@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: sais-ng-app
+
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - .:/var/www/html
+
+    working_dir: /var/www/html
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
