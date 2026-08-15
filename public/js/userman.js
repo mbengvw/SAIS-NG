@@ -13,7 +13,7 @@ $(function () {
             { data: "id", name: "id" },
             { data: "name", name: "name" },
             { data: "email", name: "email" },
-            { data: "admin", name: "admin" },
+            { data: "roles_list", name: "roles_list" },
             {
                 data: "action",
                 name: "action",

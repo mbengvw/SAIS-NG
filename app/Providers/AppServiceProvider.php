@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Auth;
+use App\Queries\MenuQuery;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +30,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Inject userMenus variables into all views (or specific views)
+        View::composer(['main', 'home'], function ($view) {
+            $userMenus = collect([]);
+            if (Auth::check()) {
+                $userMenus = MenuQuery::getMenusForUser(Auth::user());
+            }
+            $view->with('userMenus', $userMenus);
+        });
     }
 }

@@ -17,7 +17,7 @@ class isAdmin_ajax
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() &&  Auth::user()->admin == 1) {
+        if (Auth::user() && Auth::user()->hasRole('admin')) {
             return $next($request);
         }
         return response()->json(['status' => '0']);

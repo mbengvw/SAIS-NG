@@ -54,6 +54,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('userman/{id}', [UsermanController::class, 'show'])->name('userman.show')->middleware('admin');
     Route::post('userman/reset/{id}', [UsermanController::class, 'reset'])->name('userman.reset')->middleware('admin');
 
+    // Manajemen Menu
+    Route::resource('menus', App\Http\Controllers\MenuController::class)->except(['create', 'edit', 'show'])->middleware('admin');
+
     Route::get('/tahun', [TahunAkademikController::class, 'index'])->name('tahun.index')->middleware('admin');
     Route::post('/tahun/ajaxAdd', [TahunAkademikController::class, 'add'])->name('tahun.add')->middleware('admin');
     Route::post('/tahun/ajaxSetActive', [TahunAkademikController::class, 'setActive'])->name('tahun.set')->middleware('admin');

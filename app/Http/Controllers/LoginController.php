@@ -16,9 +16,9 @@ class LoginController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            if (auth()->user()->admin == 1) {
+            if (auth()->user()->hasRole('admin')) {
                 return redirect('/admin/dashboard');
-            } elseif (auth()->user()->piket == 1) {
+            } elseif (auth()->user()->hasRole('guru-piket')) {
                 return redirect('/piket');
             } else {
                 $tahun = TahunService::getActive();
@@ -52,12 +52,15 @@ class LoginController extends Controller
 
         $data = $request->all();
 
-        User::create([
+        $user = User::create([
             'name'  =>  $data['name'],
             'email' =>  $data['email'],
-            'password' => Hash::make($data['password']),
-            'admin' => $data['level']
+            'password' => Hash::make($data['password'])
         ]);
+        
+        if (isset($data['level']) && $data['level'] == 1) {
+            $user->assignRole('admin');
+        }
 
         return redirect('login/registration')->with('success', 'Registration Completed, now you can login');
     }

@@ -30,88 +30,23 @@
 
             {{-- Navigation --}}
             <nav class="sidebar-nav">
+                <div class="nav-section-title">Menu Utama</div>
                 
-                @if (Auth::user()->hasRole('admin') || Auth::user()->admin == 1)
-                <div class="nav-section-title">Admin</div>
-                <a href="{{ route('admin.dashboard') }}" class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                    <i class="fa fa-dashboard"></i>
-                    <span>Dashboard Admin</span>
-                </a>
-                <a href="{{ route('siswa.index') }}" class="sidebar-link {{ request()->routeIs('siswa.*') ? 'active' : '' }}">
-                    <i class="fa fa-users"></i>
-                    <span>Master Siswa</span>
-                </a>
-                <a href="{{ route('kelas.index') }}" class="sidebar-link {{ request()->routeIs('kelas.*') ? 'active' : '' }}">
-                    <i class="fa fa-building"></i>
-                    <span>Master Kelas</span>
-                </a>
-                <a href="{{ route('grouping.index') }}" class="sidebar-link {{ request()->routeIs('grouping.*') ? 'active' : '' }}">
-                    <i class="fa fa-sitemap"></i>
-                    <span>Pengkelasan</span>
-                </a>
-                <a href="{{ route('tahun.index') }}" class="sidebar-link {{ request()->routeIs('tahun.*') ? 'active' : '' }}">
-                    <i class="fa fa-calendar"></i>
-                    <span>Tahun Akademik</span>
-                </a>
-                <a href="{{ route('mst_hukdis.index') }}" class="sidebar-link {{ request()->routeIs('mst_hukdis.*') ? 'active' : '' }}">
-                    <i class="fa fa-gavel"></i>
-                    <span>Master Hukdis</span>
-                </a>
+                @if(isset($userMenus) && $userMenus->count() > 0)
+                    @foreach($userMenus as $menu)
+                        <a href="{{ Route::has($menu->route_name) ? route($menu->route_name) : '#' }}" class="sidebar-link {{ request()->routeIs($menu->route_name) ? 'active' : '' }}">
+                            <i class="fa {{ $menu->icon }}"></i>
+                            <span>{{ $menu->title }}</span>
+                        </a>
+                    @endforeach
+                @else
+                    {{-- Fallback jika belum migrate/seeding --}}
+                    <a href="#" class="sidebar-link">
+                        <i class="fa fa-warning"></i>
+                        <span>Menu Belum Tersedia</span>
+                    </a>
+                @endif
                 
-                <div class="nav-section-title">Lainnya</div>
-                <a href="{{ route('userman.index') }}" class="sidebar-link {{ request()->routeIs('userman.*') ? 'active' : '' }}">
-                    <i class="fa fa-user-circle"></i>
-                    <span>Manajemen User</span>
-                </a>
-                <a href="{{ route('detail-siswa') }}" class="sidebar-link {{ request()->routeIs('detail-siswa') ? 'active' : '' }}">
-                    <i class="fa fa-address-card"></i>
-                    <span>Detail Siswa</span>
-                </a>
-                @endif
-
-                @if (Auth::user()->hasRole('guru-piket') || Auth::user()->piket == 1)
-                <div class="nav-section-title">Piket</div>
-                <a href="{{ route('piket.index') }}" class="sidebar-link {{ request()->routeIs('piket.*') ? 'active' : '' }}">
-                    <i class="fa fa-dashboard"></i>
-                    <span>Dashboard Piket</span>
-                </a>
-                <a href="{{ route('presensi.index') }}" class="sidebar-link {{ request()->routeIs('presensi.*') ? 'active' : '' }}">
-                    <i class="fa fa-check-square-o"></i>
-                    <span>Absensi</span>
-                </a>
-                <a href="{{ route('hukdis.index') }}" class="sidebar-link {{ request()->routeIs('hukdis.*') ? 'active' : '' }}">
-                    <i class="fa fa-warning"></i>
-                    <span>Hukuman Disiplin</span>
-                </a>
-                <a href="{{ route('presensi.rekap') }}" class="sidebar-link {{ request()->routeIs('presensi.rekap') ? 'active' : '' }}">
-                    <i class="fa fa-file-text-o"></i>
-                    <span>Rekap Presensi</span>
-                </a>
-                <a href="{{ route('detail-siswa') }}" class="sidebar-link {{ request()->routeIs('detail-siswa') ? 'active' : '' }}">
-                    <i class="fa fa-address-card"></i>
-                    <span>Detail Siswa</span>
-                </a>
-                @endif
-
-                @if (Auth::user()->hasRole('wali-kelas') || auth()->user()->isWalikelas())
-                <div class="nav-section-title">Wali Kelas</div>
-                <a href="{{ route('walikelas.index') }}" class="sidebar-link {{ request()->routeIs('walikelas.*') ? 'active' : '' }}">
-                    <i class="fa fa-dashboard"></i>
-                    <span>Dashboard Wali Kelas</span>
-                </a>
-                <a href="{{ route('jurnal.index') }}" class="sidebar-link {{ request()->routeIs('jurnal.*') ? 'active' : '' }}">
-                    <i class="fa fa-book"></i>
-                    <span>Jurnal</span>
-                </a>
-                <a href="{{ route('presensi.list') }}" class="sidebar-link {{ request()->routeIs('presensi.list') ? 'active' : '' }}">
-                    <i class="fa fa-list-alt"></i>
-                    <span>Absensi Kelas</span>
-                </a>
-                <a href="{{ route('detail-siswa') }}" class="sidebar-link {{ request()->routeIs('detail-siswa') ? 'active' : '' }}">
-                    <i class="fa fa-address-card"></i>
-                    <span>Detail Siswa</span>
-                </a>
-                @endif
             </nav>
 
             {{-- Footer User --}}

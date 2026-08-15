@@ -189,53 +189,21 @@
         
         <div class="app-menu-container">
             <div class="menu-grid">
-                <!-- Master Siswa -->
-                <a href="{{ route('siswa.index') }}" class="app-icon-link card-siswa">
-                    <div class="app-icon-bg">
-                        <i class="fa fa-users"></i>
+                @if(isset($userMenus) && $userMenus->count() > 0)
+                    @foreach($userMenus as $menu)
+                        <a href="{{ Route::has($menu->route_name) ? route($menu->route_name) : '#' }}" class="app-icon-link {{ $menu->color_class }}">
+                            <div class="app-icon-bg">
+                                <i class="fa {{ $menu->icon }}"></i>
+                            </div>
+                            <div class="app-icon-label">{{ $menu->title }}</div>
+                        </a>
+                    @endforeach
+                @else
+                    <div class="text-center w-100 py-4 text-muted">
+                        <i class="fa fa-folder-open-o fa-2x mb-3"></i>
+                        <p>Menu belum dikonfigurasi.</p>
                     </div>
-                    <div class="app-icon-label">Siswa</div>
-                </a>
-
-                <!-- Master Kelas -->
-                <a href="{{ route('kelas.index') }}" class="app-icon-link card-kelas">
-                    <div class="app-icon-bg">
-                        <i class="fa fa-building"></i>
-                    </div>
-                    <div class="app-icon-label">Kelas</div>
-                </a>
-
-                <!-- Grouping -->
-                <a href="{{ route('grouping.index') }}" class="app-icon-link card-grouping">
-                    <div class="app-icon-bg">
-                        <i class="fa fa-sitemap"></i>
-                    </div>
-                    <div class="app-icon-label">Pengkelasan</div>
-                </a>
-
-                <!-- Tahun Akademik -->
-                <a href="{{ route('tahun.index') }}" class="app-icon-link card-tahun">
-                    <div class="app-icon-bg">
-                        <i class="fa fa-calendar-check-o"></i>
-                    </div>
-                    <div class="app-icon-label">Akademik</div>
-                </a>
-
-                <!-- Master Hukdis -->
-                <a href="{{ route('mst_hukdis.index') }}" class="app-icon-link card-hukdis">
-                    <div class="app-icon-bg">
-                        <i class="fa fa-gavel"></i>
-                    </div>
-                    <div class="app-icon-label">Hukdis</div>
-                </a>
-
-                <!-- Manajemen User -->
-                <a href="{{ route('userman.index') }}" class="app-icon-link card-user">
-                    <div class="app-icon-bg">
-                        <i class="fa fa-user-circle"></i>
-                    </div>
-                    <div class="app-icon-label">Akun</div>
-                </a>
+                @endif
             </div>
         </div>
     </div>

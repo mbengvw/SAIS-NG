@@ -61,9 +61,11 @@
                             @endif
                         </div>
                         <div class="form-group mb-3">
-                            <select id="level" name="level" class="form-control">
-                                <option value="0">User Reguler</option>
-                                <option value="1">User Admin</option>
+                            <select id="role" name="role" class="form-control">
+                                <option value="">-- Pilih Role (Opsional) --</option>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                @endforeach
                             </select>
                         </div>
 

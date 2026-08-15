@@ -17,7 +17,7 @@ class AuthenticatePiket
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() &&  Auth::user()->piket == 1) {
+        if (Auth::user() && Auth::user()->hasRole('guru-piket')) {
             return $next($request);
         }
         return redirect()->route('error.admin_only');
