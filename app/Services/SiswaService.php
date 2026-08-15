@@ -27,16 +27,20 @@ class SiswaService
         return $siswa;
     }
 
-    public static function detail($id_siswa,$tahun)
+    public static function detail($id_siswa, $tahun)
     {
         $res = DB::select('
-        SELECT SG.*,K.nama_kelas FROM
-            (SELECT S.*,G.id_grouping,G.id_siswa,G.id_kelas,G.id_tahun,G.tahun FROM
-                (SELECT * FROM `students` WHERE `id`=?) AS S
-        LEFT JOIN 
-            (SELECT * FROM tst_grouping WHERE tst_grouping.tahun= ?) AS G ON S.id=G.id_siswa) AS SG
-        JOIN mst_kelas AS K ON K.id_kelas = SG.id_kelas
-        ',[$id_siswa,$tahun]);
+            SELECT s.*, k.nama_kelas 
+            FROM students s
+            LEFT JOIN tst_grouping g ON s.id = g.id_siswa AND g.tahun = ?
+            LEFT JOIN mst_kelas k ON g.id_kelas = k.id_kelas
+            WHERE s.id = ?
+        ', [$tahun, $id_siswa]);
+
+        // Berikan fallback string jika siswa belum masuk kelas
+        if (!empty($res) && is_null($res[0]->nama_kelas)) {
+            $res[0]->nama_kelas = "Belum Masuk Kelas";
+        }
 
         return $res;
     }
