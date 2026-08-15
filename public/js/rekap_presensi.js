@@ -24,14 +24,36 @@ $(document).ready(function () {
             },
 
             columns: [
-                { data: "DT_RowIndex", className: "text-center" },
-                { data: "nama" },
-                { data: "nisn", className: "text-center" },
-                { data: "tahun", className: "text-center" },
-                { data: "sakit", className: "text-center" },
-                { data: "izin", className: "text-center" },
-                { data: "alfa", className: "text-center" },
-                { data: "total", className: "text-center" },
+                {
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: 'nama',
+                    render: function (data, type, row) {
+                        return `<span class="font-weight-bold">${row.nama}</span><br><small class="text-muted">NISN: ${row.nisn}</small>`;
+                    }
+                },
+                {
+                    data: 'sakit',
+                    render: function (data, type, row) {
+                        return `<span class="badge badge-warning">${row.sakit}</span>`;
+                    }
+                },
+                {
+                    data: 'izin',
+                    render: function (data, type, row) {
+                        return `<span class="badge badge-info">${row.izin}</span>`;
+                    }
+                },
+                {
+                    data: 'alfa',
+                    render: function (data, type, row) {
+                        return `<span class="badge badge-danger">${row.alfa}</span>`;
+                    }
+                }
             ],
         });
     }

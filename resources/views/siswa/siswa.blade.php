@@ -1,11 +1,11 @@
 @extends('main')
 
 @section('content')
-    <div class="container-fluid">
-        <div class="row justify-content-center" style="margin-top: 50px;">
-            <h2>
-                Data Siswa
-            </h2>
+    <div>
+        <div class="row align-items-center mb-4">
+            <div class="col">
+                <h2 class="h3 mb-0 font-weight-bold text-dark">Data Siswa</h2>
+            </div>
         </div>
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -28,12 +28,13 @@
             </div>
         @endif
 
-        <div align="right">
-            <a href="{{ route('siswa.download_template') }}" style="margin-bottom: 10px;" class="btn btn-info">Download Template CSV</a>
-            <button style="margin-bottom: 10px;" type="button" class="btn btn-warning" data-toggle="modal" data-target="#uploadCsvModal">Upload CSV</button>
-            <button style="margin-bottom: 10px;" type="button" name="create_record" id="create_record"
-                class="btn btn-success">Tambah Siswa</button>
-        </div>
+        <div class="card card-sbi">
+            <div class="card-body">
+                <div class="d-flex justify-content-end mb-3 gap-2">
+                    <a href="{{ route('siswa.download_template') }}" class="btn btn-info btn-sm">Download Template CSV</a>
+                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#uploadCsvModal">Upload CSV</button>
+                    <button type="button" name="create_record" id="create_record" class="btn btn-primary-sbi btn-sm">Tambah Siswa</button>
+                </div>
         <table class="table table-striped table-bordered students_datatable">
             <thead>
                 <tr>
@@ -53,9 +54,9 @@
             </thead>
             <tbody></tbody>
         </table>
+            </div>
+        </div>
     </div>
-    </div>
-
     {{-- MODAL UPLOAD CSV --}}
     <div class="modal fade" id="uploadCsvModal" aria-hidden="true">
         <div class="modal-dialog">

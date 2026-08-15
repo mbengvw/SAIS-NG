@@ -100,8 +100,8 @@
     }
     .btn-presensi {
         flex: 1;
-        padding: 14px 5px;
-        font-size: 1.15rem;
+        padding: 8px 5px;
+        font-size: 1rem;
         font-weight: 800;
         border-radius: 12px !important;
         margin: 0 5px;
@@ -183,7 +183,7 @@
         <!-- Kartu-kartu absen siswa akan dirender di sini via Javascript -->
     </div>
 
-    @if (auth()->user()->piket == 1)
+    @if (auth()->user()->hasRole('guru-piket') || auth()->user()->piket == 1)
         <div class="home-btn-wrapper">
             <a href="{{ route('piket.index') }}" class="btn btn-dark btn-block">⬅ Kembali ke Beranda</a>
         </div>

@@ -126,9 +126,9 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-mobile" id="showbtn">Simpan Pelanggaran</button>
-                    @if (auth()->user()->admin != 1)
+                    {{-- @if (auth()->user()->admin != 1)
                         <a href="{{ route('piket.index') }}" role="button" class="btn btn-dark btn-mobile">⬅ Kembali ke Beranda</a>
-                    @endif
+                    @endif --}}
                 </form>
             </div>
         </div>
