@@ -33,6 +33,10 @@
                 
                 @if (Auth::user()->hasRole('admin') || Auth::user()->admin == 1)
                 <div class="nav-section-title">Admin</div>
+                <a href="{{ route('admin.dashboard') }}" class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Dashboard Admin</span>
+                </a>
                 <a href="{{ route('siswa.index') }}" class="sidebar-link {{ request()->routeIs('siswa.*') ? 'active' : '' }}">
                     <i class="fa fa-users"></i>
                     <span>Master Siswa</span>
