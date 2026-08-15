@@ -11,8 +11,8 @@ class SiswaService
 {
     public function showByNisn($nisn)
     {
-        $siswa=Student::where('nisn','=',$nisn)->first();
-        if(!$siswa){
+        $siswa = Student::where('nisn', '=', $nisn)->first();
+        if (!$siswa) {
             throw new Exception('Siswa tidak ditemukan');
         }
         return $siswa;
@@ -39,7 +39,7 @@ class SiswaService
 
         // Berikan fallback string jika siswa belum masuk kelas
         if (!empty($res) && is_null($res[0]->nama_kelas)) {
-            $res[0]->nama_kelas = "Belum Masuk Kelas";
+            $res[0]->nama_kelas = "Belum dikelaskan";
         }
 
         return $res;
@@ -47,7 +47,6 @@ class SiswaService
 
     public  function listByAngkatan($tahun)
     {
-        return Student::where('tahun_masuk','=',$tahun)->get();
+        return Student::where('tahun_masuk', '=', $tahun)->get();
     }
-
 }
