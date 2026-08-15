@@ -45,6 +45,10 @@
                     <i class="fa fa-building"></i>
                     <span>Master Kelas</span>
                 </a>
+                <a href="{{ route('grouping.index') }}" class="sidebar-link {{ request()->routeIs('grouping.*') ? 'active' : '' }}">
+                    <i class="fa fa-sitemap"></i>
+                    <span>Pengkelasan</span>
+                </a>
                 <a href="{{ route('tahun.index') }}" class="sidebar-link {{ request()->routeIs('tahun.*') ? 'active' : '' }}">
                     <i class="fa fa-calendar"></i>
                     <span>Tahun Akademik</span>

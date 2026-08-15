@@ -144,6 +144,7 @@
     /* Specific Card Colors */
     .card-siswa { --card-rgb: 59, 130, 246; --card-color-1: #60a5fa; --card-color-2: #3b82f6; } /* Blue */
     .card-kelas { --card-rgb: 16, 185, 129; --card-color-1: #34d399; --card-color-2: #10b981; } /* Green */
+    .card-grouping { --card-rgb: 236, 72, 153; --card-color-1: #f472b6; --card-color-2: #ec4899; } /* Pink */
     .card-tahun { --card-rgb: 245, 158, 11; --card-color-1: #fbbf24; --card-color-2: #f59e0b; } /* Yellow */
     .card-hukdis { --card-rgb: 239, 68, 68; --card-color-1: #f87171; --card-color-2: #ef4444; } /* Red */
     .card-user { --card-rgb: 139, 92, 246; --card-color-1: #a78bfa; --card-color-2: #8b5cf6; } /* Purple */
@@ -202,6 +203,14 @@
                         <i class="fa fa-building"></i>
                     </div>
                     <div class="app-icon-label">Kelas</div>
+                </a>
+
+                <!-- Grouping -->
+                <a href="{{ route('grouping.index') }}" class="app-icon-link card-grouping">
+                    <div class="app-icon-bg">
+                        <i class="fa fa-sitemap"></i>
+                    </div>
+                    <div class="app-icon-label">Pengkelasan</div>
                 </a>
 
                 <!-- Tahun Akademik -->
