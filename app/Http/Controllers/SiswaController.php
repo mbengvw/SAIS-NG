@@ -116,11 +116,35 @@ class SiswaController extends Controller
         $file = $request->file('csv_file');
         
         $fileHandle = fopen($file->getPathname(), 'r');
-        $header = fgetcsv($fileHandle); // Read first row as header
+        
+        // Detect separator by reading the first line
+        $firstLine = fgets($fileHandle);
+        $separator = strpos($firstLine, ';') !== false ? ';' : ',';
+        
+        // Reset file pointer to the beginning
+        rewind($fileHandle);
 
-        while (($data = fgetcsv($fileHandle)) !== FALSE) {
+        $header = fgetcsv($fileHandle, 0, $separator); // Read first row as header
+
+        while (($data = fgetcsv($fileHandle, 0, $separator)) !== FALSE) {
+            // Convert array elements to UTF-8 to handle Windows-1252/ANSI from Excel
+            $data = array_map(function($value) {
+                return mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1'); // or Windows-1252
+            }, $data);
+
             // Check if row has enough columns
             if (count($data) >= 12 && !empty($data[1])) {
+                
+                // Format tanggal lahir dari DD/MM/YYYY ke YYYY-MM-DD
+                $tanggal_lahir = $data[5];
+                if (strpos($tanggal_lahir, '/') !== false) {
+                    try {
+                        $tanggal_lahir = \Carbon\Carbon::createFromFormat('d/m/Y', trim($tanggal_lahir))->format('Y-m-d');
+                    } catch (\Exception $e) {
+                        // Kalau format aneh, biarkan aslinya, atau handle misal m/d/Y
+                    }
+                }
+
                 Student::updateOrCreate(
                     ['nisn' => $data[1]], // using nisn as unique identifier
                     [
@@ -128,7 +152,7 @@ class SiswaController extends Controller
                         'nik' => $data[2],
                         'tahun_masuk' => $data[3],
                         'tempat_lahir' => $data[4],
-                        'tanggal_lahir' => $data[5],
+                        'tanggal_lahir' => $tanggal_lahir,
                         'status' => $data[6],
                         'jenis_kelamin' => $data[7],
                         'alamat' => $data[8],
