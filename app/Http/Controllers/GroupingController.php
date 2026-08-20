@@ -26,7 +26,7 @@ class GroupingController extends Controller
         $list_kelas = Kelas::where('tahun', '=', TahunService::getActive()->tahun)->get();
         if ($request->ajax()) {
             $grouped_id = Grouping::all()->where('tahun', '=', TahunService::getActive()->tahun)->pluck('id_siswa');
-            $data = Student::whereNotIn('id', $grouped_id)->where('status', '=', 'A')->get();
+            $data = Student::whereNotIn('id', $grouped_id)->where('status', '=', 'A')->orWhere('status', '=', 'Aktif')->get();
 
             return Datatables::of($data)
                 ->addIndexColumn()
@@ -73,7 +73,7 @@ class GroupingController extends Controller
         $id_tahun = TahunService::getActive()->id;
         $tahun = TahunService::getActive()->tahun;
 
-        $this->groupingService->doGrouping($list_id, $id_kelas, $id_tahun,$tahun);
+        $this->groupingService->doGrouping($list_id, $id_kelas, $id_tahun, $tahun);
     }
 
 
