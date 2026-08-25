@@ -2,77 +2,37 @@
 
 @section('content')
 <style>
-    /* Mobile-friendly table (Card Style) */
-    @media screen and (max-width: 768px) {
-        table.rekap_datatable thead, #tbl_kehadiran thead {
-            display: none !important; /* Hide header on mobile */
-        }
-        table.rekap_datatable, table.rekap_datatable tbody, table.rekap_datatable tr, table.rekap_datatable td,
-        #tbl_kehadiran, #tbl_kehadiran tbody, #tbl_kehadiran tr, #tbl_kehadiran td {
-            display: block;
-            width: 100%;
-        }
-        table.rekap_datatable tr, #tbl_kehadiran tr {
-            margin-bottom: 15px;
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            padding: 10px 15px;
-        }
-        table.rekap_datatable td, #tbl_kehadiran td {
-            text-align: right;
-            padding: 10px 0;
-            padding-left: 40%;
-            position: relative;
-            border-bottom: 1px solid #f0f0f0 !important;
-            border-top: none !important;
-        }
-        table.rekap_datatable td:last-child, #tbl_kehadiran td:last-child {
-            border-bottom: none !important;
-        }
-        table.rekap_datatable td::before, #tbl_kehadiran td::before {
-            position: absolute;
-            left: 0;
-            width: 35%;
-            text-align: left;
-            font-weight: 600;
-            color: #555;
-            white-space: nowrap;
-        }
-        
-        /* Define column labels via CSS for Rekap */
-        table.rekap_datatable td:nth-child(1)::before { content: "No."; }
-        table.rekap_datatable td:nth-child(2)::before { content: "Siswa"; }
-        table.rekap_datatable td:nth-child(3)::before { content: "Sakit"; }
-        table.rekap_datatable td:nth-child(4)::before { content: "Izin"; }
-        table.rekap_datatable td:nth-child(5)::before { content: "Alfa"; }
-
-        /* Define column labels via CSS for Harian */
-        #tbl_kehadiran td:nth-child(1)::before { content: "No."; }
-        #tbl_kehadiran td:nth-child(2)::before { content: "Nama"; }
-        #tbl_kehadiran td:nth-child(3)::before { content: "JK"; }
-        #tbl_kehadiran td:nth-child(4)::before { content: "Tanggal"; }
-        #tbl_kehadiran td:nth-child(5)::before { content: "Kelas"; }
-        #tbl_kehadiran td:nth-child(6)::before { content: "Status"; }
-        #tbl_kehadiran td:nth-child(6) { font-weight: bold; color: #007bff; }
-    }
-    
+    /* Tab Styling */
     .nav-tabs .nav-link {
+        border-radius: 10px;
+        margin-right: 5px;
+        color: #555;
         font-weight: 600;
-        color: #495057;
+        transition: all 0.3s ease;
         border: none;
         border-bottom: 3px solid transparent;
         padding: 12px 20px;
     }
     .nav-tabs .nav-link.active {
+        background-color: transparent;
         color: #007bff;
-        background: transparent;
         border-bottom: 3px solid #007bff;
+    }
+    .nav-tabs .nav-link:hover:not(.active) {
+        background-color: #f8f9fa;
+        color: #007bff;
     }
     .nav-tabs {
         border-bottom: 1px solid #dee2e6;
         margin-bottom: 20px;
+    }
+
+    /* Sembunyikan kolom "No." di device kecil untuk menghemat ruang */
+    @media screen and (max-width: 768px) {
+        .table th:first-child,
+        .table td:first-child {
+            display: none !important;
+        }
     }
 </style>
 
@@ -139,7 +99,7 @@
                     <div class="table-responsive">
                         <table class="table table-striped table-hover mb-0" id="tbl_kehadiran">
                             <thead>
-                                <tr><th>No.</th><th>Nama</th><th>JK</th><th>Tanggal</th><th>Kelas</th><th>Status</th></tr>
+                                <tr><th>No.</th><th>Nama</th><th>Status</th><th>JK</th><th>Kelas</th><th>Tanggal</th></tr>
                             </thead>
                             <tbody></tbody>
                         </table>

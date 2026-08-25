@@ -92,7 +92,7 @@ $(document).ready(function () {
             dataType: "json",
             success: function (response) {
                 alert(response.message);
-                window.location.href = "/piket/status-absensi"; // Redirect ke halaman monitoring
+                window.location.href = app_path.dashboard_path; // Redirect ke dashboard masing-masing role
             },
             error: function () {
                 alert('Terjadi kesalahan sistem.');

@@ -67,9 +67,6 @@ $(document).ready(function () {
                     }
                 },
                 { data: 'nama', name: 'nama' },
-                { data: 'jenis_kelamin', name: 'jenis_kelamin' },
-                { data: 'tanggal', name: 'tanggal' },
-                { data: 'nama_kelas', name: 'nama_kelas' },
                 {
                     data: 'status',
                     render: function (data, type, row) {
@@ -79,7 +76,10 @@ $(document).ready(function () {
                         else if (row.status == "A") return '<span class="badge badge-danger">Alfa</span>';
                         else return '<span class="badge badge-secondary">Belum Diabsen</span>';
                     }
-                }
+                },
+                { data: 'jenis_kelamin', name: 'jenis_kelamin' },
+                { data: 'nama_kelas', name: 'nama_kelas' },
+                { data: 'tanggal', name: 'tanggal' }
             ],
         });
     });

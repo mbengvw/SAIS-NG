@@ -141,6 +141,9 @@
     .card-hukdis { --card-rgb: 239, 68, 68; --card-color-1: #f87171; --card-color-2: #ef4444; } /* Red */
     .card-monitor { --card-rgb: 245, 158, 11; --card-color-1: #fbbf24; --card-color-2: #f59e0b; } /* Yellow */
     
+    .card-status-sudah { --card-rgb: 16, 185, 129; --card-color-1: #34d399; --card-color-2: #10b981; } /* Green */
+    .card-status-belum { --card-rgb: 239, 68, 68; --card-color-1: #fca5a5; --card-color-2: #ef4444; } /* Red */
+    
     @media (max-width: 768px) {
         .hero-title {
             font-size: 1.8rem;
@@ -200,14 +203,43 @@
                     <div class="app-icon-bg"><i class="fa fa-gavel"></i></div>
                     <div class="app-icon-label">Hukuman Disiplin</div>
                 </a>
-
-                <a href="{{ route('piket.status_absensi') }}" class="app-icon-link card-monitor">
-                    <div class="app-icon-bg"><i class="fa fa-dashboard"></i></div>
-                    <div class="app-icon-label">Monitoring Absen</div>
-                </a>
             </div>
         </div>
     </div>
+
+    <!-- Status Absensi -->
+    @if(isset($list_kelas) && count($list_kelas) > 0)
+    <div class="mb-5 mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 px-2">
+            <h5 class="font-weight-bold text-dark m-0" style="font-family: 'Inter', sans-serif;">
+                <i class="fa fa-dashboard text-primary mr-2"></i> Status Absensi Hari Ini
+            </h5>
+            <span class="badge badge-pill badge-primary px-3 py-2" style="font-size: 0.9rem;">
+                <i class="fa fa-calendar mr-1"></i> {{ \Carbon\Carbon::parse($tanggal)->translatedFormat('d F Y') }}
+            </span>
+        </div>
+        
+        <div class="app-menu-container" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+            <div class="menu-grid">
+                @foreach($list_kelas as $kelas)
+                    <a href="{{ route('presensi.index', ['id_kelas' => $kelas['id_kelas']]) }}" 
+                       class="app-icon-link {{ $kelas['sudah_diabsen'] ? 'card-status-sudah' : 'card-status-belum' }}">
+                        <div class="app-icon-bg" style="font-size: 0.8rem; font-weight: bold; width: 64px; height: 64px; text-align: center; line-height: 1.2; padding: 4px; word-break: break-all; overflow-wrap: anywhere; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                            {{ str_replace('10.', 'X.', str_replace('11.', 'XI.', str_replace('12.', 'XII.', $kelas['nama_kelas']))) }}
+                        </div>
+                        <div class="app-icon-label" style="margin-top: 5px;">
+                            @if($kelas['sudah_diabsen'])
+                                <i class="fa fa-check text-success"></i> <span class="text-success font-weight-bold">Selesai</span>
+                            @else
+                                <i class="fa fa-times text-danger"></i> <span class="text-danger font-weight-bold">Belum</span>
+                            @endif
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    @endif
 </div>
 @endsection
 

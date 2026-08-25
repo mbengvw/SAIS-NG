@@ -171,7 +171,9 @@
             <select id="select_kelas" name="select_kelas" class="select-kelas-mobile">
                 <option value="">-- Pilih Kelas --</option>
                 @foreach ($list_kelas as $kelas)
-                    <option value="{{ $kelas['id_kelas'] }}">{{ $kelas['nama_kelas'] }}</option>
+                    <option value="{{ $kelas['id_kelas'] }}" {{ (isset($selected_id_kelas) && $selected_id_kelas == $kelas['id_kelas']) ? 'selected' : '' }}>
+                        {{ $kelas['nama_kelas'] }}
+                    </option>
                 @endforeach
             </select>
         </div>
@@ -205,7 +207,28 @@
     <script>
         const app_path = {
             base_path: "{{ route('presensi.index') }}",
+            @php
+                $dashboard_url = route('piket.index');
+                if (auth()->user()->hasRole('admin')) {
+                    $dashboard_url = route('admin.dashboard');
+                } elseif (auth()->user()->hasRole('wali-kelas') || auth()->user()->hasRole('walikelas')) {
+                    $dashboard_url = route('walas.index');
+                }
+            @endphp
+            dashboard_path: "{{ $dashboard_url }}",
         };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            @if(isset($selected_id_kelas) && $selected_id_kelas)
+                let selectKelas = document.getElementById('select_kelas');
+                if (selectKelas && selectKelas.value) {
+                    setTimeout(() => {
+                        let event = new Event('change');
+                        selectKelas.dispatchEvent(event);
+                    }, 500); // Slight delay to ensure attendance.js is ready
+                }
+            @endif
+        });
     </script>
 
     <script src="{{ asset('js/attendance.js') }}" defer></script>

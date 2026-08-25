@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PresensiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $data_tahun = TahunService::getActive();
         $tahun = $data_tahun->tahun;
@@ -30,7 +30,12 @@ class PresensiController extends Controller
             $list_kelas = collect([]);
         }
 
-        return view('presensi.index', ['list_kelas' => $list_kelas, 'tanggal' => date("d/m/Y"), 'data_th_akademik' => app('tahunAkademik')]);
+        return view('presensi.index', [
+            'list_kelas' => $list_kelas, 
+            'tanggal' => date("d/m/Y"), 
+            'data_th_akademik' => app('tahunAkademik'),
+            'selected_id_kelas' => $request->input('id_kelas')
+        ]);
     }
 
     public  function ajaxkelastanggal(Request $request, PresensiService $presensi)

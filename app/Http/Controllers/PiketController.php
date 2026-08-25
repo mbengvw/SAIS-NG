@@ -12,11 +12,31 @@ use App\Models\LogPresensiKelas;
 
 class PiketController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         if (Auth::check()) {
             $data_tahun = TahunService::getActive();
             $tahun = $data_tahun ? $data_tahun->alias_tahun:"Belum Tersedia";
-            return view('piket.index', ['nama' => Auth::user()->name, 'tahun' => $tahun]);
+            
+            // Logika Status Absensi untuk Dashboard Piket
+            $tanggal = $request->input('tanggal', date('Y-m-d'));
+            $list_kelas = collect([]);
+            
+            if ($data_tahun) {
+                $list_kelas = KelasService::listKelasByTahun($data_tahun->tahun);
+                $logs = LogPresensiKelas::where('tanggal', $tanggal)->pluck('id_kelas')->toArray();
+
+                foreach ($list_kelas as &$kelas) {
+                    $kelas['sudah_diabsen'] = in_array($kelas['id_kelas'], $logs);
+                }
+            }
+
+            return view('piket.index', [
+                'nama' => Auth::user()->name, 
+                'tahun' => $tahun,
+                'list_kelas' => $list_kelas,
+                'tanggal' => $tanggal,
+                'data_tahun' => $data_tahun
+            ]);
         }
 
         return redirect('login')->with('success', 'you are not allowed to access');
