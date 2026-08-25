@@ -20,16 +20,23 @@ class ProfileController extends Controller
 
     public function change_pass(ChpassRequest $request)
     {
-        $id = $request->input('id');
-        $new_pass = $request->input('new_pass');
+        $user = Auth::user();
 
-        $user = User::find($id);
-
-        if ($user) {
-            $new_hash = Hash::make($new_pass);
-            $user->password = $new_hash;
-            $user->save();
-            return response()->json(['message' => 'Password berhasil dirubah !']);
+        // Verifikasi password lama
+        if (!Hash::check($request->input('old_pass'), $user->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Password lama tidak cocok!'
+            ], 400);
         }
+
+        // Simpan password baru
+        $user->password = Hash::make($request->input('new_pass'));
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password berhasil diubah!'
+        ]);
     }
 }

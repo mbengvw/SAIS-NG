@@ -39,18 +39,34 @@
         <div class="modal fade" id="ajaxModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="modal_heading"></h4>
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="modal_heading">Ubah Password</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
-                        <form action="javascript:void(0)" id="pass_form" name="pass_form" class="form-horizontal"
-                            method="POST">
+                        <form action="javascript:void(0)" id="pass_form" name="pass_form" class="form-horizontal">
+                            
                             <div class="form-group">
-                                Password Baru:<br>
-                                <input type="text" class="form-control" id="new_pass" name="new_pass">
+                                <label for="old_pass" class="font-weight-bold">Password Lama:</label>
+                                <input type="password" class="form-control" id="old_pass" name="old_pass" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="new_pass" class="font-weight-bold">Password Baru:</label>
+                                <input type="password" class="form-control" id="new_pass" name="new_pass" required minlength="6">
                             </div>
 
-                            <input type="submit" class="btn btn-primary" id="btn_simpan" name="btn_simpan" value="Simpan">
+                            <div class="form-group">
+                                <label for="new_pass_confirmation" class="font-weight-bold">Konfirmasi Password Baru:</label>
+                                <input type="password" class="form-control" id="new_pass_confirmation" name="new_pass_confirmation" required minlength="6">
+                            </div>
+
+                            <div class="text-right mt-4">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-primary" id="btn_simpan">Simpan Perubahan</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -61,44 +77,68 @@
 @endsection
 
 @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $("#btn_change_password").click(function() {
+            $("#pass_form").trigger("reset");
             $("#ajaxModal").modal("show");
         });
 
-        $("#btn_simpan").click(function() {
-            let id = $("#my_id").val();
+        $("#pass_form").submit(function(e) {
+            e.preventDefault();
+            
+            let old_pass = $("#old_pass").val();
             let new_pass = $("#new_pass").val();
-            if (confirm("Yakin mau menyimpan data?")) {
-                $.ajaxSetup({
-                    headers: {
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                            "content"
-                        ),
-                    },
-                });
+            let new_pass_confirmation = $("#new_pass_confirmation").val();
 
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('profile.change_pass') }}",
-                    data: {
-                        id: id,
-                        new_pass: new_pass,
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        $("#pass_form").trigger("reset");
-                        $("#ajaxModal").modal("hide");
-                        // console.log(data);
-                        alert("Password berhasil dirubah !")
-                    },
-
-                    error: function(data) {
-                        alert("Password harus diisi minimal 4 karakter !")
-                        console.log(data);
-                    },
-                });
+            if (new_pass !== new_pass_confirmation) {
+                Swal.fire('Error', 'Konfirmasi password baru tidak cocok!', 'error');
+                return;
             }
+
+            let btn = $("#btn_simpan");
+            let originalText = btn.html();
+            btn.html('<i class="fa fa-spinner fa-spin"></i> Menyimpan...').prop('disabled', true);
+
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('profile.change_pass') }}",
+                data: {
+                    old_pass: old_pass,
+                    new_pass: new_pass,
+                    new_pass_confirmation: new_pass_confirmation
+                },
+                dataType: "json",
+                success: function(data) {
+                    $("#pass_form").trigger("reset");
+                    $("#ajaxModal").modal("hide");
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: data.message,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                },
+                error: function(xhr) {
+                    let errorMessage = "Terjadi kesalahan.";
+                    if (xhr.status === 400 && xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    } else if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
+                        errorMessage = Object.values(xhr.responseJSON.errors)[0][0];
+                    }
+                    Swal.fire('Gagal', errorMessage, 'error');
+                },
+                complete: function() {
+                    btn.html(originalText).prop('disabled', false);
+                }
+            });
         });
     </script>
 @endsection

@@ -87,10 +87,10 @@ class UsermanController extends Controller
         $user = User::find($id);
 
         if ($user) {
-            $default_pass = Hash::make($user->email);
+            $default_pass = Hash::make('123456');
             $user->password = $default_pass;
             $user->save();
-            return response()->json(['message' => 'Password berhasil direset !']);
+            return response()->json(['message' => 'Password berhasil direset menjadi 123456!']);
         }
     }
 

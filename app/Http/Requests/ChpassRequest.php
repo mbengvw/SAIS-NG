@@ -24,7 +24,8 @@ class ChpassRequest extends FormRequest
     public function rules()
     {
         return [
-            'new_pass' => 'required|min:4',
+            'old_pass' => 'required',
+            'new_pass' => 'required|min:6|confirmed',
         ];
     }
 }

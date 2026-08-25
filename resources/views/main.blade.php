@@ -94,6 +94,10 @@
                             <span class="d-none d-md-inline font-weight-bold text-dark">{{ auth()->user()->name }}</span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right shadow-sm border mt-2" aria-labelledby="userDropdown">
+                            <a class="dropdown-item d-flex align-items-center py-2" href="{{ route('profile.index') }}">
+                                <i class="fa fa-user mr-2 text-primary"></i>Profil Saya
+                            </a>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger d-flex align-items-center py-2" href="{{ route('logout') }}">
                                 <i class="fa fa-sign-out mr-2"></i>Keluar
                             </a>
