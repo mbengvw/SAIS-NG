@@ -12,15 +12,16 @@ use App\Models\LogPresensiKelas;
 
 class PiketController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         if (Auth::check()) {
             $data_tahun = TahunService::getActive();
-            $tahun = $data_tahun ? $data_tahun->alias_tahun:"Belum Tersedia";
-            
+            $tahun = $data_tahun ? $data_tahun->alias_tahun : "Belum Tersedia";
+
             // Logika Status Absensi untuk Dashboard Piket
             $tanggal = $request->input('tanggal', date('Y-m-d'));
             $list_kelas = collect([]);
-            
+
             if ($data_tahun) {
                 $list_kelas = KelasService::listKelasByTahun($data_tahun->tahun);
                 $logs = LogPresensiKelas::where('tanggal', $tanggal)->pluck('id_kelas')->toArray();
@@ -31,7 +32,7 @@ class PiketController extends Controller
             }
 
             return view('piket.index', [
-                'nama' => Auth::user()->name, 
+                'nama' => Auth::user()->name,
                 'tahun' => $tahun,
                 'list_kelas' => $list_kelas,
                 'tanggal' => $tanggal,
@@ -42,10 +43,11 @@ class PiketController extends Controller
         return redirect('login')->with('success', 'you are not allowed to access');
     }
 
-    public function listStudents(Request $request){
+    public function listStudents(Request $request)
+    {
         if ($request->ajax()) {
             $user = Auth::user();
-            if ($user->hasAnyRole(['admin', 'guru-piket'])) {
+            if ($user->hasAnyRole(['admin', 'guru-piket', 'guru-mapel'])) {
                 $data = Student::whereIn('status', ['A', 'Aktif'])->get();
             } else {
                 $data_tahun = TahunService::getActive();
@@ -75,14 +77,15 @@ class PiketController extends Controller
         return view('piket.siswa');
     }
 
-    public function statusAbsensi(Request $request){
+    public function statusAbsensi(Request $request)
+    {
         $tanggal = $request->input('tanggal', date('Y-m-d'));
         $data_tahun = TahunService::getActive();
         $tahun = $data_tahun->tahun;
 
         // Ambil semua kelas
         $list_kelas = KelasService::listKelasByTahun($tahun);
-        
+
         // Ambil data log presensi untuk tanggal ini
         $logs = LogPresensiKelas::where('tanggal', $tanggal)->pluck('id_kelas')->toArray();
 
