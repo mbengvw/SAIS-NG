@@ -34,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/piket', [PiketController::class, 'index'])->name('piket.index')->middleware('piket');
     Route::get('/piket/list-students', [PiketController::class, 'listStudents'])->name('piket.list-students')->middleware('piket');
     Route::get('piket/hukdis', [HukdisController::class, 'index'])->name('piket.hukdis')->middleware('piket');
+    Route::get('/piket/status-absensi', [PiketController::class, 'statusAbsensi'])->name('piket.status_absensi')->middleware('piket');
     
     Route::get('/piket/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -107,6 +108,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('presensi', [PresensiController::class, 'index'])->name('presensi.index')->middleware('tahun');
         Route::get('presensi/ajaxkelastanggal', [PresensiController::class, 'ajaxkelastanggal'])->name('presensi.ajaxkelastanggal');
         Route::post('presensi', [PresensiController::class, 'store'])->name('presensi.store');
+        Route::post('presensi/selesai', [PresensiController::class, 'selesaiAbsen'])->name('presensi.selesai');
         Route::DELETE('presensi', [PresensiController::class, 'ajaxdestroy'])->name('presensi.ajaxdestroy');
         Route::get('presensi/show_all', [PresensiController::class, 'list_all'])->name('presensi.show_all')->middleware('tahun');
         Route::get('presensi/ajax_list_by', [PresensiController::class, 'ajax_list_by'])->name('presensi.all');

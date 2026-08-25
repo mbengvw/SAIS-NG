@@ -54,9 +54,52 @@ $(document).ready(function () {
                     </div>`;
                 });
                 $("#attendance_container").append(content);
+                
+                if (response.students.length > 0) {
+                    $("#selesai_absen_wrapper").show();
+                    
+                    if (response.sudah_diabsen) {
+                        $("#status_absen_badge").html('<span class="badge" style="background-color: #d4edda; color: #155724; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">✅ Kelas ini sudah diabsen hari ini</span>').show();
+                    } else {
+                        $("#status_absen_badge").html('<span class="badge" style="background-color: #f8d7da; color: #721c24; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">❌ Belum dikonfirmasi selesai</span>').show();
+                    }
+                } else {
+                    $("#selesai_absen_wrapper").hide();
+                    $("#status_absen_badge").hide();
+                }
             },
         });
     }
+
+    $("#btn_selesai_absen").click(function () {
+        let id_kelas = $("#select_kelas").val();
+        if (!id_kelas) return;
+
+        let btn = $(this);
+        let originalText = btn.html();
+        btn.prop('disabled', true).text('Menyimpan...');
+
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+        });
+
+        $.ajax({
+            type: "POST",
+            url: app_path.base_path + "/selesai",
+            data: { id_kelas: id_kelas },
+            dataType: "json",
+            success: function (response) {
+                alert(response.message);
+                window.location.href = "/piket/status-absensi"; // Redirect ke halaman monitoring
+            },
+            error: function () {
+                alert('Terjadi kesalahan sistem.');
+                btn.prop('disabled', false).html(originalText);
+            }
+        });
+    });
 
     $(document).on("click", ".deletebtn", function (e) {
         e.preventDefault();

@@ -2,84 +2,211 @@
 
 @section('content')
 <style>
-    .mobile-wrapper {
-        max-width: 480px;
-        margin: 0 auto;
-        background: #f8f9fa;
-        min-height: calc(100vh - 120px);
-        box-shadow: 0 0 20px rgba(0,0,0,0.05);
-        padding-bottom: 30px;
+    /* Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    .dashboard-wrapper {
+        font-family: 'Inter', sans-serif;
+        padding: 20px;
     }
-    .mobile-header {
-        background: linear-gradient(135deg, #007bff, #0056b3);
+
+    /* Hero Banner */
+    .hero-banner {
+        background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+        border-radius: 20px;
+        padding: 40px;
         color: white;
-        padding: 40px 20px 30px;
-        border-bottom-left-radius: 25px;
-        border-bottom-right-radius: 25px;
-        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        margin-bottom: 40px;
     }
-    .menu-grid {
-        padding: 0 20px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+
+    .hero-banner::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 300px;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        backdrop-filter: blur(10px);
+    }
+    
+    .hero-banner::before {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        right: 10%;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 12px;
+        letter-spacing: -0.5px;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+        opacity: 0.95;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
         gap: 15px;
+        flex-wrap: wrap;
     }
-    .menu-card {
-        background: white;
-        border-radius: 15px;
-        padding: 25px 15px;
-        text-align: center;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        transition: transform 0.2s, box-shadow 0.2s;
-        text-decoration: none !important;
-        display: block;
-        color: #333;
-        border: 1px solid rgba(0,0,0,0.02);
-    }
-    .menu-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-        color: #007bff;
-    }
-    .menu-icon {
-        width: 65px;
-        height: 65px;
-        margin-bottom: 15px;
-        object-fit: contain;
-    }
-    .menu-title {
-        font-size: 14px;
+
+    .badge-tahun {
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(5px);
+        padding: 6px 18px;
+        border-radius: 30px;
         font-weight: 600;
-        line-height: 1.3;
+        font-size: 0.9rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    /* App Launcher Style Menu */
+    .app-menu-container {
+        background: white;
+        border-radius: 20px;
+        padding: 30px 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    }
+
+    .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px 10px;
+        justify-items: center;
+    }
+    
+    @media (min-width: 576px) {
+        .menu-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    .app-icon-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none !important;
+        color: #374151;
+        transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        width: 100%;
+    }
+
+    .app-icon-link:hover {
+        transform: scale(1.08);
+    }
+
+    .app-icon-bg {
+        width: 64px;
+        height: 64px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        color: white;
+        margin-bottom: 8px;
+        box-shadow: 0 6px 12px rgba(var(--card-rgb), 0.25);
+        background: linear-gradient(135deg, var(--card-color-1), var(--card-color-2));
+    }
+
+    .app-icon-label {
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-align: center;
+        line-height: 1.2;
+        color: #4b5563;
+    }
+    
+    .app-icon-link:hover .app-icon-label {
+        color: rgb(var(--card-rgb));
+        font-weight: 600;
+    }
+
+    /* Specific Card Colors */
+    .card-absen { --card-rgb: 16, 185, 129; --card-color-1: #34d399; --card-color-2: #10b981; } /* Green */
+    .card-rekap { --card-rgb: 236, 72, 153; --card-color-1: #f472b6; --card-color-2: #ec4899; } /* Pink */
+    .card-siswa { --card-rgb: 59, 130, 246; --card-color-1: #60a5fa; --card-color-2: #3b82f6; } /* Blue */
+    .card-hukdis { --card-rgb: 239, 68, 68; --card-color-1: #f87171; --card-color-2: #ef4444; } /* Red */
+    .card-monitor { --card-rgb: 245, 158, 11; --card-color-1: #fbbf24; --card-color-2: #f59e0b; } /* Yellow */
+    
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 1.8rem;
+        }
+        .hero-banner {
+            padding: 30px 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+        .app-icon-bg {
+            width: 56px;
+            height: 56px;
+            font-size: 24px;
+            border-radius: 16px;
+        }
+        .app-icon-label {
+            font-size: 0.75rem;
+        }
     }
 </style>
 
-<div class="mobile-wrapper">
-    <div class="mobile-header text-center">
-        <h4 class="mb-2 font-weight-bold">Hai {{ $nama }} 👋</h4>
-        <p class="mb-0 text-white-50" style="font-size: 14px;">Tahun Akademik Aktif: {{ $tahun }}</p>
+<div class="container-fluid dashboard-wrapper">
+    
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+        <div style="position: relative; z-index: 10;">
+            <h1 class="hero-title">Welcome back, {{ $nama }}! ✨</h1>
+            <div class="hero-subtitle">
+                <span>Dashboard Guru Piket</span>
+                <span class="badge-tahun"><i class="fa fa-calendar mr-2"></i>Tahun Akademik: {{ $tahun ?? 'Belum Diatur' }}</span>
+            </div>
+        </div>
     </div>
 
-    <div class="menu-grid">
-        <a href="{{ route('presensi.index') }}" class="menu-card">
-            <img src="{{ asset('images/legalisir.png') }}" class="menu-icon">
-            <div class="menu-title">Absensi Harian Siswa</div>
-        </a>
+    <!-- Quick Actions -->
+    <div class="mb-5 mt-2">
+        <h5 class="font-weight-bold text-dark mb-4 px-2" style="font-family: 'Inter', sans-serif;">Menu Piket</h5>
         
-        <a href="{{ route('presensi.rekap') }}" class="menu-card">
-            <img src="{{ asset('images/absen.png') }}" class="menu-icon">
-            <div class="menu-title">Data Kehadiran</div>
-        </a>
-        
-        <a href="{{ route('piket.list-students') }}" class="menu-card">
-            <img src="{{ asset('images/peoples.png') }}" class="menu-icon">
-            <div class="menu-title">Daftar Siswa</div>
-        </a>
-        
-        <a href="{{ route('piket.hukdis') }}" class="menu-card">
-            <img src="{{ asset('images/hukdis.png') }}" class="menu-icon">
-            <div class="menu-title">Hukuman Disiplin</div>
-        </a>
+        <div class="app-menu-container">
+            <div class="menu-grid">
+                <a href="{{ route('presensi.index') }}" class="app-icon-link card-absen">
+                    <div class="app-icon-bg"><i class="fa fa-check-square-o"></i></div>
+                    <div class="app-icon-label">Absensi Harian</div>
+                </a>
+                
+                <a href="{{ route('presensi.rekap') }}" class="app-icon-link card-rekap">
+                    <div class="app-icon-bg"><i class="fa fa-book"></i></div>
+                    <div class="app-icon-label">Data Kehadiran</div>
+                </a>
+                
+                <a href="{{ route('piket.list-students') }}" class="app-icon-link card-siswa">
+                    <div class="app-icon-bg"><i class="fa fa-users"></i></div>
+                    <div class="app-icon-label">Daftar Siswa</div>
+                </a>
+                
+                <a href="{{ route('piket.hukdis') }}" class="app-icon-link card-hukdis">
+                    <div class="app-icon-bg"><i class="fa fa-gavel"></i></div>
+                    <div class="app-icon-label">Hukuman Disiplin</div>
+                </a>
+
+                <a href="{{ route('piket.status_absensi') }}" class="app-icon-link card-monitor">
+                    <div class="app-icon-bg"><i class="fa fa-dashboard"></i></div>
+                    <div class="app-icon-label">Monitoring Absen</div>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

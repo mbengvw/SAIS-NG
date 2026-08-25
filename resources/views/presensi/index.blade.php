@@ -175,12 +175,22 @@
                 @endforeach
             </select>
         </div>
+
+        <div id="status_absen_badge" class="mt-2 text-center" style="display: none;">
+            <!-- Badge akan di-render via Javascript -->
+        </div>
         
         <input type="text" id="search_student" class="search-input-mobile" placeholder="🔍 Cari nama siswa (ketik di sini...)">
     </div>
 
     <div class="cards-wrapper" id="attendance_container">
         <!-- Kartu-kartu absen siswa akan dirender di sini via Javascript -->
+    </div>
+
+    <div class="home-btn-wrapper" id="selesai_absen_wrapper" style="display: none;">
+        <button type="button" class="btn btn-success btn-block" id="btn_selesai_absen" style="border-radius: 25px; padding: 14px 30px; font-weight: bold; font-size: 1.1rem; width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            ✅ Konfirmasi Selesai Absen Kelas Ini
+        </button>
     </div>
 
     @if (auth()->user()->hasRole('guru-piket') || auth()->user()->piket == 1)

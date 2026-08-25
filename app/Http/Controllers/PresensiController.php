@@ -10,6 +10,8 @@ use App\Services\PresensiService;
 use App\Services\TahunService;
 use App\Services\WalikelasService;
 use Illuminate\Support\Carbon;
+use App\Models\LogPresensiKelas;
+use Illuminate\Support\Facades\Auth;
 
 class PresensiController extends Controller
 {
@@ -27,11 +29,17 @@ class PresensiController extends Controller
         if ($request->ajax()) {
             $id_kelas = $request->input('id_kelas');
             $tgl = date("Y/m/d");
+            $tgl_db = date("Y-m-d");
 
             $hasil = $presensi->get_siswa_tanggal_kelas($id_kelas, $tgl);
 
+            $sudah_diabsen = LogPresensiKelas::where('id_kelas', $id_kelas)
+                ->where('tanggal', $tgl_db)
+                ->exists();
+
             return response()->json([
                 'students' => $hasil,
+                'sudah_diabsen' => $sudah_diabsen
             ]);
         }
     }
@@ -94,5 +102,20 @@ class PresensiController extends Controller
                 'students' => $result,
             ]);
         }
+    }
+
+    public function selesaiAbsen(Request $request)
+    {
+        $id_kelas = $request->input('id_kelas');
+        $tanggal = date("Y-m-d"); // Current date
+        
+        LogPresensiKelas::firstOrCreate([
+            'id_kelas' => $id_kelas,
+            'tanggal' => $tanggal
+        ], [
+            'id_user' => Auth::id()
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Status absen selesai disimpan.']);
     }
 }

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\TahunService;
 use Yajra\DataTables\Facades\DataTables;
+use App\Services\KelasService;
+use App\Models\LogPresensiKelas;
 
 class PiketController extends Controller
 {
@@ -33,5 +35,27 @@ class PiketController extends Controller
         }
 
         return view('piket.siswa');
+    }
+
+    public function statusAbsensi(Request $request){
+        $tanggal = $request->input('tanggal', date('Y-m-d'));
+        $data_tahun = TahunService::getActive();
+        $tahun = $data_tahun->tahun;
+
+        // Ambil semua kelas
+        $list_kelas = KelasService::listKelasByTahun($tahun);
+        
+        // Ambil data log presensi untuk tanggal ini
+        $logs = LogPresensiKelas::where('tanggal', $tanggal)->pluck('id_kelas')->toArray();
+
+        foreach ($list_kelas as &$kelas) {
+            $kelas['sudah_diabsen'] = in_array($kelas['id_kelas'], $logs);
+        }
+
+        return view('piket.status_absensi', [
+            'list_kelas' => $list_kelas,
+            'tanggal' => $tanggal,
+            'data_tahun' => $data_tahun
+        ]);
     }
 }
