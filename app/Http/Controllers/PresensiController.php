@@ -17,9 +17,18 @@ class PresensiController extends Controller
 {
     public function index()
     {
-        $tahun = TahunService::getActive()->tahun;
+        $data_tahun = TahunService::getActive();
+        $tahun = $data_tahun->tahun;
+        $user = auth()->user();
 
-        $list_kelas = KelasService::listKelasByTahun($tahun);
+        if ($user->hasAnyRole(['admin', 'guru-piket'])) {
+            $list_kelas = KelasService::listKelasByTahun($tahun);
+        } else if (WalikelasService::isWalikelas($user->id, $data_tahun->id)) {
+            $id_kelas = WalikelasService::getIdKelas($user->id, $data_tahun->id);
+            $list_kelas = KelasService::listKelasById($id_kelas);
+        } else {
+            $list_kelas = collect([]);
+        }
 
         return view('presensi.index', ['list_kelas' => $list_kelas, 'tanggal' => date("d/m/Y"), 'data_th_akademik' => app('tahunAkademik')]);
     }
@@ -77,12 +86,15 @@ class PresensiController extends Controller
     {
         $data_tahun = TahunService::getActive();
         $tahun = $data_tahun->tahun;
-        if (WalikelasService::isWalikelas(auth()->user()->id, $data_tahun->id)) {
-            $id_kelas = WalikelasService::getIdKelas(auth()->user()->id, $data_tahun->id);
-            $list_kelas = KelasService::listKelasById($id_kelas);
-            // dd($list_kelas);
-        } else {
+        $user = auth()->user();
+
+        if ($user->hasAnyRole(['admin', 'guru-piket'])) {
             $list_kelas = KelasService::listKelasByTahun($tahun);
+        } else if (WalikelasService::isWalikelas($user->id, $data_tahun->id)) {
+            $id_kelas = WalikelasService::getIdKelas($user->id, $data_tahun->id);
+            $list_kelas = KelasService::listKelasById($id_kelas);
+        } else {
+            $list_kelas = collect([]);
         }
         return view('presensi.list_presensi', ['list_kelas' => $list_kelas, 'data_tahun' => $data_tahun]);
     }
@@ -95,6 +107,20 @@ class PresensiController extends Controller
             $semester = $request->input('semester');
             $tgl = $request->input('tanggal');
             $nama = $request->input('nama');
+
+            $data_tahun = TahunService::getActive();
+            $user = auth()->user();
+
+            if (!$user->hasAnyRole(['admin', 'guru-piket'])) {
+                if (WalikelasService::isWalikelas($user->id, $data_tahun->id)) {
+                    $walas_kelas_id = WalikelasService::getIdKelas($user->id, $data_tahun->id);
+                    if ($id_kelas != $walas_kelas_id) {
+                        $id_kelas = $walas_kelas_id;
+                    }
+                } else {
+                    return response()->json(['students' => []]);
+                }
+            }
 
             $result = $presensi->get_presensi_by($id_kelas, $tahun, $semester, $tgl, $nama);
 

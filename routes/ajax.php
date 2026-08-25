@@ -15,6 +15,8 @@ Route::middleware('auth')->group(function () {
 
         Route::GET('/rekap_presensi', [LaporanPresensiController::class, 'getRekapPresensi']);
         Route::GET('/rekap_presensi_bulanan', [LaporanPresensiController::class, 'listRekapPresensiBulanan']);
+        Route::GET('/rekap_rentang_waktu', [LaporanPresensiController::class, 'listRekapRentangWaktu']);
+        Route::GET('/rekap_tahunan', [LaporanPresensiController::class, 'listRekapTahunan']);
 
         Route::GET('/list_siswa', [PiketController::class, 'listStudents']);
 

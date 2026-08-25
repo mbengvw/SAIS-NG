@@ -78,8 +78,12 @@ class PresensiService
             $query->where('tahun.semester', '=', $semester);
         }
         if ($tgl) {
-            $newDate = Carbon::createFromFormat('m/d/Y', $tgl)->format('Y-m-d');
-            $query->where('kehadiran.tanggal', '=', $newDate);
+            try {
+                $newDate = Carbon::parse($tgl)->format('Y-m-d');
+                $query->where('kehadiran.tanggal', '=', $newDate);
+            } catch (\Exception $e) {
+                // Ignore invalid date format
+            }
         }
         if ($nama != "") {
             $query->where('siswa.nama', 'LIKE', '%' . $nama . '%');
