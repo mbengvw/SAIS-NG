@@ -35,9 +35,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/piket/list-students', [PiketController::class, 'listStudents'])->name('piket.list-students')->middleware('piket');
     Route::get('piket/hukdis', [HukdisController::class, 'index'])->name('piket.hukdis')->middleware('piket');
     Route::get('/piket/status-absensi', [PiketController::class, 'statusAbsensi'])->name('piket.status_absensi')->middleware('piket');
+    // Guru Mapel Routes
+    Route::get('gurumapel', [App\Http\Controllers\GuruMapelController::class, 'index'])->name('gurumapel.index');
+    Route::get('gurumapel/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
     
-    Route::get('/piket/logout', [LoginController::class, 'logout'])->name('logout');
-
+    Route::get('/piket/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
+    
     Route::get('/walikelas', [WalikelasController::class, 'index'])->name('walas.index');
     Route::get('/walikelas/logout', [LoginController::class, 'logout'])->name('logout');
 

@@ -20,6 +20,8 @@ class LoginController extends Controller
                 return redirect('/admin/dashboard');
             } elseif (auth()->user()->hasRole('guru-piket')) {
                 return redirect('/piket');
+            } elseif (auth()->user()->hasRole('guru-mapel')) {
+                return redirect('/gurumapel');
             } else {
                 $tahun = TahunService::getActive();
                 if (!$tahun) {
