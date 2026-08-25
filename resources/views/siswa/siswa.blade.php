@@ -31,6 +31,7 @@
         <div class="card card-sbi">
             <div class="card-body">
                 <div class="d-flex justify-content-end mb-3 gap-2">
+                    <button type="button" id="btn-generate-accounts" class="btn btn-success btn-sm"><i class="fa fa-users"></i> Generate Akun Siswa</button>
                     <a href="{{ route('siswa.download_template') }}" class="btn btn-info btn-sm">Download Template CSV</a>
                     <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#uploadCsvModal">Upload CSV</button>
                     <button type="button" name="create_record" id="create_record" class="btn btn-primary-sbi btn-sm">Tambah Siswa</button>
@@ -166,7 +167,8 @@
             <script>
                 const path = {
                     base_path: "{{ route('siswa.index') }}",
-                    removeall_path: "{{ route('siswa.removeall') }}"
+                    removeall_path: "{{ route('siswa.removeall') }}",
+                    generate_accounts_path: "{{ route('siswa.generate-accounts') }}"
                 };
             </script>
             <script src="{{ asset('js/studentsman.js') }}" defer></script>

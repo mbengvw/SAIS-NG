@@ -30,4 +30,9 @@ class Student extends Model
         // return $this->hasMany(Grouping::class, 'foreign_key', 'local_key');
         return $this->hasMany(Grouping::class, 'id_siswa', 'id');
     }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id_siswa', 'id');
+    }
 }

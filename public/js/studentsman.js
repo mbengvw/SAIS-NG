@@ -142,4 +142,32 @@ $(document).ready(function () {
             },
         });
     });
+
+    // Generate Student Accounts
+    $('#btn-generate-accounts').on('click', function() {
+        let btn = $(this);
+        let originalText = btn.html();
+        
+        if(confirm("Apakah Anda yakin ingin men-generate akun untuk seluruh siswa aktif? (Siswa yang sudah memiliki akun tidak akan digandakan)")) {
+            btn.html('<i class="fa fa-spinner fa-spin"></i> Memproses...').prop('disabled', true);
+            
+            $.ajax({
+                url: path.generate_accounts_path,
+                type: 'POST',
+                success: function(response) {
+                    if(response.success) {
+                        alert(response.message);
+                    } else {
+                        alert("Terjadi kesalahan: " + response.message);
+                    }
+                },
+                error: function(xhr) {
+                    alert("Terjadi kesalahan pada server saat men-generate akun.");
+                },
+                complete: function() {
+                    btn.html(originalText).prop('disabled', false);
+                }
+            });
+        }
+    });
 });

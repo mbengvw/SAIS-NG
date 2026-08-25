@@ -39,6 +39,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('gurumapel', [App\Http\Controllers\GuruMapelController::class, 'index'])->name('gurumapel.index');
     Route::get('gurumapel/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
     
+    // Siswa Routes
+    Route::get('siswa/dashboard', [App\Http\Controllers\StudentDashboardController::class, 'index'])->name('siswa.dashboard');
+    Route::post('siswa/profile/update', [App\Http\Controllers\StudentDashboardController::class, 'updateProfile'])->name('siswa.profile.update');
+    Route::get('siswa/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
+    
     Route::get('/piket/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
     
     Route::get('/walikelas', [WalikelasController::class, 'index'])->name('walas.index');
@@ -56,6 +61,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('userman/destroy/{id}/', [UsermanController::class, 'destroy'])->name('userman.remove')->middleware('admin');
     Route::post('userman/store', [UsermanController::class, 'store'])->name('userman.store')->middleware('admin');
     Route::post('userman/upload-csv', [UsermanController::class, 'uploadCSV'])->name('userman.upload_csv')->middleware('admin');
+    // Siswa Routes (Admin Side)
+    Route::post('siswa/generate-accounts', [App\Http\Controllers\SiswaController::class, 'generateAccounts'])->name('siswa.generate-accounts')->middleware('admin');
     Route::get('userman/download-template', [UsermanController::class, 'downloadTemplate'])->name('userman.download_template')->middleware('admin');
     Route::get('userman/roles/{id}', [UsermanController::class, 'getUserRoles'])->name('userman.roles')->middleware('admin');
     Route::post('userman/assign-roles/{id}', [UsermanController::class, 'assignRoles'])->name('userman.assign_roles')->middleware('admin');

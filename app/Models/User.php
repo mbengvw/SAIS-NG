@@ -26,6 +26,7 @@ class User extends Authenticatable
         'email',
         'password',
         'admin',
+        'id_siswa',
     ];
 
     /**
@@ -51,5 +52,10 @@ class User extends Authenticatable
     {
         $tahun = TahunService::getActive();
         return WalikelasService::isWalikelas($this->id, $tahun->id);
+    }
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'id_siswa');
     }
 }

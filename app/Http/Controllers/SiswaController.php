@@ -47,6 +47,27 @@ class SiswaController extends Controller
         }
     }
 
+    public function generateAccounts(\App\Services\StudentAccountService $accountService)
+    {
+        try {
+            $result = $accountService->generateAccounts();
+            $msg = $result['new'] . ' akun baru dibuat. ';
+            if ($result['synced'] > 0) {
+                $msg .= $result['synced'] . ' akun lama disinkronkan emailnya (karena perubahan NISN).';
+            }
+            
+            return response()->json([
+                'success' => true,
+                'message' => $msg
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ]);
+        }
+    }
+
     function store(NewSiswaRequest $request)
     {
 
