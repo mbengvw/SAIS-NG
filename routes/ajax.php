@@ -18,6 +18,11 @@ Route::middleware('auth')->group(function () {
         Route::GET('/rekap_rentang_waktu', [LaporanPresensiController::class, 'listRekapRentangWaktu']);
         Route::GET('/rekap_tahunan', [LaporanPresensiController::class, 'listRekapTahunan']);
 
+        Route::GET('/rekap_pelanggaran_harian', [\App\Http\Controllers\LaporanPelanggaranController::class, 'getRekapHarian']);
+        Route::GET('/rekap_pelanggaran_rentang', [\App\Http\Controllers\LaporanPelanggaranController::class, 'getRekapRentangWaktu']);
+        Route::GET('/rekap_pelanggaran_semester', [\App\Http\Controllers\LaporanPelanggaranController::class, 'getRekapSemester']);
+        Route::GET('/rekap_pelanggaran_tahunan', [\App\Http\Controllers\LaporanPelanggaranController::class, 'getRekapTahunan']);
+
         Route::GET('/list_siswa', [PiketController::class, 'listStudents']);
 
         Route::GET('siswa/detail/{id_siswa}', [SiswaController::class, 'detail'])->name('siswa.detail');

@@ -24,7 +24,25 @@ class PiketController extends Controller
 
     public function listStudents(Request $request){
         if ($request->ajax()) {
-            $data = Student::where('status','=','A')->get();
+            $user = Auth::user();
+            if ($user->hasAnyRole(['admin', 'guru-piket'])) {
+                $data = Student::whereIn('status', ['A', 'Aktif'])->get();
+            } else {
+                $data_tahun = TahunService::getActive();
+                if (\App\Services\WalikelasService::isWalikelas($user->id, $data_tahun->id)) {
+                    $id_kelas = \App\Services\WalikelasService::getIdKelas($user->id, $data_tahun->id);
+                    $data = \Illuminate\Support\Facades\DB::table('tst_grouping')
+                        ->join('students', 'tst_grouping.id_siswa', '=', 'students.id')
+                        ->where('tst_grouping.id_tahun', $data_tahun->id)
+                        ->where('tst_grouping.id_kelas', $id_kelas)
+                        ->whereIn('students.status', ['A', 'Aktif'])
+                        ->select('students.*')
+                        ->get();
+                } else {
+                    $data = collect([]);
+                }
+            }
+
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {

@@ -114,6 +114,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('presensi/ajax_list_by', [PresensiController::class, 'ajax_list_by'])->name('presensi.all');
         Route::get('presensi/rekap', [LaporanPresensiController::class, 'index'])->name('presensi.rekap');
         Route::get('presensi/rekap_bulanan', [RekapPresensiController::class, 'index'])->name('presensi.bulanan');
+        
+        Route::get('pelanggaran/rekap', [\App\Http\Controllers\LaporanPelanggaranController::class, 'index'])->name('pelanggaran.rekap');
     
         Route::get('hukdis', [HukdisController::class, 'index'])->name('hukdis.index');
         Route::get('hukdis/all', [HukdisController::class, 'list_all'])->name('hukdis.all');

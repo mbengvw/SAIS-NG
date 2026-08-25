@@ -85,7 +85,24 @@ class LoginController extends Controller
         if (Auth::check()) {
             $data_tahun = TahunService::getActive();
             $tahun = $data_tahun ? $data_tahun->alias_tahun : null;
-            return view('home', ['nama' => Auth::user()->name, 'tahun' => $tahun]);
+            
+            $dashboardData = [];
+            if ($data_tahun) {
+                $dashboardService = new \App\Services\DashboardService();
+                $dashboardData = [
+                    'stats' => $dashboardService->getWidgetStats($data_tahun->id),
+                    'top_kelas' => $dashboardService->getTopKelasPelanggaran($data_tahun->id),
+                    'top_siswa' => $dashboardService->getTopSiswaPelanggaran($data_tahun->id),
+                    'trend_pelanggaran' => $dashboardService->getTrendPelanggaranBulanan($data_tahun->id),
+                    'trend_presensi' => $dashboardService->getTrendPresensiBulanan($data_tahun->id),
+                ];
+            }
+
+            return view('home', [
+                'nama' => Auth::user()->name, 
+                'tahun' => $tahun,
+                'dashboard' => $dashboardData
+            ]);
         }
 
         return redirect('login')->with('success', 'you are not allowed to access');
