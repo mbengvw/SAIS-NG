@@ -117,7 +117,7 @@ class MenuSeeder extends Seeder
             // Walikelas Menus
             [
                 'title' => 'Dashboard Wali Kelas',
-                'route_name' => 'walikelas.index',
+                'route_name' => 'walas.index',
                 'icon' => 'fa-dashboard',
                 'color_class' => 'card-kelas',
                 'order' => 12,
@@ -148,6 +148,23 @@ class MenuSeeder extends Seeder
                 'order' => 15,
                 'roles' => [$admin, $piket, $walikelas]
             ],
+            [
+                'title' => 'Penetapan Wali Kelas',
+                'route_name' => 'setwalas.index',
+                'icon' => 'fa-id-badge',
+                'color_class' => 'card-user',
+                'order' => 16,
+                'roles' => [$admin]
+            ],
+            [
+                'title' => 'Rekap Pelanggaran',
+                'route_name' => 'pelanggaran.rekap',
+                'icon' => 'fa-pie-chart',
+                'color_class' => 'card-hukdis',
+                'order' => 11,
+                'roles' => [$admin, $piket, $walikelas]
+            ],
+            // End of Menus
         ];
 
         foreach ($menus as $m) {
