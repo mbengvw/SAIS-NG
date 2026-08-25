@@ -86,4 +86,80 @@ $(function () {
             },
         });
     });
+
+    $("#upload_csv_btn").click(function () {
+        $("#csv_form").trigger("reset");
+        $("#uploadCsvModal").modal("show");
+    });
+
+    $("#csv_form").on("submit", function (event) {
+        event.preventDefault();
+        
+        let formData = new FormData(this);
+        let btn = $("#btn_upload_csv");
+        btn.prop('disabled', true).text('Uploading...');
+
+        $.ajax({
+            type: "POST",
+            url: app_path.base_path + "/upload-csv",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $("#csv_form").trigger("reset");
+                $("#uploadCsvModal").modal("hide");
+                table.draw();
+                alert(data.success || 'Upload berhasil');
+            },
+            error: function (data) {
+                console.log(data);
+                alert('Terjadi kesalahan saat upload');
+            },
+            complete: function() {
+                btn.prop('disabled', false).text('Upload');
+            }
+        });
+    });
+
+    $("body").on("click", ".assign-role", function () {
+        let id = this.id;
+        let name = $(this).data("name");
+
+        $("#assign_id_user").val(id);
+        $("#assignRoleModalHeading").html("Assign Role: " + name);
+        $("#assign_roles_select").val(null).trigger("change"); // clear select2
+
+        // Fetch user roles
+        $.get(app_path.base_path + "/roles/" + id, function (data) {
+            $("#assign_roles_select").val(data).trigger("change"); // update select2
+            $("#assignRoleModal").modal("show");
+        });
+    });
+
+    $("#assign_roles_form").on("submit", function (event) {
+        event.preventDefault();
+        
+        let id = $("#assign_id_user").val();
+        let btn = $("#btn_save_roles");
+        btn.prop('disabled', true).text('Menyimpan...');
+
+        $.ajax({
+            type: "POST",
+            url: app_path.base_path + "/assign-roles/" + id,
+            data: $(this).serialize(),
+            dataType: "json",
+            success: function (data) {
+                $("#assignRoleModal").modal("hide");
+                table.draw();
+                alert(data.success || 'Role berhasil diperbarui');
+            },
+            error: function (data) {
+                console.log(data);
+                alert('Terjadi kesalahan saat menyimpan role');
+            },
+            complete: function() {
+                btn.prop('disabled', false).text('Simpan');
+            }
+        });
+    });
 });

@@ -51,6 +51,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/userman', [UsermanController::class, 'index'])->name('userman.index')->middleware('admin');
     Route::post('userman/destroy/{id}/', [UsermanController::class, 'destroy'])->name('userman.remove')->middleware('admin');
     Route::post('userman/store', [UsermanController::class, 'store'])->name('userman.store')->middleware('admin');
+    Route::post('userman/upload-csv', [UsermanController::class, 'uploadCSV'])->name('userman.upload_csv')->middleware('admin');
+    Route::get('userman/download-template', [UsermanController::class, 'downloadTemplate'])->name('userman.download_template')->middleware('admin');
+    Route::get('userman/roles/{id}', [UsermanController::class, 'getUserRoles'])->name('userman.roles')->middleware('admin');
+    Route::post('userman/assign-roles/{id}', [UsermanController::class, 'assignRoles'])->name('userman.assign_roles')->middleware('admin');
     Route::get('userman/{id}', [UsermanController::class, 'show'])->name('userman.show')->middleware('admin');
     Route::post('userman/reset/{id}', [UsermanController::class, 'reset'])->name('userman.reset')->middleware('admin');
 
