@@ -112,7 +112,7 @@ class MenuSeeder extends Seeder
                 'icon' => 'fa-file-text-o',
                 'color_class' => 'card-tahun',
                 'order' => 11,
-                'roles' => [$piket]
+                'roles' => [$admin, $piket, $walikelas]
             ],
             // Walikelas Menus
             [
