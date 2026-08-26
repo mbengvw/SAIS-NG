@@ -137,6 +137,20 @@ Route::middleware(['auth'])->group(function () {
         
         Route::get('pelanggaran/rekap', [\App\Http\Controllers\LaporanPelanggaranController::class, 'index'])->name('pelanggaran.rekap');
     
+        // IZIN KELUAR (Guru Mapel)
+        Route::get('izin-keluar/guru', [\App\Http\Controllers\IzinKeluarGuruController::class, 'index'])->name('guru.izin_keluar.index');
+        Route::get('izin-keluar/guru/create', [\App\Http\Controllers\IzinKeluarGuruController::class, 'create'])->name('guru.izin_keluar.create');
+        Route::post('izin-keluar/guru/store', [\App\Http\Controllers\IzinKeluarGuruController::class, 'store'])->name('guru.izin_keluar.store');
+        Route::get('izin-keluar/guru/search', [\App\Http\Controllers\IzinKeluarGuruController::class, 'searchSiswa'])->name('guru.izin_keluar.search');
+
+        // IZIN KELUAR (Piket)
+        Route::get('izin-keluar/piket', [\App\Http\Controllers\IzinKeluarPiketController::class, 'index'])->name('piket.izin_keluar.index');
+        Route::post('izin-keluar/piket/approve/{id}', [\App\Http\Controllers\IzinKeluarPiketController::class, 'approve'])->name('piket.izin_keluar.approve');
+        Route::post('izin-keluar/piket/kembali/{id}', [\App\Http\Controllers\IzinKeluarPiketController::class, 'kembali'])->name('piket.izin_keluar.kembali');
+        Route::get('izin-keluar/piket/cetak/{id}', [\App\Http\Controllers\IzinKeluarPiketController::class, 'cetakSurat'])->name('piket.izin_keluar.cetak');
+        Route::get('izin-keluar/rekap', [\App\Http\Controllers\IzinKeluarPiketController::class, 'rekap'])->name('piket.izin_keluar.rekap');
+        Route::get('izin-keluar/rekap/data', [\App\Http\Controllers\IzinKeluarPiketController::class, 'getRekap'])->name('piket.izin_keluar.rekap.data');
+
         Route::get('hukdis', [HukdisController::class, 'index'])->name('hukdis.index');
         Route::get('hukdis/all', [HukdisController::class, 'list_all'])->name('hukdis.all');
         Route::get('hukdis/list_by', [HukdisController::class, 'list_by'])->name('hukdis.list_by');
