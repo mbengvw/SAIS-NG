@@ -125,6 +125,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('presensi/monitoring-piket', [\App\Http\Controllers\PiketController::class, 'monitoringKesiswaan'])->name('presensi.monitoring_piket');
         Route::get('presensi/rekap', [LaporanPresensiController::class, 'index'])->name('presensi.rekap');
         Route::get('presensi/rekap_bulanan', [RekapPresensiController::class, 'index'])->name('presensi.bulanan');
+
+        // MBG Module Routes
+        Route::get('mbg', [\App\Http\Controllers\MbgController::class, 'index'])->name('mbg.index');
+        Route::get('mbg/kelas/{id}', [\App\Http\Controllers\MbgController::class, 'getKelasData'])->name('mbg.get_kelas');
+        Route::post('mbg/checkout', [\App\Http\Controllers\MbgController::class, 'checkout'])->name('mbg.checkout');
+        Route::post('mbg/checkin', [\App\Http\Controllers\MbgController::class, 'checkin'])->name('mbg.checkin');
+        
+        Route::get('mbg-rekap', [\App\Http\Controllers\MbgController::class, 'rekap'])->name('mbg.rekap');
+        Route::get('mbg-rekap/data', [\App\Http\Controllers\MbgController::class, 'getRekap'])->name('mbg.rekap.data');
         
         Route::get('pelanggaran/rekap', [\App\Http\Controllers\LaporanPelanggaranController::class, 'index'])->name('pelanggaran.rekap');
     
