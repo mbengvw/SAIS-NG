@@ -230,6 +230,7 @@
                         <div class="app-icon-label" style="margin-top: 5px;">
                             @if($kelas['sudah_diabsen'])
                                 <i class="fa fa-check text-success"></i> <span class="text-success font-weight-bold">Selesai</span>
+                                <div style="font-size: 0.65rem; color: #6c757d; margin-top: 2px; line-height: 1.1;">oleh {{ $kelas['diabsen_oleh'] }}</div>
                             @else
                                 <i class="fa fa-times text-danger"></i> <span class="text-danger font-weight-bold">Belum</span>
                             @endif

@@ -24,10 +24,12 @@ class PiketController extends Controller
 
             if ($data_tahun) {
                 $list_kelas = KelasService::listKelasByTahun($data_tahun->tahun);
-                $logs = LogPresensiKelas::where('tanggal', $tanggal)->pluck('id_kelas')->toArray();
+                $logs = LogPresensiKelas::with('user')->where('tanggal', $tanggal)->get()->keyBy('id_kelas');
 
                 foreach ($list_kelas as &$kelas) {
-                    $kelas['sudah_diabsen'] = in_array($kelas['id_kelas'], $logs);
+                    $log = $logs->get($kelas['id_kelas']);
+                    $kelas['sudah_diabsen'] = $log !== null;
+                    $kelas['diabsen_oleh'] = $log ? ($log->user->name ?? 'Tidak Diketahui') : null;
                 }
             }
 
@@ -87,13 +89,40 @@ class PiketController extends Controller
         $list_kelas = KelasService::listKelasByTahun($tahun);
 
         // Ambil data log presensi untuk tanggal ini
-        $logs = LogPresensiKelas::where('tanggal', $tanggal)->pluck('id_kelas')->toArray();
+        $logs = LogPresensiKelas::with('user')->where('tanggal', $tanggal)->get()->keyBy('id_kelas');
 
         foreach ($list_kelas as &$kelas) {
-            $kelas['sudah_diabsen'] = in_array($kelas['id_kelas'], $logs);
+            $log = $logs->get($kelas['id_kelas']);
+            $kelas['sudah_diabsen'] = $log !== null;
+            $kelas['diabsen_oleh'] = $log ? ($log->user->name ?? 'Tidak Diketahui') : null;
         }
 
         return view('piket.status_absensi', [
+            'list_kelas' => $list_kelas,
+            'tanggal' => $tanggal,
+            'data_tahun' => $data_tahun
+        ]);
+    }
+
+    public function monitoringKesiswaan(Request $request)
+    {
+        $tanggal = $request->input('tanggal', date('Y-m-d'));
+        $data_tahun = TahunService::getActive();
+        $tahun = $data_tahun->tahun;
+
+        // Ambil semua kelas
+        $list_kelas = KelasService::listKelasByTahun($tahun);
+
+        // Ambil data log presensi untuk tanggal ini
+        $logs = LogPresensiKelas::with('user')->where('tanggal', $tanggal)->get()->keyBy('id_kelas');
+
+        foreach ($list_kelas as &$kelas) {
+            $log = $logs->get($kelas['id_kelas']);
+            $kelas['sudah_diabsen'] = $log !== null;
+            $kelas['diabsen_oleh'] = $log ? ($log->user->name ?? 'Tidak Diketahui') : null;
+        }
+
+        return view('kesiswaan.monitoring_piket', [
             'list_kelas' => $list_kelas,
             'tanggal' => $tanggal,
             'data_tahun' => $data_tahun

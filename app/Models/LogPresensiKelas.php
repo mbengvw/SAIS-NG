@@ -11,4 +11,9 @@ class LogPresensiKelas extends Model
 
     protected $table = 'log_presensi_kelas';
     protected $fillable = ['id_kelas', 'tanggal', 'id_user'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
 }

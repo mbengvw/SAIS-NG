@@ -85,6 +85,7 @@
             <div>
                 @if($kelas['sudah_diabsen'])
                     <span class="badge-status badge-sudah">Sudah Diabsen</span>
+                    <div style="font-size: 0.75rem; color: #6c757d; margin-top: 5px; text-align: right;">oleh {{ $kelas['diabsen_oleh'] }}</div>
                 @else
                     <span class="badge-status badge-belum">Belum Diabsen</span>
                 @endif
