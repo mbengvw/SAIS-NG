@@ -2,6 +2,14 @@ $(document).ready(function () {
     fetchDataTable();
 
     $("#select_kelas").change(function () {
+        let id_kelas = $(this).val();
+        if(id_kelas) {
+            $("#btn_export_csv").show();
+            // Assuming base_path is like /grouping, we want /grouping/export-csv
+            $("#btn_export_csv").attr("href", app_path.base_path + "/export-csv?id_kelas=" + id_kelas);
+        } else {
+            $("#btn_export_csv").hide();
+        }
         fetchstudent();
     });
 

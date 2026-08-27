@@ -22,7 +22,7 @@ class PenetapanWalasController extends Controller
     public function index()
     {
         $tahun = TahunService::getActive();
-        $list_guru = User::orderBy('name', 'ASC')->get();
+        $list_guru = User::whereNull('id_siswa')->orderBy('name', 'ASC')->get();
         $list_kelas = Kelas::where('tahun','=',$tahun->tahun)->orderBy('tingkat', 'ASC')->get();
         return view('walas.penetapan',          [
             'id_tahun' => TahunService::getActive()->id,

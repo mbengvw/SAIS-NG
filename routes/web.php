@@ -111,6 +111,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('grouping/createall', [GroupingController::class, 'createall'])->name('grouping.createall')->middleware('admin');
         Route::get('grouping/store', [GroupingController::class, 'store'])->name('grouping.store')->middleware('admin');
         Route::get('grouping/ajaxbykelas', [GroupingController::class, 'ajaxbykelas'])->name('grouping.ajaxbykelas')->middleware('admin');
+        Route::get('grouping/export-csv', [GroupingController::class, 'exportCsv'])->name('grouping.exportCsv')->middleware('admin');
         Route::post('grouping/ajaxdestroy', [GroupingController::class, 'ajaxdestroy'])->name('grouping.ajaxdestroy')->middleware('admin');
 
         Route::get('setwalas', [PenetapanWalasController::class, 'index'])->name('setwalas.index')->middleware('admin');

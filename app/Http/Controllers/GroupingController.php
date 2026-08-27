@@ -88,4 +88,53 @@ class GroupingController extends Controller
             return $res;
         }
     }
+
+    /**
+     * Fungsi untuk export CSV hasil pengkelasan
+     */
+    public function exportCsv(Request $request)
+    {
+        $id_kelas = $request->input('id_kelas');
+        $tahun = TahunService::getActive()->tahun;
+
+        if (!$id_kelas) {
+            return redirect()->back()->with('error', 'Pilih kelas terlebih dahulu');
+        }
+
+        $list_grouping = $this->groupingService->listGroupingByTahun($id_kelas, $tahun);
+        $kelas = Kelas::where('id_kelas', $id_kelas)->first();
+        $nama_kelas = $kelas ? $kelas->nama_kelas : 'Semua';
+
+        $filename = "grouping_siswa_{$nama_kelas}_{$tahun}.csv";
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$filename",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $callback = function() use($list_grouping) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['No', 'ID', 'NISN', 'Nama', 'Jenis Kelamin', 'Tahun Masuk', 'Kelas']);
+            
+            $no = 1;
+            foreach ($list_grouping as $row) {
+                fputcsv($file, [
+                    $no++,
+                    $row->id,
+                    $row->nisn ?? '',
+                    $row->nama,
+                    $row->jenis_kelamin,
+                    $row->tahun_masuk,
+                    $row->nama_kelas
+                ]);
+            }
+            
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }
