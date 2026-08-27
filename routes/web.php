@@ -93,6 +93,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('profile/change_pass', [ProfileController::class, 'change_pass'])->name('profile.change_pass');
+    Route::post('profile/update_name', [ProfileController::class, 'update_name'])->name('profile.update_name');
 
     Route::get('/login/registration', [LoginController::class, 'registration'])->name('registration')->middleware('admin');
     Route::post('/login/validate_registration', [LoginController::class, 'validate_registration'])->name('login.validate_registration');

@@ -39,4 +39,20 @@ class ProfileController extends Controller
             'message' => 'Password berhasil diubah!'
         ]);
     }
+    public function update_name(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Nama berhasil diperbarui!',
+            'name' => $user->name
+        ]);
+    }
 }
