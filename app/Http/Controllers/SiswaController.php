@@ -88,6 +88,13 @@ class SiswaController extends Controller
             'nama_wali'     =>  $request->nama_wali,
         );
 
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/siswa'), $filename);
+            $form_data['foto'] = 'uploads/siswa/' . $filename;
+        }
+
         $post = Student::updateOrCreate(['id' => $id_siswa], $form_data);
         return response()->json($post);
     }

@@ -30,7 +30,15 @@ class StudentDashboardController extends Controller
             'nama_ayah' => 'nullable|string|max:150',
             'nama_ibu' => 'nullable|string|max:150',
             'nama_wali' => 'nullable|string|max:150',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/siswa'), $filename);
+            $validatedData['foto'] = 'uploads/siswa/' . $filename;
+        }
 
         try {
             $student = $profileService->updateProfile($validatedData);

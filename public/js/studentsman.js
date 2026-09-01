@@ -94,6 +94,7 @@ $(document).ready(function () {
     $("#create_record").click(function () {
         $("#id_siswa").val("");
         $("#student_form").trigger("reset");
+        $("#preview_foto").hide();
         $("#action").val("Add");
         $("#ajaxModal").modal("show");
         $("#modal_heading").html("Tambah Siswa");
@@ -118,6 +119,11 @@ $(document).ready(function () {
             $("#nama_ayah").val(data.nama_ayah);
             $("#nama_ibu").val(data.nama_ibu);
             $("#nama_wali").val(data.nama_wali);
+            if (data.foto) {
+                $("#preview_foto").attr("src", "/" + data.foto).show();
+            } else {
+                $("#preview_foto").hide();
+            }
         });
         // $("#student_form").trigger("reset");
         $("#ajaxModal").modal("show");
@@ -125,10 +131,13 @@ $(document).ready(function () {
 
     $("#student_form").on("submit", function (event) {
         event.preventDefault();
+        let formData = new FormData(this);
         $.ajax({
             type: "post",
             url: path.base_path + "/store",
-            data: $(this).serialize(),
+            data: formData,
+            processData: false,
+            contentType: false,
             dataType: "json",
             success: function (data) {
                 alert("Data berhasil disimpan");

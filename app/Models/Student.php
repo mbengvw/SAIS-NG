@@ -22,7 +22,8 @@ class Student extends Model
         'alamat',
         'nama_ayah',
         'nama_ibu',
-        'nama_wali'
+        'nama_wali',
+        'foto'
     ];
 
     public function grouping()

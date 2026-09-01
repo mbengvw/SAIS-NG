@@ -37,8 +37,12 @@
         <div class="col-12">
             <div class="profile-header text-center text-md-left d-md-flex align-items-center">
                 <div class="mr-md-4 mb-3 mb-md-0">
-                    <div class="profile-avatar">
-                        <i class="fa fa-user"></i>
+                    <div class="profile-avatar" style="overflow: hidden;">
+                        @if($student->foto)
+                            <img src="{{ asset($student->foto) }}" alt="Foto Profil" style="width: 100%; height: 100%; object-fit: cover;">
+                        @else
+                            <i class="fa fa-user"></i>
+                        @endif
                     </div>
                 </div>
                 <div>
@@ -60,8 +64,14 @@
                     <h5 class="mb-0"><i class="fa fa-edit text-success mr-2"></i> Update Data Pribadi</h5>
                 </div>
                 <div class="card-body p-4">
-                    <form id="form-update-profile">
+                    <form id="form-update-profile" enctype="multipart/form-data">
                         @csrf
+                        <div class="row">
+                            <div class="col-md-12 form-group mb-3">
+                                <label class="text-muted font-weight-bold">Foto Profil</label>
+                                <input type="file" class="form-control" name="foto" accept="image/*">
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
                                 <label class="text-muted font-weight-bold">Tempat Lahir</label>
@@ -133,10 +143,14 @@ $(document).ready(function() {
         let originalText = btn.html();
         btn.html('<i class="fa fa-spinner fa-spin"></i> Menyimpan...').prop('disabled', true);
         
+        let formData = new FormData(this);
+
         $.ajax({
             url: '{{ route("siswa.profile.update") }}',
             type: 'POST',
-            data: $(this).serialize(),
+            data: formData,
+            processData: false,
+            contentType: false,
             success: function(response) {
                 if(response.success) {
                     Swal.fire({

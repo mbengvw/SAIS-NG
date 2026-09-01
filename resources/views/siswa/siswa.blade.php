@@ -96,7 +96,7 @@
                 </div>
                 <div class="modal-body">
                     <form action="javascript:void(0)" id="student_form" name="student_form" class="form-horizontal"
-                        method="POST">
+                        method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="id_siswa" id="id_siswa">
                         <input type="hidden" name="status" id="status" value="A">
                         <input type="hidden" name="action" id="action" value="Add" />
@@ -150,6 +150,12 @@
                         <div class="form-group">
                             <input type="text" class="form-control" id="nama_wali" name="nama_wali"
                                 placeholder="Nama Wali">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="foto">Foto Siswa</label>
+                            <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+                            <img id="preview_foto" src="" style="width: 100px; display: none; margin-top: 10px;">
                         </div>
 
                         <div>

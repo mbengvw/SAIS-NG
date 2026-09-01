@@ -32,6 +32,7 @@ class NewSiswaRequest extends FormRequest
             'tanggal_lahir'=>'required',
             'jenis_kelamin' => 'required',
             'alamat' => 'required',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }
