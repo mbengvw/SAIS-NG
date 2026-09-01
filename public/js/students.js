@@ -18,6 +18,11 @@ $(document).ready(function () {
             $("#detail_nisn").text(data[0].nisn);
             $("#detail_kelas").text(data[0].nama_kelas);
 
+            if (data[0].foto) {
+                $("#detail_foto").attr("src", "/" + data[0].foto).show();
+            } else {
+                $("#detail_foto").hide();
+            }
         });
         $("#ajaxModal").modal("show");
     });

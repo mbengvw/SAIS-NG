@@ -123,6 +123,9 @@
                     </button>
                 </div>
                 <div class="modal-body p-4">
+                    <div class="text-center mb-3">
+                        <img id="detail_foto" src="" alt="Foto Siswa" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; display: none; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    </div>
                     <table class="table table-borderless table-sm mb-0">
                         <tbody>
                             <tr>
