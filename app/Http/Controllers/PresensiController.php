@@ -74,6 +74,31 @@ class PresensiController extends Controller
                 'semester'      => $semester
             );
             $post = Presensi::updateOrCreate(['id_grouping' => $id_grouping, 'tanggal' => $tgl], $my_data);
+
+            // Logika Hukdis Alpa otomatis
+            $hukdis = \App\Models\Hukdis::where('deskripsi', 'Peserta didik tidak hadir ke sekolah tanpa surat keterangan')->first();
+            
+            if ($hukdis) {
+                if ($request->input('status') == 'A') {
+                    \App\Models\Pelanggaran::updateOrCreate(
+                        [
+                            'id_grouping' => $id_grouping,
+                            'tanggal'     => $tgl,
+                            'id_hukdis'   => $hukdis->id_hukdis
+                        ],
+                        [
+                            'semester'   => $semester,
+                            'id_petugas' => Auth::id()
+                        ]
+                    );
+                } else {
+                    \App\Models\Pelanggaran::where('id_grouping', $id_grouping)
+                        ->where('tanggal', $tgl)
+                        ->where('id_hukdis', $hukdis->id_hukdis)
+                        ->delete();
+                }
+            }
+
             return response()->json($post);
         }
     }
