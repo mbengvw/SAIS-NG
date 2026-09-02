@@ -29,7 +29,7 @@ class HukdisController extends Controller
         $list_hukdis = Hukdis::all();
         return view('hukdis.index', [
             'list_kelas' => $list_kelas,
-            'tanggal' => date("d/m/Y"),
+            'tanggal' => date("Y-m-d"),
             'list_hukdis' => $list_hukdis,
             'data_th_akademik' => $data_ta
         ]);
@@ -79,7 +79,7 @@ class HukdisController extends Controller
         $form_data = array(
             'id_hukdis'  =>  $request->id_hukdis,
             'id_grouping'     =>  $request->id_grouping,
-            'tanggal'        =>  date("Y/m/d"),
+            'tanggal'        =>  $request->tanggal ?? date("Y-m-d"),
             'semester'        =>  $request->semester,
             'id_petugas'       =>  Auth::user()->id,
         );

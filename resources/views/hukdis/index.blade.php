@@ -112,6 +112,8 @@
                         <option value="">-- Pilih Siswa --</option>
                     </select>
 
+                    <input type="date" class="input-mobile" id="tanggal_pelanggaran" name="tanggal_pelanggaran" value="{{ $tanggal }}">
+
                     <select class="input-mobile" id="select_hukdis" name="select_hukdis">
                         <option value="">-- Pilih Pelanggaran --</option>
                         @foreach ($list_hukdis as $hukdis)

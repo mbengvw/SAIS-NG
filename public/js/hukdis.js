@@ -117,6 +117,7 @@ $(document).ready(function () {
         event.preventDefault();
         let semester = $("#semester").val();
         let id_hukdis = $("#select_hukdis").val();
+        let tanggal = $("#tanggal_pelanggaran").val();
         let raw = $("#select_nama").val();
         let arr = raw.split("|");
         let id_grouping = arr[1];
@@ -139,6 +140,7 @@ $(document).ready(function () {
                         id_hukdis: id_hukdis,
                         id_grouping: id_grouping,
                         semester: semester,
+                        tanggal: tanggal,
                     },
                     dataType: "json",
                     success: function (data) {
