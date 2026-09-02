@@ -21,6 +21,7 @@ class MenuController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
+            'group_name' => 'nullable|string|max:100',
             'route_name' => 'required|string|max:255',
             'icon' => 'required|string|max:100',
             'color_class' => 'nullable|string|max:100',
@@ -34,6 +35,7 @@ class MenuController extends Controller
 
         $menu = Menu::create([
             'title' => $request->title,
+            'group_name' => $request->group_name,
             'route_name' => $request->route_name,
             'icon' => $request->icon,
             'color_class' => $request->color_class ?? 'card-siswa',
@@ -52,6 +54,7 @@ class MenuController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
+            'group_name' => 'nullable|string|max:100',
             'route_name' => 'required|string|max:255',
             'icon' => 'required|string|max:100',
             'color_class' => 'nullable|string|max:100',
@@ -65,6 +68,7 @@ class MenuController extends Controller
 
         $menu->update([
             'title' => $request->title,
+            'group_name' => $request->group_name,
             'route_name' => $request->route_name,
             'icon' => $request->icon,
             'color_class' => $request->color_class ?? 'card-siswa',

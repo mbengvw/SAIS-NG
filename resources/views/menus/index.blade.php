@@ -27,6 +27,7 @@
                         <tr>
                             <th width="5%" class="text-center">Order</th>
                             <th width="10%" class="text-center">Ikon</th>
+                            <th width="15%">Grup</th>
                             <th width="20%">Judul Menu</th>
                             <th width="15%">Route</th>
                             <th width="25%">Akses Role</th>
@@ -43,6 +44,7 @@
                                     <i class="fa {{ $m->icon }}"></i>
                                 </div>
                             </td>
+                            <td class="align-middle text-muted">{{ $m->group_name ?? '-' }}</td>
                             <td class="align-middle font-weight-bold text-dark">{{ $m->title }}</td>
                             <td class="align-middle"><code>{{ $m->route_name }}</code></td>
                             <td class="align-middle">
@@ -92,9 +94,15 @@
                     @csrf
                     <input type="hidden" id="menu_id" name="menu_id">
                     
-                    <div class="form-group">
-                        <label class="font-weight-bold text-muted small text-uppercase">Judul Menu</label>
-                        <input type="text" class="form-control bg-light border-0 py-4" id="title" name="title" required>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-bold text-muted small text-uppercase">Judul Menu</label>
+                            <input type="text" class="form-control bg-light border-0 py-4" id="title" name="title" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-bold text-muted small text-uppercase">Grup Menu</label>
+                            <input type="text" class="form-control bg-light border-0 py-4" id="group_name" name="group_name" placeholder="cth: MASTER DATA">
+                        </div>
                     </div>
                     
                     <div class="row">
@@ -170,6 +178,7 @@
         $('#menuForm')[0].reset();
         $('#menu_id').val(menu.id);
         $('#title').val(menu.title);
+        $('#group_name').val(menu.group_name);
         $('#route_name').val(menu.route_name);
         $('#order').val(menu.order);
         $('#icon').val(menu.icon);

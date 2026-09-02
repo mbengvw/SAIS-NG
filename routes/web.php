@@ -88,6 +88,19 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/kelas/show', [KelasController::class, 'show'])->name('kelas.show')->middleware('admin');
         Route::post('/kelas', [KelasController::class, 'add'])->name('kelas.add')->middleware('admin'); #create /update
         Route::delete('/kelas', [KelasController::class, 'destroy'])->name('kelas.destroy')->middleware('admin');
+
+        // Mapel Routes
+        Route::get('/master/mapel', [App\Http\Controllers\MstMapelController::class, 'index'])->name('master.mapel.index')->middleware('admin');
+        Route::get('/master/mapel/show', [App\Http\Controllers\MstMapelController::class, 'show'])->name('master.mapel.show')->middleware('admin');
+        Route::post('/master/mapel/add', [App\Http\Controllers\MstMapelController::class, 'add'])->name('master.mapel.add')->middleware('admin');
+        Route::delete('/master/mapel/destroy', [App\Http\Controllers\MstMapelController::class, 'destroy'])->name('master.mapel.destroy')->middleware('admin');
+
+        // Penetapan Guru Mapel Routes
+        Route::get('/master/penetapan-guru-mapel', [App\Http\Controllers\PenetapanGuruMapelController::class, 'index'])->name('master.penetapan.index')->middleware('admin');
+        Route::get('/master/penetapan-guru-mapel/show', [App\Http\Controllers\PenetapanGuruMapelController::class, 'show'])->name('master.penetapan.show')->middleware('admin');
+        Route::get('/master/penetapan-guru-mapel/get-kelas', [App\Http\Controllers\PenetapanGuruMapelController::class, 'getKelas'])->name('master.penetapan.get_kelas')->middleware('admin');
+        Route::post('/master/penetapan-guru-mapel/add', [App\Http\Controllers\PenetapanGuruMapelController::class, 'add'])->name('master.penetapan.add')->middleware('admin');
+        Route::delete('/master/penetapan-guru-mapel/destroy', [App\Http\Controllers\PenetapanGuruMapelController::class, 'destroy'])->name('master.penetapan.destroy')->middleware('admin');
     });
 
 

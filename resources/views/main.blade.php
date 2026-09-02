@@ -30,16 +30,26 @@
 
             {{-- Navigation --}}
             <nav class="sidebar-nav">
-                <div class="nav-section-title">Menu Utama</div>
                 
                 @if(isset($userMenus) && $userMenus->count() > 0)
-                    @foreach($userMenus as $menu)
-                        <a href="{{ Route::has($menu->route_name) ? route($menu->route_name) : '#' }}" class="sidebar-link {{ request()->routeIs($menu->route_name) ? 'active' : '' }}">
-                            <i class="fa {{ $menu->icon }}"></i>
-                            <span>{{ $menu->title }}</span>
-                        </a>
+                    @php
+                        $groupedMenus = $userMenus->groupBy(function($menu) {
+                            return $menu->group_name ?: 'LAINNYA';
+                        });
+                    @endphp
+                    @foreach($groupedMenus as $groupName => $menus)
+                        <div class="nav-section-title mt-3 mb-1" style="color: #94a3b8; font-size: 0.75rem; font-weight: 700; padding: 0.5rem 1rem; text-transform: uppercase;">
+                            {{ $groupName }}
+                        </div>
+                        @foreach($menus as $menu)
+                            <a href="{{ Route::has($menu->route_name) ? route($menu->route_name) : '#' }}" class="sidebar-link {{ request()->routeIs($menu->route_name) ? 'active' : '' }}">
+                                <i class="fa {{ $menu->icon }}"></i>
+                                <span>{{ $menu->title }}</span>
+                            </a>
+                        @endforeach
                     @endforeach
                 @else
+                    <div class="nav-section-title">Menu Utama</div>
                     {{-- Fallback jika belum migrate/seeding --}}
                     <a href="#" class="sidebar-link">
                         <i class="fa fa-warning"></i>
