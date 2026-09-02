@@ -11,7 +11,7 @@ class Menu extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'route_name', 'icon', 'color_class', 'order', 'is_active'
+        'title', 'group_name', 'route_name', 'icon', 'color_class', 'order', 'is_active'
     ];
 
     public function roles()
