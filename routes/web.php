@@ -44,14 +44,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('gurumapel/pertemuan/{id_pertemuan}/edit', [App\Http\Controllers\GuruMapelController::class, 'editPertemuan'])->name('gurumapel.edit_pertemuan');
     Route::post('gurumapel/pertemuan/{id_pertemuan}/update', [App\Http\Controllers\GuruMapelController::class, 'updatePertemuan'])->name('gurumapel.update_pertemuan');
     Route::get('gurumapel/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
-    
+
     // Siswa Routes
     Route::get('siswa/dashboard', [App\Http\Controllers\StudentDashboardController::class, 'index'])->name('siswa.dashboard');
     Route::post('siswa/profile/update', [App\Http\Controllers\StudentDashboardController::class, 'updateProfile'])->name('siswa.profile.update');
     Route::get('siswa/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
-    
+
     Route::get('/piket/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
-    
+
     Route::get('/walikelas', [WalikelasController::class, 'index'])->name('walas.index');
     Route::get('/walikelas/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -93,25 +93,25 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/mst_hukdis/upload', [MstHukdisController::class, 'uploadCSV'])->name('mst_hukdis.upload');
         Route::get('/mst_hukdis/download/template', [MstHukdisController::class, 'downloadTemplate'])->name('mst_hukdis.template');
 
-        Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index')->middleware('admin');
-        Route::get('/kelas/show', [KelasController::class, 'show'])->name('kelas.show')->middleware('admin');
-        Route::post('/kelas', [KelasController::class, 'add'])->name('kelas.add')->middleware('admin'); #create /update
-        Route::delete('/kelas', [KelasController::class, 'destroy'])->name('kelas.destroy')->middleware('admin');
+        Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index')->middleware('admin:admin,akademik');
+        Route::get('/kelas/show', [KelasController::class, 'show'])->name('kelas.show')->middleware('admin:admin,akademik');
+        Route::post('/kelas', [KelasController::class, 'add'])->name('kelas.add')->middleware('admin:admin,akademik'); #create /update
+        Route::delete('/kelas', [KelasController::class, 'destroy'])->name('kelas.destroy')->middleware('admin:admin,akademik');
 
         // Mapel Routes
-        Route::get('/master/mapel', [App\Http\Controllers\MstMapelController::class, 'index'])->name('master.mapel.index')->middleware('admin');
-        Route::get('/master/mapel/show', [App\Http\Controllers\MstMapelController::class, 'show'])->name('master.mapel.show')->middleware('admin');
-        Route::post('/master/mapel/add', [App\Http\Controllers\MstMapelController::class, 'add'])->name('master.mapel.add')->middleware('admin');
-        Route::delete('/master/mapel/destroy', [App\Http\Controllers\MstMapelController::class, 'destroy'])->name('master.mapel.destroy')->middleware('admin');
-        Route::post('/master/mapel/upload', [App\Http\Controllers\MstMapelController::class, 'uploadCSV'])->name('master.mapel.upload')->middleware('admin');
-        Route::get('/master/mapel/download/template', [App\Http\Controllers\MstMapelController::class, 'downloadTemplate'])->name('master.mapel.template')->middleware('admin');
+        Route::get('/master/mapel', [App\Http\Controllers\MstMapelController::class, 'index'])->name('master.mapel.index')->middleware('admin:admin,akademik');
+        Route::get('/master/mapel/show', [App\Http\Controllers\MstMapelController::class, 'show'])->name('master.mapel.show')->middleware('admin:admin,akademik');
+        Route::post('/master/mapel/add', [App\Http\Controllers\MstMapelController::class, 'add'])->name('master.mapel.add')->middleware('admin:admin,akademik');
+        Route::delete('/master/mapel/destroy', [App\Http\Controllers\MstMapelController::class, 'destroy'])->name('master.mapel.destroy')->middleware('admin:admin,akademik');
+        Route::post('/master/mapel/upload', [App\Http\Controllers\MstMapelController::class, 'uploadCSV'])->name('master.mapel.upload')->middleware('admin:admin,akademik');
+        Route::get('/master/mapel/download/template', [App\Http\Controllers\MstMapelController::class, 'downloadTemplate'])->name('master.mapel.template')->middleware('admin:admin,akademik');
 
         // Penetapan Guru Mapel Routes
-        Route::get('/master/penetapan-guru-mapel', [App\Http\Controllers\PenetapanGuruMapelController::class, 'index'])->name('master.penetapan.index')->middleware('admin');
-        Route::get('/master/penetapan-guru-mapel/show', [App\Http\Controllers\PenetapanGuruMapelController::class, 'show'])->name('master.penetapan.show')->middleware('admin');
-        Route::get('/master/penetapan-guru-mapel/get-kelas', [App\Http\Controllers\PenetapanGuruMapelController::class, 'getKelas'])->name('master.penetapan.get_kelas')->middleware('admin');
-        Route::post('/master/penetapan-guru-mapel/add', [App\Http\Controllers\PenetapanGuruMapelController::class, 'add'])->name('master.penetapan.add')->middleware('admin');
-        Route::delete('/master/penetapan-guru-mapel/destroy', [App\Http\Controllers\PenetapanGuruMapelController::class, 'destroy'])->name('master.penetapan.destroy')->middleware('admin');
+        Route::get('/master/penetapan-guru-mapel', [App\Http\Controllers\PenetapanGuruMapelController::class, 'index'])->name('master.penetapan.index')->middleware('admin:admin,akademik');
+        Route::get('/master/penetapan-guru-mapel/show', [App\Http\Controllers\PenetapanGuruMapelController::class, 'show'])->name('master.penetapan.show')->middleware('admin:admin,akademik');
+        Route::get('/master/penetapan-guru-mapel/get-kelas', [App\Http\Controllers\PenetapanGuruMapelController::class, 'getKelas'])->name('master.penetapan.get_kelas')->middleware('admin:admin,akademik');
+        Route::post('/master/penetapan-guru-mapel/add', [App\Http\Controllers\PenetapanGuruMapelController::class, 'add'])->name('master.penetapan.add')->middleware('admin:admin,akademik');
+        Route::delete('/master/penetapan-guru-mapel/destroy', [App\Http\Controllers\PenetapanGuruMapelController::class, 'destroy'])->name('master.penetapan.destroy')->middleware('admin:admin,akademik');
     });
 
 
@@ -122,24 +122,24 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/login/registration', [LoginController::class, 'registration'])->name('registration')->middleware('admin');
     Route::post('/login/validate_registration', [LoginController::class, 'validate_registration'])->name('login.validate_registration');
 
-    Route::get('siswa', [SiswaController::class, 'index'])->name('siswa.index')->middleware('admin');
-    Route::post('siswa/upload-csv', [SiswaController::class, 'uploadCSV'])->name('siswa.upload_csv')->middleware('admin');
-    Route::get('siswa/download-template', [SiswaController::class, 'downloadTemplate'])->name('siswa.download_template')->middleware('admin');
-    Route::get('siswa/{id}', [SiswaController::class, 'show'])->name('siswa.show')->middleware('admin');
-    Route::post('siswa/destroy/{id}/', [SiswaController::class, 'destroy'])->name('siswa.remove')->middleware('admin');
-    Route::post('siswa/store', [SiswaController::class, 'store'])->name('siswa.store')->middleware('admin');
-    Route::get('siswa/removeall', [SiswaController::class, 'removeall'])->name('siswa.removeall')->middleware('admin');
+    Route::get('siswa', [SiswaController::class, 'index'])->name('siswa.index')->middleware('admin:admin,akademik');
+    Route::post('siswa/upload-csv', [SiswaController::class, 'uploadCSV'])->name('siswa.upload_csv')->middleware('admin:admin,akademik');
+    Route::get('siswa/download-template', [SiswaController::class, 'downloadTemplate'])->name('siswa.download_template')->middleware('admin:admin,akademik');
+    Route::get('siswa/{id}', [SiswaController::class, 'show'])->name('siswa.show')->middleware('admin:admin,akademik');
+    Route::post('siswa/destroy/{id}/', [SiswaController::class, 'destroy'])->name('siswa.remove')->middleware('admin:admin,akademik');
+    Route::post('siswa/store', [SiswaController::class, 'store'])->name('siswa.store')->middleware('admin:admin,akademik');
+    Route::get('siswa/removeall', [SiswaController::class, 'removeall'])->name('siswa.removeall')->middleware('admin:admin,akademik');
 
     Route::middleware('tahun')->group(function () {
-        Route::get('grouping', [GroupingController::class, 'index'])->name('grouping.index')->middleware('admin');
-        Route::get('grouping/create', [GroupingController::class, 'create'])->name('grouping.create')->middleware('admin');
-        Route::get('grouping/createall', [GroupingController::class, 'createall'])->name('grouping.createall')->middleware('admin');
-        Route::get('grouping/store', [GroupingController::class, 'store'])->name('grouping.store')->middleware('admin');
-        Route::get('grouping/ajaxbykelas', [GroupingController::class, 'ajaxbykelas'])->name('grouping.ajaxbykelas')->middleware('admin');
-        Route::get('grouping/export-csv', [GroupingController::class, 'exportCsv'])->name('grouping.exportCsv')->middleware('admin');
-        Route::post('grouping/ajaxdestroy', [GroupingController::class, 'ajaxdestroy'])->name('grouping.ajaxdestroy')->middleware('admin');
+        Route::get('grouping', [GroupingController::class, 'index'])->name('grouping.index')->middleware('admin:admin,akademik');
+        Route::get('grouping/create', [GroupingController::class, 'create'])->name('grouping.create')->middleware('admin:admin,akademik');
+        Route::get('grouping/createall', [GroupingController::class, 'createall'])->name('grouping.createall')->middleware('admin:admin,akademik');
+        Route::get('grouping/store', [GroupingController::class, 'store'])->name('grouping.store')->middleware('admin:admin,akademik');
+        Route::get('grouping/ajaxbykelas', [GroupingController::class, 'ajaxbykelas'])->name('grouping.ajaxbykelas')->middleware('admin:admin,akademik');
+        Route::get('grouping/export-csv', [GroupingController::class, 'exportCsv'])->name('grouping.exportCsv')->middleware('admin:admin,akademik');
+        Route::post('grouping/ajaxdestroy', [GroupingController::class, 'ajaxdestroy'])->name('grouping.ajaxdestroy')->middleware('admin:admin,akademik');
 
-        Route::get('setwalas', [PenetapanWalasController::class, 'index'])->name('setwalas.index')->middleware('admin');
+        Route::get('setwalas', [PenetapanWalasController::class, 'index'])->name('setwalas.index')->middleware('admin:admin,akademik');
 
         Route::get('presensi', [PresensiController::class, 'index'])->name('presensi.index')->middleware('tahun');
         Route::get('presensi/ajaxkelastanggal', [PresensiController::class, 'ajaxkelastanggal'])->name('presensi.ajaxkelastanggal');
@@ -157,12 +157,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('mbg/kelas/{id}', [\App\Http\Controllers\MbgController::class, 'getKelasData'])->name('mbg.get_kelas');
         Route::post('mbg/checkout', [\App\Http\Controllers\MbgController::class, 'checkout'])->name('mbg.checkout');
         Route::post('mbg/checkin', [\App\Http\Controllers\MbgController::class, 'checkin'])->name('mbg.checkin');
-        
+
         Route::get('mbg-rekap', [\App\Http\Controllers\MbgController::class, 'rekap'])->name('mbg.rekap');
         Route::get('mbg-rekap/data', [\App\Http\Controllers\MbgController::class, 'getRekap'])->name('mbg.rekap.data');
-        
+
         Route::get('pelanggaran/rekap', [\App\Http\Controllers\LaporanPelanggaranController::class, 'index'])->name('pelanggaran.rekap');
-    
+
         // IZIN KELUAR (Guru Mapel)
         Route::get('izin-keluar/guru', [\App\Http\Controllers\IzinKeluarGuruController::class, 'index'])->name('guru.izin_keluar.index');
         Route::get('izin-keluar/guru/create', [\App\Http\Controllers\IzinKeluarGuruController::class, 'create'])->name('guru.izin_keluar.create');
@@ -185,7 +185,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('hukdis/ajaxdestroy', [HukdisController::class, 'ajaxdestroy'])->middleware('ajax_admin');
         Route::get('hukdis/list_siswa_by_tahun/{tahun}', [HukdisController::class, 'list_siswa_by_tahun']);
         Route::get('hukdis/ajax_list_siswa_by_tahun', [HukdisController::class, 'ajax_list_siswa_by_tahun']);
-    
+
         Route::get('hukdisman', [HukdismanController::class, 'index'])->name('hukdisman.index');
         Route::post('hukdisman/list_by', [HukdismanController::class, 'list_by'])->name('hukdisman.list_by');
     });
