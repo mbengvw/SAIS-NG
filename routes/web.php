@@ -94,6 +94,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/master/mapel/show', [App\Http\Controllers\MstMapelController::class, 'show'])->name('master.mapel.show')->middleware('admin');
         Route::post('/master/mapel/add', [App\Http\Controllers\MstMapelController::class, 'add'])->name('master.mapel.add')->middleware('admin');
         Route::delete('/master/mapel/destroy', [App\Http\Controllers\MstMapelController::class, 'destroy'])->name('master.mapel.destroy')->middleware('admin');
+        Route::post('/master/mapel/upload', [App\Http\Controllers\MstMapelController::class, 'uploadCSV'])->name('master.mapel.upload')->middleware('admin');
+        Route::get('/master/mapel/download/template', [App\Http\Controllers\MstMapelController::class, 'downloadTemplate'])->name('master.mapel.template')->middleware('admin');
 
         // Penetapan Guru Mapel Routes
         Route::get('/master/penetapan-guru-mapel', [App\Http\Controllers\PenetapanGuruMapelController::class, 'index'])->name('master.penetapan.index')->middleware('admin');

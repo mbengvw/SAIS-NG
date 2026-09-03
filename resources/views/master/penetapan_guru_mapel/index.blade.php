@@ -34,7 +34,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Tambah Penetapan</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <span id="form_result"></span>
@@ -86,14 +86,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Konfirmasi Hapus</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <h5 align="center" style="margin:0;">Apakah anda yakin ingin menghapus data ini?</h5>
                 </div>
                 <div class="modal-footer">
                     <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
-                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>

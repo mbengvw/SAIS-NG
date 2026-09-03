@@ -5,9 +5,26 @@
         <div class="row justify-content-center" style="margin-top: 50px;">
             <h2>Master Data Mata Pelajaran</h2>
         </div>
-        
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-12">
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                @endif
+            </div>
+        </div>
+
         <div align="right">
             <button style="margin-bottom: 10px;" type="button" name="create_record" id="create_record" class="btn btn-success">Tambah Mapel</button>
+            <button style="margin-bottom: 10px;" type="button" class="btn btn-info text-white" id="upload_csv_btn">⬇ Upload CSV</button>
             <a href="{{ route('admin.dashboard') }}" style="margin-bottom: 10px;" class="exit btn btn-primary">Close</a>
         </div>
         
@@ -34,7 +51,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Tambah Data Mapel</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <span id="form_result"></span>
@@ -94,15 +111,46 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Konfirmasi Hapus</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <h5 align="center" style="margin:0;">Apakah anda yakin ingin menghapus data ini?</h5>
                 </div>
                 <div class="modal-footer">
                     <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
-                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Upload CSV -->
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="{{ route('master.mapel.upload') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="uploadModalLabel">Upload Data via CSV</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group mb-3">
+                            <label>Download Template CSV</label>
+                            <br>
+                            <a href="{{ route('master.mapel.template') }}" class="btn btn-sm btn-outline-success mt-2">⬇ Download Template</a>
+                        </div>
+                        <hr>
+                        <div class="form-group mb-3">
+                            <label for="csv_file" class="mb-2">Pilih File CSV</label>
+                            <input type="file" class="form-control" id="csv_file" name="csv_file" accept=".csv, .txt" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -132,6 +180,10 @@
             $('#sample_form')[0].reset();
             $('#form_result').html('');
             $('#formModal').modal('show');
+        });
+
+        $('#upload_csv_btn').click(function() {
+            $('#uploadModal').modal('show');
         });
 
         $('#sample_form').on('submit', function(event) {
