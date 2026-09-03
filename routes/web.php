@@ -72,6 +72,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('userman/download-template', [UsermanController::class, 'downloadTemplate'])->name('userman.download_template')->middleware('admin');
     Route::get('userman/roles/{id}', [UsermanController::class, 'getUserRoles'])->name('userman.roles')->middleware('admin');
     Route::post('userman/assign-roles/{id}', [UsermanController::class, 'assignRoles'])->name('userman.assign_roles')->middleware('admin');
+
+    // Role Management
+    Route::resource('roles', App\Http\Controllers\RoleController::class)->except(['create', 'show'])->middleware('admin');
     Route::get('userman/{id}', [UsermanController::class, 'show'])->name('userman.show')->middleware('admin');
     Route::post('userman/reset/{id}', [UsermanController::class, 'reset'])->name('userman.reset')->middleware('admin');
 

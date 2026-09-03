@@ -24,6 +24,7 @@
                         <a class="dropdown-item" href="{{ route('mst_hukdis.index') }}">Master Hukuman Disiplin</a>
                         <hr>
                         <a class="dropdown-item" href="{{ route('userman.index') }}">Manajemen User</a>
+                        <a class="dropdown-item" href="{{ route('roles.index') }}">Data Role</a>
                         <a class="dropdown-item" href="{{ route('detail-siswa') }}">Detail Siswa</a>
                     </div>
                 </li>
