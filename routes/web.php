@@ -81,9 +81,9 @@ Route::middleware(['auth'])->group(function () {
     // Manajemen Menu
     Route::resource('menus', App\Http\Controllers\MenuController::class)->except(['create', 'edit', 'show'])->middleware('admin');
 
-    Route::get('/tahun', [TahunAkademikController::class, 'index'])->name('tahun.index')->middleware('admin');
-    Route::post('/tahun/ajaxAdd', [TahunAkademikController::class, 'add'])->name('tahun.add')->middleware('admin');
-    Route::post('/tahun/ajaxSetActive', [TahunAkademikController::class, 'setActive'])->name('tahun.set')->middleware('admin');
+    Route::get('/tahun', [TahunAkademikController::class, 'index'])->name('tahun.index')->middleware('admin:admin,akademik');
+    Route::post('/tahun/ajaxAdd', [TahunAkademikController::class, 'add'])->name('tahun.add')->middleware('admin:admin,akademik');
+    Route::post('/tahun/ajaxSetActive', [TahunAkademikController::class, 'setActive'])->name('tahun.set')->middleware('admin:admin,akademik');
 
     Route::middleware('tahun')->group(function () {
         Route::get('/mst_hukdis', [MstHukdisController::class, 'index'])->name('mst_hukdis.index');
