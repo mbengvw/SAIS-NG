@@ -73,8 +73,8 @@
                                 <thead>
                                     <tr>
                                         <th width="5%" class="text-center">No</th>
-                                        <th width="35%">Nama Siswa</th>
-                                        <th width="60%">Catatan / Uraian</th>
+                                        <th width="45%">Nama Siswa</th>
+                                        <th width="50%">Catatan / Uraian</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -82,8 +82,17 @@
                                         <tr>
                                             <td class="text-center">{{ $index + 1 }}</td>
                                             <td>
-                                                <div class="font-weight-bold">{{ $row->siswa->nama ?? 'N/A' }}</div>
-                                                <small class="text-muted">NISN: {{ $row->siswa->nisn ?? '-' }}</small>
+                                                <div class="d-flex align-items-center">
+                                                    @if(!empty($row->siswa->foto))
+                                                        <img src="{{ asset($row->siswa->foto) }}" alt="Foto" class="rounded-circle mr-3" style="width: 60px; height: 60px; object-fit: cover; border: 2px solid #e0e7ff;">
+                                                    @else
+                                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($row->siswa->nama ?? 'Siswa') }}&background=e0e7ff&color=4f46e5&rounded=true&bold=true&size=120" alt="Foto" class="rounded-circle mr-3" style="width: 60px; height: 60px;">
+                                                    @endif
+                                                    <div>
+                                                        <div class="font-weight-bold">{{ $row->siswa->nama ?? 'N/A' }}</div>
+                                                        <small class="text-muted">NISN: {{ $row->siswa->nisn ?? '-' }}</small>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 <textarea name="catatan[{{ $row->id_siswa }}]" class="form-control" rows="2" placeholder="Tambahkan catatan khusus untuk siswa ini (opsional)..."></textarea>
