@@ -37,6 +37,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/piket/status-absensi', [PiketController::class, 'statusAbsensi'])->name('piket.status_absensi')->middleware('piket');
     // Guru Mapel Routes
     Route::get('gurumapel', [App\Http\Controllers\GuruMapelController::class, 'index'])->name('gurumapel.index');
+    Route::get('gurumapel/kelas/{id_penetapan}', [App\Http\Controllers\GuruMapelController::class, 'showKelas'])->name('gurumapel.show_kelas');
+    Route::post('gurumapel/kelas/{id_penetapan}/simpan', [App\Http\Controllers\GuruMapelController::class, 'storeCatatan'])->name('gurumapel.store_catatan');
+    Route::get('gurumapel/kelas/{id_penetapan}/riwayat', [App\Http\Controllers\GuruMapelController::class, 'riwayatKelas'])->name('gurumapel.riwayat');
+    Route::get('gurumapel/pertemuan/{id_pertemuan}/detail', [App\Http\Controllers\GuruMapelController::class, 'detailRiwayat'])->name('gurumapel.detail_riwayat');
     Route::get('gurumapel/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
     
     // Siswa Routes
