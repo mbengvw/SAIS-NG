@@ -129,4 +129,69 @@ class GuruMapelController extends Controller
 
         return response()->json($catatan);
     }
+
+    public function editPertemuan($id_pertemuan)
+    {
+        $data_tahun = TahunService::getActive();
+        $pertemuan = PertemuanGuruMapel::findOrFail($id_pertemuan);
+        $penetapan = PenetapanGuruMapel::with(['kelas', 'mapel'])->findOrFail($pertemuan->id_penetapan);
+        
+        if ($penetapan->id_guru != Auth::id()) {
+            return redirect()->route('gurumapel.index')->with('error', 'Akses ditolak.');
+        }
+
+        $siswa = Grouping::with('siswa')
+            ->where('id_kelas', $penetapan->id_kelas)
+            ->where('id_tahun', $data_tahun->id)
+            ->get();
+            
+        // Get existing notes and map them by student id
+        $catatan_lama = CatatanPembelajaran::where('id_pertemuan', $id_pertemuan)
+            ->pluck('catatan', 'id_siswa')
+            ->toArray();
+
+        return view('gurumapel.edit_pertemuan', compact('pertemuan', 'penetapan', 'siswa', 'data_tahun', 'catatan_lama'));
+    }
+
+    public function updatePertemuan(Request $request, $id_pertemuan)
+    {
+        $request->validate([
+            'tanggal' => 'required|date',
+            'materi_pembelajaran' => 'required|string',
+            'catatan' => 'array',
+        ]);
+
+        $pertemuan = PertemuanGuruMapel::findOrFail($id_pertemuan);
+        $penetapan = PenetapanGuruMapel::findOrFail($pertemuan->id_penetapan);
+        if ($penetapan->id_guru != Auth::id()) {
+            return redirect()->route('gurumapel.index')->with('error', 'Akses ditolak.');
+        }
+
+        DB::beginTransaction();
+        try {
+            $pertemuan->update([
+                'tanggal' => $request->tanggal,
+                'materi_pembelajaran' => $request->materi_pembelajaran,
+            ]);
+
+            if ($request->has('catatan')) {
+                foreach ($request->catatan as $id_siswa => $isi_catatan) {
+                    if (!empty($isi_catatan)) {
+                        CatatanPembelajaran::updateOrCreate(
+                            ['id_pertemuan' => $pertemuan->id, 'id_siswa' => $id_siswa],
+                            ['catatan' => $isi_catatan]
+                        );
+                    } else {
+                        // Optional: if the note is empty, we might want to delete it if it existed.
+                        // CatatanPembelajaran::where(['id_pertemuan' => $pertemuan->id, 'id_siswa' => $id_siswa])->delete();
+                    }
+                }
+            }
+            DB::commit();
+            return redirect()->route('gurumapel.riwayat', $penetapan->id)->with('success', 'Catatan pertemuan berhasil diperbarui.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui data: ' . $e->getMessage());
+        }
+    }
 }

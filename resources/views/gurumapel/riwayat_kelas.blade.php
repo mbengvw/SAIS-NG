@@ -47,8 +47,11 @@
                                         <td>{{ \Carbon\Carbon::parse($row->tanggal)->translatedFormat('d F Y') }}</td>
                                         <td>{{ $row->materi_pembelajaran }}</td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-info btn-sm btn-detail" data-id="{{ $row->id }}">
-                                                <i class="fa fa-eye"></i> Lihat Catatan Siswa
+                                            <a href="{{ route('gurumapel.edit_pertemuan', $row->id) }}" class="btn btn-warning btn-sm text-white mb-1">
+                                                <i class="fa fa-edit"></i> Edit
+                                            </a>
+                                            <button type="button" class="btn btn-info btn-sm btn-detail mb-1" data-id="{{ $row->id }}">
+                                                <i class="fa fa-eye"></i> Detail
                                             </button>
                                         </td>
                                     </tr>
