@@ -45,7 +45,7 @@
                                     <tr>
                                         <td class="text-center">{{ $index + 1 }}</td>
                                         <td>{{ \Carbon\Carbon::parse($row->tanggal)->translatedFormat('d F Y') }}</td>
-                                        <td>{{ $row->materi_pembelajaran }}</td>
+                                        <td>{!! $row->materi_pembelajaran !!}</td>
                                         <td class="text-center">
                                             <a href="{{ route('gurumapel.edit_pertemuan', $row->id) }}" class="btn btn-warning btn-sm text-white mb-1">
                                                 <i class="fa fa-edit"></i> Edit
