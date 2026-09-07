@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('gurumapel/pertemuan/{id_pertemuan}/detail', [App\Http\Controllers\GuruMapelController::class, 'detailRiwayat'])->name('gurumapel.detail_riwayat');
     Route::get('gurumapel/pertemuan/{id_pertemuan}/edit', [App\Http\Controllers\GuruMapelController::class, 'editPertemuan'])->name('gurumapel.edit_pertemuan');
     Route::post('gurumapel/pertemuan/{id_pertemuan}/update', [App\Http\Controllers\GuruMapelController::class, 'updatePertemuan'])->name('gurumapel.update_pertemuan');
+    Route::delete('gurumapel/pertemuan/{id_pertemuan}', [App\Http\Controllers\GuruMapelController::class, 'destroyPertemuan'])->name('gurumapel.destroy_pertemuan');
     Route::get('gurumapel/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
 
     // Siswa Routes

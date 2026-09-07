@@ -53,6 +53,13 @@
                                             <button type="button" class="btn btn-info btn-sm btn-detail mb-1" data-id="{{ $row->id }}">
                                                 <i class="fa fa-eye"></i> Detail
                                             </button>
+                                            <form action="{{ route('gurumapel.destroy_pertemuan', $row->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus catatan pertemuan ini? Seluruh catatan siswa pada pertemuan ini juga akan terhapus.');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm mb-1">
+                                                    <i class="fa fa-trash"></i> Hapus
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @empty

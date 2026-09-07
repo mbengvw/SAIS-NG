@@ -1,5 +1,9 @@
 @extends('main')
 
+@section('css')
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+@endsection
+
 @section('content')
 <div class="container-fluid" style="margin-top: 25px;">
     
@@ -43,7 +47,7 @@
     <form action="{{ route('gurumapel.update_pertemuan', $pertemuan->id) }}" method="POST">
         @csrf
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-7">
                 <div class="card shadow-sm mb-4">
                     <div class="card-header bg-white font-weight-bold">
                         Detail Pertemuan
@@ -55,13 +59,13 @@
                         </div>
                         <div class="form-group">
                             <label for="materi_pembelajaran">Materi Pembelajaran <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="materi_pembelajaran" name="materi_pembelajaran" rows="5" placeholder="Tuliskan materi yang dibahas pada pertemuan ini..." required>{{ $pertemuan->materi_pembelajaran }}</textarea>
+                            <textarea class="form-control" id="materi_pembelajaran" name="materi_pembelajaran" rows="5" placeholder="Tuliskan materi yang dibahas pada pertemuan ini...">{{ $pertemuan->materi_pembelajaran }}</textarea>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-8">
+            <div class="col-md-5">
                 <div class="card shadow-sm mb-4">
                     <div class="card-header bg-white font-weight-bold">
                         Daftar Siswa & Catatan Pembelajaran
@@ -72,8 +76,8 @@
                                 <thead>
                                     <tr>
                                         <th width="5%" class="text-center">No</th>
-                                        <th width="45%">Nama Siswa</th>
-                                        <th width="50%">Catatan / Uraian</th>
+                                        <th width="65%">Nama Siswa</th>
+                                        <th width="30%">Catatan / Uraian</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -114,4 +118,26 @@
         </div>
     </form>
 </div>
+@endsection
+
+@section('script')
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#materi_pembelajaran').summernote({
+                placeholder: 'Tuliskan materi yang dibahas pada pertemuan ini...',
+                tabsize: 2,
+                height: 150,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        });
+    </script>
 @endsection

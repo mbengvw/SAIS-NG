@@ -48,7 +48,7 @@
     <form action="{{ route('gurumapel.store_catatan', $penetapan->id) }}" method="POST">
         @csrf
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-7">
                 <div class="card shadow-sm mb-4">
                     <div class="card-header bg-white font-weight-bold">
                         Detail Pertemuan
@@ -66,7 +66,7 @@
                 </div>
             </div>
 
-            <div class="col-md-8">
+            <div class="col-md-5">
                 <div class="card shadow-sm mb-4">
                     <div class="card-header bg-white font-weight-bold">
                         Daftar Siswa & Catatan Pembelajaran
@@ -77,8 +77,8 @@
                                 <thead>
                                     <tr>
                                         <th width="5%" class="text-center">No</th>
-                                        <th width="45%">Nama Siswa</th>
-                                        <th width="50%">Catatan / Uraian</th>
+                                        <th width="65%">Nama Siswa</th>
+                                        <th width="30%">Catatan / Uraian</th>
                                     </tr>
                                 </thead>
                                 <tbody>

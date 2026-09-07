@@ -194,4 +194,25 @@ class GuruMapelController extends Controller
             return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui data: ' . $e->getMessage());
         }
     }
+
+    public function destroyPertemuan($id_pertemuan)
+    {
+        $pertemuan = PertemuanGuruMapel::findOrFail($id_pertemuan);
+        $penetapan = PenetapanGuruMapel::findOrFail($pertemuan->id_penetapan);
+        if ($penetapan->id_guru != Auth::id()) {
+            return redirect()->route('gurumapel.index')->with('error', 'Akses ditolak.');
+        }
+
+        DB::beginTransaction();
+        try {
+            CatatanPembelajaran::where('id_pertemuan', $pertemuan->id)->delete();
+            $pertemuan->delete();
+            
+            DB::commit();
+            return redirect()->route('gurumapel.riwayat', $penetapan->id)->with('success', 'Catatan pertemuan berhasil dihapus.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data: ' . $e->getMessage());
+        }
+    }
 }
