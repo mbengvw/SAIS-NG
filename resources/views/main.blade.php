@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/sbi-theme.css') }}">
     @include('partials/_css')
     @include('partials/_script')
+    @yield('css')
 </head>
 
 <body>

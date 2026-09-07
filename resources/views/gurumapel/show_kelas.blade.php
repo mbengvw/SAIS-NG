@@ -1,5 +1,9 @@
 @extends('main')
 
+@section('css')
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+@endsection
+
 @section('content')
 <div class="container-fluid" style="margin-top: 25px;">
     
@@ -56,7 +60,7 @@
                         </div>
                         <div class="form-group">
                             <label for="materi_pembelajaran">Materi Pembelajaran <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="materi_pembelajaran" name="materi_pembelajaran" rows="5" placeholder="Tuliskan materi yang dibahas pada pertemuan ini..." required></textarea>
+                            <textarea class="form-control" id="materi_pembelajaran" name="materi_pembelajaran" rows="5" placeholder="Tuliskan materi yang dibahas pada pertemuan ini..."></textarea>
                         </div>
                     </div>
                 </div>
@@ -115,4 +119,26 @@
         </div>
     </form>
 </div>
+@endsection
+
+@section('script')
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#materi_pembelajaran').summernote({
+                placeholder: 'Tuliskan materi yang dibahas pada pertemuan ini...',
+                tabsize: 2,
+                height: 150,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        });
+    </script>
 @endsection
