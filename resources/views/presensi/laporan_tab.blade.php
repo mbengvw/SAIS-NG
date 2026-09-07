@@ -61,6 +61,9 @@
         <li class="nav-item">
             <a class="nav-link" id="tab-tahunan" data-toggle="tab" href="#content-tahunan" role="tab">Per Tahun</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab-siswa" data-toggle="tab" href="#content-siswa" role="tab">Riwayat Per Siswa</a>
+        </li>
     </ul>
 
     <!-- Tabs Content -->
@@ -281,6 +284,86 @@
             </div>
         </div>
 
+        <!-- ================= TAB PER SISWA ================= -->
+        <div class="tab-pane fade" id="content-siswa" role="tabpanel">
+            <div class="card shadow-sm mb-4" style="border-radius: 15px;">
+                <div class="card-header bg-white font-weight-bold" style="border-radius: 15px 15px 0 0;">Filter Riwayat Siswa</div>
+                <div class="card-body">
+                    <form id="form-siswa">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 col-12 mb-3">
+                                <input type="text" class="form-control" name="nama" placeholder="Nama Siswa">
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-12 mb-3">
+                                <input type="text" class="form-control" name="nisn" placeholder="NISN Siswa">
+                            </div>
+                            <div class="col-md-4 col-sm-12 col-12 mb-3">
+                                <button type="submit" class="btn btn-primary w-100 shadow-sm"><i class="fa fa-search"></i> Tampilkan Riwayat</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card shadow-sm" style="border-radius: 15px;">
+                <div class="card-body p-2 p-md-3">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover rekap_datatable" id="tbl_siswa" style="width: 100%;">
+                            <thead><tr>
+                                <th style="width: 5%;">No.</th>
+                                <th>Tanggal</th>
+                                <th>Siswa</th>
+                                <th>NISN</th>
+                                <th>Kelas</th>
+                                <th>Status</th>
+                                <th>Keterangan</th>
+                                <th style="width: 15%;" class="text-center">Aksi</th>
+                            </tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal Edit Presensi -->
+<div class="modal fade" id="modalEditPresensi" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form id="formEditPresensi">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="id_kehadiran" id="edit_id_kehadiran">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold">Edit Absensi Siswa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Status Kehadiran</label>
+                        <select class="form-control" name="status" id="edit_status" required>
+                            <option value="Hadir">Hadir</option>
+                            <option value="Sakit">Sakit</option>
+                            <option value="Izin">Izin</option>
+                            <option value="Alfa">Alfa</option>
+                            <option value="Dispensasi">Dispensasi</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Keterangan</label>
+                        <textarea class="form-control" name="keterangan" id="edit_keterangan" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 @endsection
@@ -296,7 +379,9 @@
 
         const app_path = {
             ajax: "{{ url('ajax') }}",
-            harian: "{{ route('presensi.all') }}", // PresensiController@ajax_list_by
+            harian: "{{ route('presensi.all') }}",
+            siswa: "{{ route('presensi.rekap_siswa') }}",
+            base_url: "{{ url('/') }}"
         };
     </script>
     <script src="{{ asset('js/laporan_tab.js') }}" defer></script>

@@ -152,6 +152,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('presensi/monitoring-piket', [\App\Http\Controllers\PiketController::class, 'monitoringKesiswaan'])->name('presensi.monitoring_piket');
         Route::get('presensi/rekap', [LaporanPresensiController::class, 'index'])->name('presensi.rekap');
         Route::get('presensi/rekap_bulanan', [RekapPresensiController::class, 'index'])->name('presensi.bulanan');
+        Route::get('presensi/rekap/siswa', [LaporanPresensiController::class, 'listRekapPerSiswa'])->name('presensi.rekap_siswa');
+        Route::put('presensi/{id}', [LaporanPresensiController::class, 'updatePresensi'])->name('presensi.update');
+        Route::delete('presensi/{id}', [LaporanPresensiController::class, 'deletePresensi'])->name('presensi.destroy');
 
         // MBG Module Routes
         Route::get('mbg', [\App\Http\Controllers\MbgController::class, 'index'])->name('mbg.index');

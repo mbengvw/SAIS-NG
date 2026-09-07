@@ -174,6 +174,113 @@ $(document).ready(function () {
         });
     });
 
+    // --- PER SISWA ---
+    $("#form-siswa").on("submit", function(e) {
+        e.preventDefault();
+        let nama = $("#form-siswa input[name='nama']").val();
+        let nisn = $("#form-siswa input[name='nisn']").val();
+
+        if(!nama && !nisn) {
+            alert("Harap isi Nama atau NISN Siswa untuk mencari"); return;
+        }
+
+        $("#tbl_siswa").DataTable({
+            processing: true,
+            serverSide: true,
+            bDestroy: true,
+            ajax: {
+                url: app_path.siswa,
+                data: { nama: nama, nisn: nisn }
+            },
+            columns: [
+                {
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                { data: 'tanggal', name: 'tanggal' },
+                { data: 'nama_siswa', name: 'nama_siswa' },
+                { data: 'nisn_siswa', name: 'nisn_siswa' },
+                { data: 'nama_kelas', name: 'nama_kelas' },
+                {
+                    data: 'status',
+                    render: function (data, type, row) {
+                        if (row.status == "Hadir") return '<span class="badge badge-success">Hadir</span>';
+                        else if (row.status == "Sakit") return '<span class="badge badge-warning">Sakit</span>';
+                        else if (row.status == "Izin") return '<span class="badge badge-info">Izin</span>';
+                        else if (row.status == "Alfa") return '<span class="badge badge-danger">Alfa</span>';
+                        else return `<span class="badge badge-secondary">${row.status}</span>`;
+                    }
+                },
+                { data: 'keterangan', name: 'keterangan' },
+                { data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center' }
+            ]
+        });
+    });
+
+    // Handle Edit Button Click
+    $(document).on('click', '.btn-edit-presensi', function() {
+        let id = $(this).data('id');
+        let status = $(this).data('status');
+        let keterangan = $(this).data('keterangan');
+        
+        $('#edit_id_kehadiran').val(id);
+        $('#edit_status').val(status);
+        $('#edit_keterangan').val(keterangan);
+        
+        $('#modalEditPresensi').modal('show');
+    });
+
+    // Handle Edit Form Submission
+    $('#formEditPresensi').on('submit', function(e) {
+        e.preventDefault();
+        let id = $('#edit_id_kehadiran').val();
+        
+        $.ajax({
+            url: app_path.base_url + '/presensi/' + id,
+            type: 'PUT',
+            data: $(this).serialize(),
+            success: function(response) {
+                if(response.success) {
+                    $('#modalEditPresensi').modal('hide');
+                    alert(response.message);
+                    $('#tbl_siswa').DataTable().ajax.reload(null, false);
+                } else {
+                    alert('Gagal mengupdate data.');
+                }
+            },
+            error: function(xhr) {
+                let res = xhr.responseJSON;
+                alert(res && res.message ? res.message : 'Terjadi kesalahan saat mengupdate.');
+            }
+        });
+    });
+
+    // Handle Delete Button Click
+    $(document).on('click', '.btn-delete-presensi', function() {
+        let id = $(this).data('id');
+        
+        if(confirm("Apakah Anda yakin ingin menghapus data absensi ini?")) {
+            $.ajax({
+                url: app_path.base_url + '/presensi/' + id,
+                type: 'DELETE',
+                success: function(response) {
+                    if(response.success) {
+                        alert(response.message);
+                        $('#tbl_siswa').DataTable().ajax.reload(null, false);
+                    } else {
+                        alert('Gagal menghapus data.');
+                    }
+                },
+                error: function(xhr) {
+                    let res = xhr.responseJSON;
+                    alert(res && res.message ? res.message : 'Terjadi kesalahan saat menghapus.');
+                }
+            });
+        }
+    });
+
     // Default trigger first class for initial load (optional, or just wait for user to select)
     let initialKelas = $("select[name='kelas']").first().find('option:nth-child(2)').val();
     if(initialKelas) {

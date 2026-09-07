@@ -128,5 +128,94 @@ class LaporanPresensiController extends Controller
         }
     }
 
+    public function listRekapPerSiswa(Request $request)
+    {
+        if ($request->ajax()) {
+            $data_tahun = TahunService::getActive();
+            $nama = $request->input('nama');
+            $nisn = $request->input('nisn');
+            
+            $query = \App\Models\Presensi::with(['grouping.siswa', 'grouping.kelas'])
+                ->whereHas('grouping', function($q) use ($data_tahun) {
+                    $q->where('id_tahun', $data_tahun->id);
+                });
+
+            if (!empty($nama)) {
+                $query->whereHas('grouping.siswa', function($q) use ($nama) {
+                    $q->where('nama', 'like', '%' . $nama . '%');
+                });
+            }
+
+            if (!empty($nisn)) {
+                $query->whereHas('grouping.siswa', function($q) use ($nisn) {
+                    $q->where('nisn', 'like', '%' . $nisn . '%');
+                });
+            }
+
+            // If no filter is provided, return empty to not overload the table
+            if (empty($nama) && empty($nisn)) {
+                return DataTables::of(collect([]))->make(true);
+            }
+
+            $data = $query->orderBy('tanggal', 'desc')->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('nama_siswa', function($row) {
+                    return $row->grouping->siswa->nama ?? '-';
+                })
+                ->addColumn('nisn_siswa', function($row) {
+                    return $row->grouping->siswa->nisn ?? '-';
+                })
+                ->addColumn('nama_kelas', function($row) {
+                    return $row->grouping->kelas->nama_kelas ?? '-';
+                })
+                ->addColumn('action', function($row) {
+                    $user = auth()->user();
+                    $btn = '';
+                    if ($user->hasRole('admin') || $user->admin == 1) {
+                        $btn .= '<button type="button" class="btn btn-warning btn-sm btn-edit-presensi mr-1" data-id="'.$row->id_kehadiran.'" data-status="'.$row->status.'" data-keterangan="'.$row->keterangan.'"><i class="fa fa-edit"></i> Edit</button>';
+                        $btn .= '<button type="button" class="btn btn-danger btn-sm btn-delete-presensi" data-id="'.$row->id_kehadiran.'"><i class="fa fa-trash"></i> Hapus</button>';
+                    }
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+    }
+
+    public function updatePresensi(Request $request, $id)
+    {
+        $user = auth()->user();
+        if (!$user->hasRole('admin') && $user->admin != 1) {
+            return response()->json(['success' => false, 'message' => 'Akses ditolak. Hanya Admin yang dapat mengubah data.'], 403);
+        }
+
+        $request->validate([
+            'status' => 'required',
+            'keterangan' => 'nullable|string'
+        ]);
+
+        $presensi = \App\Models\Presensi::findOrFail($id);
+        $presensi->update([
+            'status' => $request->status,
+            'keterangan' => $request->keterangan
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Data absensi berhasil diupdate.']);
+    }
+
+    public function deletePresensi($id)
+    {
+        $user = auth()->user();
+        if (!$user->hasRole('admin') && $user->admin != 1) {
+            return response()->json(['success' => false, 'message' => 'Akses ditolak. Hanya Admin yang dapat menghapus data.'], 403);
+        }
+
+        $presensi = \App\Models\Presensi::findOrFail($id);
+        $presensi->delete();
+
+        return response()->json(['success' => true, 'message' => 'Data absensi berhasil dihapus.']);
+    }
 
 }
