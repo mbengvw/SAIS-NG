@@ -90,6 +90,9 @@
         <li class="nav-item">
             <a class="nav-link" id="tab-tahunan" data-toggle="tab" href="#content-tahunan" role="tab">Tahunan</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab-individu" data-toggle="tab" href="#content-individu" role="tab">Per Siswa</a>
+        </li>
     </ul>
 
     <!-- Tabs Content -->
@@ -278,6 +281,51 @@
             </div>
         </div>
 
+        <!-- CONTENT INDIVIDU -->
+        <div class="tab-pane fade" id="content-individu" role="tabpanel">
+            <div class="card shadow-sm" style="border-radius: 15px; border-top: 4px solid #dc3545;">
+                <div class="card-body">
+                    <form id="filter_individu" class="mb-4">
+                        <div class="row align-items-end">
+                            <div class="col-md-4 mb-2">
+                                <label class="font-weight-bold text-muted small">Kelas</label>
+                                <select name="id_kelas" class="form-control" id="individu_kelas">
+                                    <option value="">-- Pilih Kelas --</option>
+                                    @foreach ($list_kelas as $kls)
+                                        <option value="{{ $kls->id_kelas }}">{{ $kls->nama_kelas }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <label class="font-weight-bold text-muted small">Siswa</label>
+                                <select name="id_siswa" class="form-control" id="individu_siswa">
+                                    <option value="">-- Pilih Kelas Terlebih Dahulu --</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-2">
+                                <button type="submit" class="btn btn-danger btn-block" id="btn_filter_individu" disabled><i class="fa fa-search"></i> Tampilkan</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="table-responsive">
+                        <table class="table table-striped w-100" id="tbl_individu">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tanggal</th>
+                                    <th>Semester</th>
+                                    <th>Deskripsi Pelanggaran</th>
+                                    <th>Poin</th>
+                                    <th>Petugas</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 @endsection
@@ -286,6 +334,9 @@
     <script>
         const path = {
             ajax: "{{ url('ajax') }}",
+            ajax_siswa: "{{ url('hukdis/ajax_list_siswa_by_tahun') }}",
+            tahun: "{{ $data_tahun->tahun }}",
+            riwayat_pelanggaran_base: "{{ url('siswa') }}" // to append /{id}/pelanggaran
         };
     </script>
     <script src="{{ asset('js/rekap_pelanggaran_tab.js') }}" defer></script>

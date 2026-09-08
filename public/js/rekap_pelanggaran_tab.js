@@ -94,6 +94,67 @@ $(document).ready(function () {
         tableTahunan.draw();
     });
 
+    // INDIVIDU
+    let tableIndividu = $("#tbl_individu").DataTable({
+        processing: true,
+        serverSide: true,
+        deferLoading: 0,
+        ajax: {
+            url: "", // will be set dynamically
+            type: "GET",
+        },
+        columns: [
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            { data: 'tanggal', name: 'tanggal' },
+            { data: 'semester', name: 'semester' },
+            { data: 'deskripsi', name: 'deskripsi' },
+            { data: 'poin', name: 'poin' },
+            { data: 'petugas', name: 'petugas', defaultContent: '-' },
+        ]
+    });
+
+    $("#individu_kelas").on("change", function () {
+        let id_kelas = $(this).val();
+        let selectSiswa = $("#individu_siswa");
+        selectSiswa.empty().append('<option value="">-- Pilih Siswa --</option>');
+        $("#btn_filter_individu").prop("disabled", true);
+
+        if (id_kelas) {
+            $.ajax({
+                url: path.ajax_siswa,
+                type: "GET",
+                data: {
+                    tahun: path.tahun,
+                    id_kelas: id_kelas
+                },
+                success: function (res) {
+                    if (res.students) {
+                        $.each(res.students, function (key, value) {
+                            selectSiswa.append('<option value="' + value.id_siswa + '">' + value.nama_siswa + '</option>');
+                        });
+                    }
+                }
+            });
+        }
+    });
+
+    $("#individu_siswa").on("change", function () {
+        if ($(this).val()) {
+            $("#btn_filter_individu").prop("disabled", false);
+        } else {
+            $("#btn_filter_individu").prop("disabled", true);
+        }
+    });
+
+    $("#filter_individu").on("submit", function (e) {
+        e.preventDefault();
+        let id_siswa = $("#individu_siswa").val();
+        if (id_siswa) {
+            let url = path.riwayat_pelanggaran_base + "/" + id_siswa + "/pelanggaran";
+            tableIndividu.ajax.url(url).load();
+        }
+    });
+
     // Lazy load datatables when tab is clicked
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         let target = $(e.target).attr("href"); // activated tab

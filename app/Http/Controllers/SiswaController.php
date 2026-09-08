@@ -23,7 +23,6 @@ class SiswaController extends Controller
                     $button = '<button type="button" name="edit" id="' . $row->id . '" class="edit btn btn-primary btn-sm">Edit</button>';
                     $button .= '<button type="button" name="delete" id="' . $row->id . '" class="delete btn btn-danger btn-sm">Delete</button>';
                     $button .= '<button type="button" name="non" id="' . $row->id . '" class="non btn btn-warning btn-sm">Non-aktif</button>';
-                    $button .= '<a href="' . route('siswa.riwayat_pelanggaran', $row->id) . '" class="btn btn-info btn-sm">Pelanggaran</a>';
                     return $button;
                 })
 
