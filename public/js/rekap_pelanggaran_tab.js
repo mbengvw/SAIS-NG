@@ -130,7 +130,7 @@ $(document).ready(function () {
                 success: function (res) {
                     if (res.students) {
                         $.each(res.students, function (key, value) {
-                            selectSiswa.append('<option value="' + value.id_siswa + '">' + value.nama_siswa + '</option>');
+                            selectSiswa.append('<option value="' + value.id_siswa + '">' + value.nama + '</option>');
                         });
                     }
                 }
