@@ -9,6 +9,7 @@ use App\Models\Student;
 use App\Services\SiswaService;
 use App\Services\TahunService;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class SiswaController extends Controller
 {
@@ -22,6 +23,7 @@ class SiswaController extends Controller
                     $button = '<button type="button" name="edit" id="' . $row->id . '" class="edit btn btn-primary btn-sm">Edit</button>';
                     $button .= '<button type="button" name="delete" id="' . $row->id . '" class="delete btn btn-danger btn-sm">Delete</button>';
                     $button .= '<button type="button" name="non" id="' . $row->id . '" class="non btn btn-warning btn-sm">Non-aktif</button>';
+                    $button .= '<a href="' . route('siswa.riwayat_pelanggaran', $row->id) . '" class="btn btn-info btn-sm">Pelanggaran</a>';
                     return $button;
                 })
 
@@ -195,5 +197,33 @@ class SiswaController extends Controller
         fclose($fileHandle);
 
         return redirect()->back()->with('success', 'Data siswa berhasil diupload dari CSV.');
+    }
+    public function riwayatPelanggaran($id_siswa, Request $request)
+    {
+        $siswa = Student::findOrFail($id_siswa);
+
+        if ($request->ajax()) {
+            $pelanggaran = DB::table('tst_pelanggaran as p')
+                ->join('tst_grouping as g', 'p.id_grouping', '=', 'g.id_grouping')
+                ->join('mst_hukdis as h', 'p.id_hukdis', '=', 'h.id_hukdis')
+                ->leftJoin('users as u', 'p.id_petugas', '=', 'u.id')
+                ->where('g.id_siswa', $id_siswa)
+                ->select([
+                    'p.id_pelanggaran',
+                    'p.tanggal',
+                    'p.semester',
+                    'h.deskripsi',
+                    'h.poin',
+                    'u.name as petugas'
+                ])
+                ->orderBy('p.tanggal', 'desc')
+                ->get();
+
+            return DataTables::of($pelanggaran)
+                ->addIndexColumn()
+                ->make(true);
+        }
+
+        return view('siswa.riwayat_pelanggaran', compact('siswa'));
     }
 }
