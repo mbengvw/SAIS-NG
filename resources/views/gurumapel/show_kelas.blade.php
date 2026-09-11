@@ -48,7 +48,7 @@
     <form action="{{ route('gurumapel.store_catatan', $penetapan->id) }}" method="POST">
         @csrf
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-12">
                 <div class="card shadow-sm mb-4">
                     <div class="card-header bg-white font-weight-bold">
                         Detail Pertemuan
@@ -66,7 +66,7 @@
                 </div>
             </div>
 
-            <div class="col-md-5">
+            <div class="col-12">
                 <div class="card shadow-sm mb-4">
                     <div class="card-header bg-white font-weight-bold">
                         Daftar Siswa & Catatan Pembelajaran
@@ -77,8 +77,9 @@
                                 <thead>
                                     <tr>
                                         <th width="5%" class="text-center">No</th>
-                                        <th width="65%">Nama Siswa</th>
-                                        <th width="30%">Catatan / Uraian</th>
+                                        <th width="45%">Nama Siswa</th>
+                                        <th width="25%">Kehadiran</th>
+                                        <th width="25%">Catatan / Uraian</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -95,6 +96,30 @@
                                                     <div>
                                                         <div class="font-weight-bold">{{ $row->siswa->nama ?? 'N/A' }}</div>
                                                         <small class="text-muted">NISN: {{ $row->siswa->nisn ?? '-' }}</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-wrap">
+                                                    <div class="form-check form-check-inline mb-1">
+                                                        <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="hadir_{{ $row->id_siswa }}" value="H" checked>
+                                                        <label class="form-check-label text-success font-weight-bold" for="hadir_{{ $row->id_siswa }}">H</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline mb-1">
+                                                        <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="sakit_{{ $row->id_siswa }}" value="S">
+                                                        <label class="form-check-label text-info font-weight-bold" for="sakit_{{ $row->id_siswa }}">S</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline mb-1">
+                                                        <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="izin_{{ $row->id_siswa }}" value="I">
+                                                        <label class="form-check-label text-warning font-weight-bold" for="izin_{{ $row->id_siswa }}">I</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline mb-1">
+                                                        <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="alpa_{{ $row->id_siswa }}" value="A">
+                                                        <label class="form-check-label text-danger font-weight-bold" for="alpa_{{ $row->id_siswa }}">A</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline mb-1">
+                                                        <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="dispen_{{ $row->id_siswa }}" value="D">
+                                                        <label class="form-check-label text-primary font-weight-bold" for="dispen_{{ $row->id_siswa }}">D</label>
                                                     </div>
                                                 </div>
                                             </td>

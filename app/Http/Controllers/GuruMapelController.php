@@ -66,6 +66,7 @@ class GuruMapelController extends Controller
             'tanggal' => 'required|date',
             'materi_pembelajaran' => 'required|string',
             'catatan' => 'array',
+            'kehadiran' => 'required|array',
         ]);
 
         $penetapan = PenetapanGuruMapel::findOrFail($id_penetapan);
@@ -81,15 +82,15 @@ class GuruMapelController extends Controller
                 'materi_pembelajaran' => $request->materi_pembelajaran,
             ]);
 
-            if ($request->has('catatan')) {
-                foreach ($request->catatan as $id_siswa => $isi_catatan) {
-                    if (!empty($isi_catatan)) {
-                        CatatanPembelajaran::create([
-                            'id_pertemuan' => $pertemuan->id,
-                            'id_siswa' => $id_siswa,
-                            'catatan' => $isi_catatan,
-                        ]);
-                    }
+            if ($request->has('kehadiran')) {
+                foreach ($request->kehadiran as $id_siswa => $status_kehadiran) {
+                    $isi_catatan = $request->catatan[$id_siswa] ?? null;
+                    CatatanPembelajaran::create([
+                        'id_pertemuan' => $pertemuan->id,
+                        'id_siswa' => $id_siswa,
+                        'status_kehadiran' => $status_kehadiran,
+                        'catatan' => $isi_catatan,
+                    ]);
                 }
             }
             DB::commit();
@@ -145,12 +146,16 @@ class GuruMapelController extends Controller
             ->where('id_tahun', $data_tahun->id)
             ->get();
             
-        // Get existing notes and map them by student id
+        // Get existing notes and attendance map them by student id
         $catatan_lama = CatatanPembelajaran::where('id_pertemuan', $id_pertemuan)
             ->pluck('catatan', 'id_siswa')
             ->toArray();
+            
+        $kehadiran_lama = CatatanPembelajaran::where('id_pertemuan', $id_pertemuan)
+            ->pluck('status_kehadiran', 'id_siswa')
+            ->toArray();
 
-        return view('gurumapel.edit_pertemuan', compact('pertemuan', 'penetapan', 'siswa', 'data_tahun', 'catatan_lama'));
+        return view('gurumapel.edit_pertemuan', compact('pertemuan', 'penetapan', 'siswa', 'data_tahun', 'catatan_lama', 'kehadiran_lama'));
     }
 
     public function updatePertemuan(Request $request, $id_pertemuan)
@@ -159,6 +164,7 @@ class GuruMapelController extends Controller
             'tanggal' => 'required|date',
             'materi_pembelajaran' => 'required|string',
             'catatan' => 'array',
+            'kehadiran' => 'required|array',
         ]);
 
         $pertemuan = PertemuanGuruMapel::findOrFail($id_pertemuan);
@@ -174,17 +180,13 @@ class GuruMapelController extends Controller
                 'materi_pembelajaran' => $request->materi_pembelajaran,
             ]);
 
-            if ($request->has('catatan')) {
-                foreach ($request->catatan as $id_siswa => $isi_catatan) {
-                    if (!empty($isi_catatan)) {
-                        CatatanPembelajaran::updateOrCreate(
-                            ['id_pertemuan' => $pertemuan->id, 'id_siswa' => $id_siswa],
-                            ['catatan' => $isi_catatan]
-                        );
-                    } else {
-                        // Optional: if the note is empty, we might want to delete it if it existed.
-                        // CatatanPembelajaran::where(['id_pertemuan' => $pertemuan->id, 'id_siswa' => $id_siswa])->delete();
-                    }
+            if ($request->has('kehadiran')) {
+                foreach ($request->kehadiran as $id_siswa => $status_kehadiran) {
+                    $isi_catatan = $request->catatan[$id_siswa] ?? null;
+                    CatatanPembelajaran::updateOrCreate(
+                        ['id_pertemuan' => $pertemuan->id, 'id_siswa' => $id_siswa],
+                        ['status_kehadiran' => $status_kehadiran, 'catatan' => $isi_catatan]
+                    );
                 }
             }
             DB::commit();

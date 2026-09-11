@@ -10,7 +10,7 @@ class CatatanPembelajaran extends Model
     use HasFactory;
 
     protected $table = 'trx_catatan_pembelajaran';
-    protected $fillable = ['id_pertemuan', 'id_siswa', 'catatan'];
+    protected $fillable = ['id_pertemuan', 'id_siswa', 'status_kehadiran', 'catatan'];
 
     public function pertemuan()
     {

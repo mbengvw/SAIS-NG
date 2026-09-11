@@ -92,7 +92,8 @@
                         <thead>
                             <tr>
                                 <th width="35%">Nama Siswa</th>
-                                <th width="65%">Catatan</th>
+                                <th width="15%">Kehadiran</th>
+                                <th width="50%">Catatan</th>
                             </tr>
                         </thead>
                         <tbody id="detail_body">
@@ -115,7 +116,7 @@
     $(document).ready(function() {
         $('.btn-detail').click(function() {
             var id_pertemuan = $(this).data('id');
-            $('#detail_body').html('<tr><td colspan="2" class="text-center">Memuat data...</td></tr>');
+            $('#detail_body').html('<tr><td colspan="3" class="text-center">Memuat data...</td></tr>');
             $('#detailModal').modal('show');
 
             $.ajax({
@@ -127,18 +128,27 @@
                     if (data.length > 0) {
                         $.each(data, function(index, item) {
                             var namaSiswa = item.siswa ? item.siswa.nama : 'N/A';
+                            var kehadiran = item.status_kehadiran ? item.status_kehadiran : '-';
+                            var badgeClass = 'badge-secondary';
+                            if (kehadiran == 'H') badgeClass = 'badge-success';
+                            if (kehadiran == 'S') badgeClass = 'badge-info';
+                            if (kehadiran == 'I') badgeClass = 'badge-warning';
+                            if (kehadiran == 'A') badgeClass = 'badge-danger';
+                            if (kehadiran == 'D') badgeClass = 'badge-primary';
+                            
                             html += '<tr>';
                             html += '<td><strong>' + namaSiswa + '</strong></td>';
+                            html += '<td><span class="badge ' + badgeClass + '">' + kehadiran + '</span></td>';
                             html += '<td>' + (item.catatan ? item.catatan.replace(/\n/g, "<br>") : '-') + '</td>';
                             html += '</tr>';
                         });
                     } else {
-                        html = '<tr><td colspan="2" class="text-center">Tidak ada catatan untuk siswa pada pertemuan ini.</td></tr>';
+                        html = '<tr><td colspan="3" class="text-center">Tidak ada catatan untuk siswa pada pertemuan ini.</td></tr>';
                     }
                     $('#detail_body').html(html);
                 },
                 error: function() {
-                    $('#detail_body').html('<tr><td colspan="2" class="text-center text-danger">Gagal memuat data.</td></tr>');
+                    $('#detail_body').html('<tr><td colspan="3" class="text-center text-danger">Gagal memuat data.</td></tr>');
                 }
             });
         });
