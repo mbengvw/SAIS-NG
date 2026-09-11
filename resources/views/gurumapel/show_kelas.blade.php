@@ -72,68 +72,75 @@
                         Daftar Siswa & Catatan Pembelajaran
                     </div>
                     <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover mb-0">
-                                <thead>
-                                    <tr>
-                                        <th width="5%" class="text-center">No</th>
-                                        <th width="45%">Nama Siswa</th>
-                                        <th width="25%">Kehadiran</th>
-                                        <th width="25%">Catatan / Uraian</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($siswa as $index => $row)
-                                        <tr>
-                                            <td class="text-center">{{ $index + 1 }}</td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    @if(!empty($row->siswa->foto))
-                                                        <img src="{{ asset($row->siswa->foto) }}" alt="Foto" class="rounded-circle mr-3" style="width: 60px; height: 60px; object-fit: cover; border: 2px solid #e0e7ff;">
-                                                    @else
-                                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($row->siswa->nama ?? 'Siswa') }}&background=e0e7ff&color=4f46e5&rounded=true&bold=true&size=120" alt="Foto" class="rounded-circle mr-3" style="width: 60px; height: 60px;">
-                                                    @endif
-                                                    <div>
-                                                        <div class="font-weight-bold">{{ $row->siswa->nama ?? 'N/A' }}</div>
-                                                        <small class="text-muted">NISN: {{ $row->siswa->nisn ?? '-' }}</small>
-                                                    </div>
+                        <div class="list-group list-group-flush">
+                            <!-- Header (Hanya tampil di desktop) -->
+                            <div class="list-group-item bg-light font-weight-bold d-none d-md-block">
+                                <div class="row">
+                                    <div class="col-md-4">Nama Siswa</div>
+                                    <div class="col-md-4">Kehadiran</div>
+                                    <div class="col-md-4">Catatan / Uraian</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Daftar Siswa -->
+                            @forelse($siswa as $index => $row)
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
+                                        
+                                        <!-- Bagian 1: Profil Siswa -->
+                                        <div class="col-12 col-md-4 mb-3 mb-md-0 d-flex align-items-center">
+                                            <span class="mr-3 font-weight-bold text-muted">{{ $index + 1 }}.</span>
+                                            @if(!empty($row->siswa->foto))
+                                                <img src="{{ asset($row->siswa->foto) }}" alt="Foto" class="rounded-circle mr-3" style="width: 50px; height: 50px; object-fit: cover; border: 2px solid #e0e7ff;">
+                                            @else
+                                                <img src="https://ui-avatars.com/api/?name={{ urlencode($row->siswa->nama ?? 'Siswa') }}&background=e0e7ff&color=4f46e5&rounded=true&bold=true&size=100" alt="Foto" class="rounded-circle mr-3" style="width: 50px; height: 50px;">
+                                            @endif
+                                            <div>
+                                                <div class="font-weight-bold text-dark">{{ $row->siswa->nama ?? 'N/A' }}</div>
+                                                <small class="text-muted">NISN: {{ $row->siswa->nisn ?? '-' }}</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Bagian 2: Absensi Kehadiran -->
+                                        <div class="col-12 col-md-4 mb-3 mb-md-0">
+                                            <div class="d-md-none text-muted mb-1 small font-weight-bold">Kehadiran:</div>
+                                            <div class="d-flex flex-wrap gap-2">
+                                                <div class="form-check form-check-inline mr-2 mb-1">
+                                                    <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="hadir_{{ $row->id_siswa }}" value="H" checked>
+                                                    <label class="form-check-label text-success font-weight-bold" for="hadir_{{ $row->id_siswa }}">H</label>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex flex-wrap">
-                                                    <div class="form-check form-check-inline mb-1">
-                                                        <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="hadir_{{ $row->id_siswa }}" value="H" checked>
-                                                        <label class="form-check-label text-success font-weight-bold" for="hadir_{{ $row->id_siswa }}">H</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline mb-1">
-                                                        <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="sakit_{{ $row->id_siswa }}" value="S">
-                                                        <label class="form-check-label text-info font-weight-bold" for="sakit_{{ $row->id_siswa }}">S</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline mb-1">
-                                                        <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="izin_{{ $row->id_siswa }}" value="I">
-                                                        <label class="form-check-label text-warning font-weight-bold" for="izin_{{ $row->id_siswa }}">I</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline mb-1">
-                                                        <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="alpa_{{ $row->id_siswa }}" value="A">
-                                                        <label class="form-check-label text-danger font-weight-bold" for="alpa_{{ $row->id_siswa }}">A</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline mb-1">
-                                                        <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="dispen_{{ $row->id_siswa }}" value="D">
-                                                        <label class="form-check-label text-primary font-weight-bold" for="dispen_{{ $row->id_siswa }}">D</label>
-                                                    </div>
+                                                <div class="form-check form-check-inline mr-2 mb-1">
+                                                    <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="sakit_{{ $row->id_siswa }}" value="S">
+                                                    <label class="form-check-label text-info font-weight-bold" for="sakit_{{ $row->id_siswa }}">S</label>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <textarea name="catatan[{{ $row->id_siswa }}]" class="form-control" rows="2" placeholder="Tambahkan catatan khusus untuk siswa ini (opsional)..."></textarea>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="3" class="text-center">Belum ada data siswa di kelas ini.</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+                                                <div class="form-check form-check-inline mr-2 mb-1">
+                                                    <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="izin_{{ $row->id_siswa }}" value="I">
+                                                    <label class="form-check-label text-warning font-weight-bold" for="izin_{{ $row->id_siswa }}">I</label>
+                                                </div>
+                                                <div class="form-check form-check-inline mr-2 mb-1">
+                                                    <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="alpa_{{ $row->id_siswa }}" value="A">
+                                                    <label class="form-check-label text-danger font-weight-bold" for="alpa_{{ $row->id_siswa }}">A</label>
+                                                </div>
+                                                <div class="form-check form-check-inline mr-0 mb-1">
+                                                    <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="dispen_{{ $row->id_siswa }}" value="D">
+                                                    <label class="form-check-label text-primary font-weight-bold" for="dispen_{{ $row->id_siswa }}">D</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Bagian 3: Catatan Pembelajaran -->
+                                        <div class="col-12 col-md-4">
+                                            <div class="d-md-none text-muted mb-1 small font-weight-bold">Catatan (Opsional):</div>
+                                            <textarea name="catatan[{{ $row->id_siswa }}]" class="form-control form-control-sm" rows="2" placeholder="Tulis catatan di sini..."></textarea>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="list-group-item text-center py-4 text-muted">
+                                    Belum ada data siswa di kelas ini.
+                                </div>
+                            @endforelse
                         </div>
                     </div>
                     <div class="card-footer bg-white text-right">
