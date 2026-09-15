@@ -5,7 +5,8 @@
     
     <div class="row mb-3">
         <div class="col-12">
-            <a href="{{ route('gurumapel.show_kelas', $penetapan->id) }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Kembali ke Form Catatan</a>
+            <a href="{{ route('gurumapel.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Kembali ke Dashboard</a>
+            <a href="{{ route('gurumapel.create_catatan', $penetapan->id) }}" class="btn btn-primary float-right"><i class="fa fa-plus"></i> Tambah Catatan</a>
         </div>
     </div>
 
@@ -22,6 +23,23 @@
             </div>
         </div>
     </div>
+
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
 
     <div class="row">
         <div class="col-12">

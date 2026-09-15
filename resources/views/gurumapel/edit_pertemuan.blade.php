@@ -9,7 +9,7 @@
     
     <div class="row mb-3">
         <div class="col-12">
-            <a href="{{ route('gurumapel.riwayat', $penetapan->id) }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Kembali ke Riwayat</a>
+            <a href="{{ route('gurumapel.show_kelas', $penetapan->id) }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Kembali ke Riwayat</a>
         </div>
     </div>
 

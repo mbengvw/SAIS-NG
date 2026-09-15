@@ -44,20 +44,16 @@ class GuruMapelController extends Controller
 
     public function showKelas($id_penetapan)
     {
-        $data_tahun = TahunService::getActive();
         $penetapan = PenetapanGuruMapel::with(['kelas', 'mapel'])->findOrFail($id_penetapan);
-        
-        // Ensure the logged in user is the teacher for this class
         if ($penetapan->id_guru != Auth::id()) {
             return redirect()->route('gurumapel.index')->with('error', 'Akses ditolak.');
         }
 
-        $siswa = Grouping::with('siswa')
-            ->where('id_kelas', $penetapan->id_kelas)
-            ->where('id_tahun', $data_tahun->id)
+        $riwayat = PertemuanGuruMapel::where('id_penetapan', $id_penetapan)
+            ->orderBy('tanggal', 'desc')
             ->get();
 
-        return view('gurumapel.show_kelas', compact('penetapan', 'siswa', 'data_tahun'));
+        return view('gurumapel.riwayat_kelas', compact('penetapan', 'riwayat'));
     }
 
     public function storeCatatan(Request $request, $id_penetapan)
@@ -101,18 +97,22 @@ class GuruMapelController extends Controller
         }
     }
 
-    public function riwayatKelas($id_penetapan)
+    public function createCatatan($id_penetapan)
     {
+        $data_tahun = TahunService::getActive();
         $penetapan = PenetapanGuruMapel::with(['kelas', 'mapel'])->findOrFail($id_penetapan);
+        
+        // Ensure the logged in user is the teacher for this class
         if ($penetapan->id_guru != Auth::id()) {
             return redirect()->route('gurumapel.index')->with('error', 'Akses ditolak.');
         }
 
-        $riwayat = PertemuanGuruMapel::where('id_penetapan', $id_penetapan)
-            ->orderBy('tanggal', 'desc')
+        $siswa = Grouping::with('siswa')
+            ->where('id_kelas', $penetapan->id_kelas)
+            ->where('id_tahun', $data_tahun->id)
             ->get();
 
-        return view('gurumapel.riwayat_kelas', compact('penetapan', 'riwayat'));
+        return view('gurumapel.show_kelas', compact('penetapan', 'siswa', 'data_tahun'));
     }
 
     public function detailRiwayat($id_pertemuan)
@@ -190,7 +190,7 @@ class GuruMapelController extends Controller
                 }
             }
             DB::commit();
-            return redirect()->route('gurumapel.riwayat', $penetapan->id)->with('success', 'Catatan pertemuan berhasil diperbarui.');
+            return redirect()->route('gurumapel.show_kelas', $penetapan->id)->with('success', 'Catatan pertemuan berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui data: ' . $e->getMessage());
@@ -211,7 +211,7 @@ class GuruMapelController extends Controller
             $pertemuan->delete();
             
             DB::commit();
-            return redirect()->route('gurumapel.riwayat', $penetapan->id)->with('success', 'Catatan pertemuan berhasil dihapus.');
+            return redirect()->route('gurumapel.show_kelas', $penetapan->id)->with('success', 'Catatan pertemuan berhasil dihapus.');
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data: ' . $e->getMessage());

@@ -9,8 +9,7 @@
     
     <div class="row mb-3">
         <div class="col-12">
-            <a href="{{ route('gurumapel.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Kembali</a>
-            <a href="{{ route('gurumapel.riwayat', $penetapan->id) }}" class="btn btn-info text-white float-right"><i class="fa fa-history"></i> Riwayat Pertemuan</a>
+            <a href="{{ route('gurumapel.show_kelas', $penetapan->id) }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Kembali ke Daftar Catatan</a>
         </div>
     </div>
 
