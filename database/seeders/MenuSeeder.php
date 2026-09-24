@@ -164,6 +164,15 @@ class MenuSeeder extends Seeder
                 'order' => 11,
                 'roles' => [$admin, $piket, $walikelas]
             ],
+            [
+                'title' => 'Monitoring Jurnal',
+                'route_name' => 'admin.jurnal.index',
+                'icon' => 'fa-book',
+                'color_class' => 'card-primary',
+                'group_name' => 'AKADEMIK',
+                'order' => 6,
+                'roles' => [$admin]
+            ],
             // End of Menus
         ];
 
@@ -174,6 +183,7 @@ class MenuSeeder extends Seeder
                     'title' => $m['title'],
                     'icon' => $m['icon'],
                     'color_class' => $m['color_class'],
+                    'group_name' => $m['group_name'] ?? null,
                     'order' => $m['order']
                 ]
             );
