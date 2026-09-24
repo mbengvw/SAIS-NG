@@ -110,7 +110,8 @@ class GuruMapelController extends Controller
         $siswa = Grouping::with('siswa')
             ->where('id_kelas', $penetapan->id_kelas)
             ->where('id_tahun', $data_tahun->id)
-            ->get();
+            ->get()
+            ->sortBy('siswa.nama');
 
         return view('gurumapel.show_kelas', compact('penetapan', 'siswa', 'data_tahun'));
     }
@@ -144,7 +145,8 @@ class GuruMapelController extends Controller
         $siswa = Grouping::with('siswa')
             ->where('id_kelas', $penetapan->id_kelas)
             ->where('id_tahun', $data_tahun->id)
-            ->get();
+            ->get()
+            ->sortBy('siswa.nama');
             
         // Get existing notes and attendance map them by student id
         $catatan_lama = CatatanPembelajaran::where('id_pertemuan', $id_pertemuan)
