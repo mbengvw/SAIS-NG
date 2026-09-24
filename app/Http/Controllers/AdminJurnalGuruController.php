@@ -23,7 +23,7 @@ class AdminJurnalGuruController extends Controller
             // Optional filter by guru or kelas
             if ($request->has('guru') && $request->guru != '') {
                 $query->whereHas('guru', function($q) use ($request) {
-                    $q->where('nama_lengkap', 'like', '%' . $request->guru . '%');
+                    $q->where('name', 'like', '%' . $request->guru . '%');
                 });
             }
             if ($request->has('kelas') && $request->kelas != '') {

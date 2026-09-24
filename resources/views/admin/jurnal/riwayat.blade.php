@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <h4 class="font-weight-bold text-dark">Riwayat Catatan Mengajar</h4>
                     <p class="mb-0 text-muted">
-                        Guru: <strong>{{ $penetapan->guru->nama_lengkap ?? 'N/A' }}</strong> <br>
+                        Guru: <strong>{{ $penetapan->guru->name ?? 'N/A' }}</strong> <br>
                         Kelas: <strong>{{ $penetapan->kelas->nama_kelas ?? 'N/A' }}</strong> <br>
                         Mata Pelajaran: <strong>{{ $penetapan->mapel->nama_mapel ?? 'N/A' }}</strong>
                     </p>

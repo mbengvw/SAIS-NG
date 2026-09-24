@@ -35,7 +35,7 @@
                         @forelse($penetapan as $index => $row)
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
-                                <td class="font-weight-bold">{{ $row->guru->nama_lengkap ?? 'N/A' }}</td>
+                                <td class="font-weight-bold">{{ $row->guru->name ?? 'N/A' }}</td>
                                 <td>{{ $row->mapel->nama_mapel ?? 'N/A' }}</td>
                                 <td>{{ $row->kelas->nama_kelas ?? 'N/A' }}</td>
                                 <td class="text-center">
