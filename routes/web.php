@@ -143,6 +143,11 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('setwalas', [PenetapanWalasController::class, 'index'])->name('setwalas.index')->middleware('admin:admin,akademik');
 
+        // Monitoring Jurnal Guru (Admin)
+        Route::get('/admin/jurnal-guru', [\App\Http\Controllers\AdminJurnalGuruController::class, 'index'])->name('admin.jurnal.index')->middleware('admin:admin,akademik,kepsek');
+        Route::get('/admin/jurnal-guru/kelas/{id_penetapan}', [\App\Http\Controllers\AdminJurnalGuruController::class, 'showRiwayat'])->name('admin.jurnal.show_riwayat')->middleware('admin:admin,akademik,kepsek');
+        Route::get('/admin/jurnal-guru/pertemuan/{id_pertemuan}', [\App\Http\Controllers\AdminJurnalGuruController::class, 'showDetail'])->name('admin.jurnal.show_detail')->middleware('admin:admin,akademik,kepsek');
+
         Route::get('presensi', [PresensiController::class, 'index'])->name('presensi.index')->middleware('tahun');
         Route::get('presensi/ajaxkelastanggal', [PresensiController::class, 'ajaxkelastanggal'])->name('presensi.ajaxkelastanggal');
         Route::post('presensi', [PresensiController::class, 'store'])->name('presensi.store');
