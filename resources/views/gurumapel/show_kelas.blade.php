@@ -88,7 +88,7 @@
                                         
                                         <!-- Bagian 1: Profil Siswa -->
                                         <div class="col-12 col-md-4 mb-3 mb-md-0 d-flex align-items-center">
-                                            <span class="mr-3 font-weight-bold text-muted">{{ $index + 1 }}.</span>
+                                            <span class="mr-3 font-weight-bold text-muted">{{ $loop->iteration }}.</span>
                                             @if(!empty($row->siswa->foto))
                                                 <img src="{{ asset($row->siswa->foto) }}" alt="Foto" class="rounded-circle mr-3" style="width: 50px; height: 50px; object-fit: cover; border: 2px solid #e0e7ff;">
                                             @else
