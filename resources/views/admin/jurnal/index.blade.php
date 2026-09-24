@@ -14,6 +14,31 @@
             </div>
         </div>
     </div>
+    <!-- Filter Form -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form action="{{ route('admin.jurnal.index') }}" method="GET" class="form-row align-items-end">
+                <div class="col-md-3 mb-3">
+                    <label for="guru" class="font-weight-bold">Nama Guru</label>
+                    <input type="text" class="form-control" name="guru" id="guru" placeholder="Cari guru..." value="{{ request('guru') }}">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="mapel" class="font-weight-bold">Mata Pelajaran</label>
+                    <input type="text" class="form-control" name="mapel" id="mapel" placeholder="Cari mapel..." value="{{ request('mapel') }}">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="kelas" class="font-weight-bold">Kelas</label>
+                    <input type="text" class="form-control" name="kelas" id="kelas" placeholder="Cari kelas..." value="{{ request('kelas') }}">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <button type="submit" class="btn btn-primary w-100 mb-1"><i class="fa fa-search"></i> Terapkan Filter</button>
+                    @if(request('guru') || request('mapel') || request('kelas'))
+                        <a href="{{ route('admin.jurnal.index') }}" class="btn btn-secondary w-100"><i class="fa fa-refresh"></i> Reset</a>
+                    @endif
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-white font-weight-bold d-flex justify-content-between align-items-center">

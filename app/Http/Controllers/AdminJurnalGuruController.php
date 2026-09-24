@@ -31,6 +31,11 @@ class AdminJurnalGuruController extends Controller
                     $q->where('nama_kelas', 'like', '%' . $request->kelas . '%');
                 });
             }
+            if ($request->has('mapel') && $request->mapel != '') {
+                $query->whereHas('mapel', function($q) use ($request) {
+                    $q->where('nama_mapel', 'like', '%' . $request->mapel . '%');
+                });
+            }
             
             $penetapan = $query->get();
         }
