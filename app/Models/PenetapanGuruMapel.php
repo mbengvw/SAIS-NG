@@ -37,4 +37,9 @@ class PenetapanGuruMapel extends Model
     {
         return $this->belongsTo(User::class, 'id_guru', 'id');
     }
+
+    public function pertemuan()
+    {
+        return $this->hasMany(PertemuanGuruMapel::class, 'id_penetapan', 'id');
+    }
 }

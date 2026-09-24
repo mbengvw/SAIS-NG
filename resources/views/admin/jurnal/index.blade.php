@@ -53,6 +53,7 @@
                             <th>Nama Guru</th>
                             <th>Mata Pelajaran</th>
                             <th>Kelas</th>
+                            <th class="text-center">Status</th>
                             <th width="15%" class="text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -64,6 +65,13 @@
                                 <td>{{ $row->mapel->nama_mapel ?? 'N/A' }}</td>
                                 <td>{{ $row->kelas->nama_kelas ?? 'N/A' }}</td>
                                 <td class="text-center">
+                                    @if($row->pertemuan_count > 0)
+                                        <span class="badge badge-success px-2 py-1">{{ $row->pertemuan_count }} Pertemuan</span>
+                                    @else
+                                        <span class="badge badge-secondary px-2 py-1">Belum Ada</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
                                     <a href="{{ route('admin.jurnal.show_riwayat', $row->id) }}" class="btn btn-sm btn-info" title="Lihat Jurnal">
                                         <i class="fa fa-eye"></i> Riwayat
                                     </a>
@@ -71,7 +79,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center py-4 text-muted">Belum ada penetapan guru mapel di tahun ajaran ini.</td>
+                                <td colspan="6" class="text-center py-4 text-muted">Belum ada penetapan guru mapel di tahun ajaran ini.</td>
                             </tr>
                         @endforelse
                     </tbody>

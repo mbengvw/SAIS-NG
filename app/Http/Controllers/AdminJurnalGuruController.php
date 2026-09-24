@@ -18,7 +18,7 @@ class AdminJurnalGuruController extends Controller
         
         $penetapan = [];
         if ($data_tahun) {
-            $query = PenetapanGuruMapel::with(['kelas', 'mapel', 'guru'])->where('id_tahun', $data_tahun->id);
+            $query = PenetapanGuruMapel::with(['kelas', 'mapel', 'guru'])->withCount('pertemuan')->where('id_tahun', $data_tahun->id);
             
             // Optional filter by guru or kelas
             if ($request->has('guru') && $request->guru != '') {
