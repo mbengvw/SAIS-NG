@@ -42,4 +42,9 @@ class PenetapanGuruMapel extends Model
     {
         return $this->hasMany(PertemuanGuruMapel::class, 'id_penetapan', 'id');
     }
+
+    public function komponenNilai()
+    {
+        return $this->hasMany(KomponenNilai::class, 'id_penetapan', 'id')->orderBy('urutan', 'asc');
+    }
 }

@@ -1,24 +1,24 @@
 <?php
 
 use App\Http\Controllers\EmisController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\GroupingController;
 use App\Http\Controllers\HukdisController;
 use App\Http\Controllers\HukdismanController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LaporanPresensiController;
-use App\Http\Controllers\MstHukdisController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MstHukdisController;
 use App\Http\Controllers\PenetapanWalasController;
 use App\Http\Controllers\PiketController;
-use App\Http\Controllers\UsermanController;
+use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RekapPresensiController;
+use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TahunAkademikController;
+use App\Http\Controllers\UsermanController;
 use App\Http\Controllers\WalikelasController;
 use App\Services\TahunService;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/login/validate_login', [LoginController::class, 'validate_login'])->name('login.validate_login');
@@ -26,8 +26,6 @@ Route::post('/login/validate_login', [LoginController::class, 'validate_login'])
 Route::prefix('public')->group(function () {
     Route::get('/rekap-siswa', [EmisController::class, 'rekap'])->name('emis.rekap');
 });
-
-
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/list-students', [PiketController::class, 'listStudents'])->name('detail-siswa');
@@ -46,6 +44,14 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('gurumapel/pertemuan/{id_pertemuan}', [App\Http\Controllers\GuruMapelController::class, 'destroyPertemuan'])->name('gurumapel.destroy_pertemuan');
     Route::get('gurumapel/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
 
+    // Guru Mapel - Penilaian Siswa
+    Route::get('gurumapel/kelas/{id_penetapan}/nilai', [App\Http\Controllers\GuruMapelNilaiController::class, 'index'])->name('gurumapel.nilai.index');
+    Route::post('gurumapel/kelas/{id_penetapan}/nilai/komponen', [App\Http\Controllers\GuruMapelNilaiController::class, 'storeKomponen'])->name('gurumapel.nilai.komponen.store');
+    Route::put('gurumapel/nilai/komponen/{id_komponen}', [App\Http\Controllers\GuruMapelNilaiController::class, 'updateKomponen'])->name('gurumapel.nilai.komponen.update');
+    Route::delete('gurumapel/nilai/komponen/{id_komponen}', [App\Http\Controllers\GuruMapelNilaiController::class, 'destroyKomponen'])->name('gurumapel.nilai.komponen.destroy');
+    Route::get('gurumapel/nilai/komponen/{id_komponen}/input', [App\Http\Controllers\GuruMapelNilaiController::class, 'inputNilai'])->name('gurumapel.nilai.input');
+    Route::post('gurumapel/nilai/komponen/{id_komponen}/simpan', [App\Http\Controllers\GuruMapelNilaiController::class, 'storeNilaiBatch'])->name('gurumapel.nilai.store_batch');
+
     // Siswa Routes
     Route::get('siswa/dashboard', [App\Http\Controllers\StudentDashboardController::class, 'index'])->name('siswa.dashboard');
     Route::post('siswa/profile/update', [App\Http\Controllers\StudentDashboardController::class, 'updateProfile'])->name('siswa.profile.update');
@@ -58,6 +64,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/guess', function () {
         $tahun = TahunService::getActive()->alias_tahun;
+
         return view('guess', ['tahun' => $tahun]);
     });
     Route::get('/guess/logout', [LoginController::class, 'logout'])->name('logout');
@@ -96,7 +103,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index')->middleware('admin:admin,akademik');
         Route::get('/kelas/show', [KelasController::class, 'show'])->name('kelas.show')->middleware('admin:admin,akademik');
-        Route::post('/kelas', [KelasController::class, 'add'])->name('kelas.add')->middleware('admin:admin,akademik'); #create /update
+        Route::post('/kelas', [KelasController::class, 'add'])->name('kelas.add')->middleware('admin:admin,akademik'); //create /update
         Route::delete('/kelas', [KelasController::class, 'destroy'])->name('kelas.destroy')->middleware('admin:admin,akademik');
 
         // Mapel Routes
@@ -114,7 +121,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/master/penetapan-guru-mapel/add', [App\Http\Controllers\PenetapanGuruMapelController::class, 'add'])->name('master.penetapan.add')->middleware('admin:admin,akademik');
         Route::delete('/master/penetapan-guru-mapel/destroy', [App\Http\Controllers\PenetapanGuruMapelController::class, 'destroy'])->name('master.penetapan.destroy')->middleware('admin:admin,akademik');
     });
-
 
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('profile/change_pass', [ProfileController::class, 'change_pass'])->name('profile.change_pass');
@@ -200,14 +206,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('hukdisman/list_by', [HukdismanController::class, 'list_by'])->name('hukdisman.list_by');
     });
 
-
-
-
-
-
-
-
-
     Route::get('error/admin_only', function () {
         return view('error.restricted');
     })->name('error.admin_only');
@@ -217,7 +215,6 @@ Route::middleware(['auth'])->group(function () {
     })->name('error.no_tahun_aktif');
 });
 
-
 Route::get('test', [TahunAkademikController::class, 'setActive']);
 
-require __DIR__ . '/ajax.php';
+require __DIR__.'/ajax.php';

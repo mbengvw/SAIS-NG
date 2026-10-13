@@ -5,149 +5,255 @@
 @endsection
 
 @section('content')
+<style>
+    .btn { border-radius: 50px !important; }
+
+    /* Absensi pill buttons */
+    .absen-group { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .absen-label {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-weight: 700;
+        font-size: 0.88rem;
+        cursor: pointer;
+        border: 2px solid #e2e8f0;
+        background: #f8fafc;
+        color: #64748b;
+        transition: all 0.18s ease;
+        user-select: none;
+    }
+
+    .absen-label:hover {
+        border-color: #cbd5e1;
+        background: #f1f5f9;
+    }
+
+    .absen-radio:checked + .absen-label {
+        border-color: transparent;
+        color: #fff;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    }
+
+    .absen-radio[value="H"]:checked + .absen-label { background: #10b981; }
+    .absen-radio[value="S"]:checked + .absen-label { background: #0ea5e9; }
+    .absen-radio[value="I"]:checked + .absen-label { background: #f59e0b; }
+    .absen-radio[value="A"]:checked + .absen-label { background: #ef4444; }
+    .absen-radio[value="D"]:checked + .absen-label { background: #8b5cf6; }
+    .absen-radio { display: none; }
+
+    /* Siswa row card */
+    .siswa-row {
+        border: none;
+        border-bottom: 1px solid #f1f5f9;
+        padding: 14px 20px;
+        transition: background 0.15s;
+    }
+    .siswa-row:last-child { border-bottom: none; }
+    .siswa-row:hover { background: #f8fafc; }
+
+    @media (max-width: 576px) {
+        .absen-label { width: 36px; height: 36px; font-size: 0.82rem; }
+    }
+</style>
+
 <div class="container-fluid" style="margin-top: 25px;">
-    
+
+    {{-- Navigasi --}}
     <div class="row mb-3">
         <div class="col-12">
-            <a href="{{ route('gurumapel.show_kelas', $penetapan->id) }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Kembali ke Daftar Catatan</a>
+            <a href="{{ route('gurumapel.show_kelas', $penetapan->id) }}" class="btn btn-sm" style="background:#f1f5f9; color:#475569; border:none; font-weight:600;">
+                <i class="fa fa-arrow-left mr-1"></i> Kembali ke Jurnal
+            </a>
         </div>
     </div>
 
+    {{-- Banner --}}
     <div class="row mb-4">
         <div class="col-12">
-            <div class="card shadow-sm" style="border-radius: 10px; border-left: 5px solid #4f46e5;">
-                <div class="card-body">
-                    <h4 class="font-weight-bold text-dark">Kelas {{ $penetapan->kelas->nama_kelas }}</h4>
-                    <p class="mb-0 text-muted">
-                        Mata Pelajaran: <strong>{{ $penetapan->mapel->nama_mapel }}</strong> <br>
-                        Tahun Akademik: <strong>{{ $data_tahun->alias_tahun }}</strong>
-                    </p>
+            <div class="card border-0" style="border-radius: 14px; background: linear-gradient(135deg, #0891b2 0%, #0ea5e9 60%, #38bdf8 100%); box-shadow: 0 8px 30px rgba(8, 145, 178, 0.35);">
+                <div class="card-body py-3">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center">
+                        <div>
+                            <span class="badge px-3 py-1 mb-2 font-weight-bold" style="font-size: 0.8rem; background-color: rgba(255,255,255,0.2); color:#fff; border-radius: 20px; letter-spacing: 0.5px;">
+                                <i class="fa fa-plus-circle mr-1"></i> TAMBAH CATATAN PERTEMUAN
+                            </span>
+                            <h4 class="font-weight-bold mb-1" style="color:#fff;">
+                                Kelas {{ $penetapan->kelas->nama_kelas }}
+                            </h4>
+                            <p class="mb-0" style="font-size: 0.95rem; color: rgba(255,255,255,0.85);">
+                                Mata Pelajaran: <strong style="color:#fff;">{{ $penetapan->mapel->nama_mapel }}</strong>
+                                &bull; Tahun Akademik: <strong style="color:#fff;">{{ $data_tahun->alias_tahun }}</strong>
+                            </p>
+                        </div>
+                        <div class="text-right mt-2 mt-md-0">
+                            <div style="background: rgba(255,255,255,0.18); border-radius: 10px; padding: 10px 16px; display: inline-block;">
+                                <div style="color: rgba(255,255,255,0.8); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.5px;">JUMLAH SISWA</div>
+                                <div style="color:#fff; font-size: 1.8rem; font-weight: 800; line-height: 1;">{{ count($siswa) }}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    {{-- Alerts --}}
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <i class="fa fa-check-circle mr-1"></i> {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
         </div>
     @endif
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <i class="fa fa-exclamation-triangle mr-1"></i> {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
         </div>
     @endif
 
     <form action="{{ route('gurumapel.store_catatan', $penetapan->id) }}" method="POST">
         @csrf
-        <div class="row">
-            <div class="col-12">
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header bg-white font-weight-bold">
-                        Detail Pertemuan
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="tanggal">Tanggal Pertemuan <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ date('Y-m-d') }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="materi_pembelajaran">Materi Pembelajaran <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="materi_pembelajaran" name="materi_pembelajaran" rows="5" placeholder="Tuliskan materi yang dibahas pada pertemuan ini..."></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-12">
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header bg-white font-weight-bold">
-                        Daftar Siswa & Catatan Pembelajaran
+        {{-- Card: Detail Pertemuan --}}
+        <div class="card border-0 mb-4" style="border-radius: 14px; box-shadow: 0 4px 18px rgba(0,0,0,0.09);">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-4" style="gap: 12px;">
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #0891b2, #38bdf8); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1rem; flex-shrink: 0;">
+                        <i class="fa fa-calendar"></i>
                     </div>
-                    <div class="card-body p-0">
-                        <div class="list-group list-group-flush">
-                            <!-- Header (Hanya tampil di desktop) -->
-                            <div class="list-group-item bg-light font-weight-bold d-none d-md-block">
-                                <div class="row">
-                                    <div class="col-md-4">Nama Siswa</div>
-                                    <div class="col-md-4">Kehadiran</div>
-                                    <div class="col-md-4">Catatan / Uraian</div>
-                                </div>
-                            </div>
-                            
-                            <!-- Daftar Siswa -->
-                            @forelse($siswa as $index => $row)
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        
-                                        <!-- Bagian 1: Profil Siswa -->
-                                        <div class="col-12 col-md-4 mb-3 mb-md-0 d-flex align-items-center">
-                                            <span class="mr-3 font-weight-bold text-muted">{{ $loop->iteration }}.</span>
-                                            @if(!empty($row->siswa->foto))
-                                                <img src="{{ asset($row->siswa->foto) }}" alt="Foto" class="rounded-circle mr-3" style="width: 50px; height: 50px; object-fit: cover; border: 2px solid #e0e7ff;">
-                                            @else
-                                                <img src="https://ui-avatars.com/api/?name={{ urlencode($row->siswa->nama ?? 'Siswa') }}&background=e0e7ff&color=4f46e5&rounded=true&bold=true&size=100" alt="Foto" class="rounded-circle mr-3" style="width: 50px; height: 50px;">
-                                            @endif
-                                            <div>
-                                                <div class="font-weight-bold text-dark">{{ $row->siswa->nama ?? 'N/A' }}</div>
-                                                <small class="text-muted">NISN: {{ $row->siswa->nisn ?? '-' }}</small>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Bagian 2: Absensi Kehadiran -->
-                                        <div class="col-12 col-md-4 mb-3 mb-md-0">
-                                            <div class="d-md-none text-muted mb-1 small font-weight-bold">Kehadiran:</div>
-                                            <div class="d-flex flex-wrap gap-2">
-                                                <div class="form-check form-check-inline mr-2 mb-1">
-                                                    <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="hadir_{{ $row->id_siswa }}" value="H" checked>
-                                                    <label class="form-check-label text-success font-weight-bold" for="hadir_{{ $row->id_siswa }}">H</label>
-                                                </div>
-                                                <div class="form-check form-check-inline mr-2 mb-1">
-                                                    <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="sakit_{{ $row->id_siswa }}" value="S">
-                                                    <label class="form-check-label text-info font-weight-bold" for="sakit_{{ $row->id_siswa }}">S</label>
-                                                </div>
-                                                <div class="form-check form-check-inline mr-2 mb-1">
-                                                    <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="izin_{{ $row->id_siswa }}" value="I">
-                                                    <label class="form-check-label text-warning font-weight-bold" for="izin_{{ $row->id_siswa }}">I</label>
-                                                </div>
-                                                <div class="form-check form-check-inline mr-2 mb-1">
-                                                    <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="alpa_{{ $row->id_siswa }}" value="A">
-                                                    <label class="form-check-label text-danger font-weight-bold" for="alpa_{{ $row->id_siswa }}">A</label>
-                                                </div>
-                                                <div class="form-check form-check-inline mr-0 mb-1">
-                                                    <input class="form-check-input" type="radio" name="kehadiran[{{ $row->id_siswa }}]" id="dispen_{{ $row->id_siswa }}" value="D">
-                                                    <label class="form-check-label text-primary font-weight-bold" for="dispen_{{ $row->id_siswa }}">D</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Bagian 3: Catatan Pembelajaran -->
-                                        <div class="col-12 col-md-4">
-                                            <div class="d-md-none text-muted mb-1 small font-weight-bold">Catatan (Opsional):</div>
-                                            <textarea name="catatan[{{ $row->id_siswa }}]" class="form-control form-control-sm" rows="2" placeholder="Tulis catatan di sini..."></textarea>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            @empty
-                                <div class="list-group-item text-center py-4 text-muted">
-                                    Belum ada data siswa di kelas ini.
-                                </div>
-                            @endforelse
-                        </div>
-                    </div>
-                    <div class="card-footer bg-white text-right">
-                        <button type="submit" class="btn btn-primary px-4"><i class="fa fa-save"></i> Simpan Semua Catatan</button>
-                    </div>
+                    <h5 class="font-weight-bold text-dark mb-0">Detail Pertemuan</h5>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="tanggal" class="font-weight-bold text-dark" style="font-size: 0.88rem;">
+                        Tanggal Pertemuan <span class="text-danger">*</span>
+                    </label>
+                    <input type="date" class="form-control @error('tanggal') is-invalid @enderror"
+                           id="tanggal" name="tanggal"
+                           value="{{ old('tanggal', date('Y-m-d')) }}"
+                           style="border-radius: 10px; border: 1.5px solid #e2e8f0; padding: 10px 14px;"
+                           required>
+                    @error('tanggal')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group mb-0">
+                    <label for="materi_pembelajaran" class="font-weight-bold text-dark" style="font-size: 0.88rem;">
+                        Materi Pembelajaran <span class="text-danger">*</span>
+                    </label>
+                    <textarea class="form-control @error('materi_pembelajaran') is-invalid @enderror"
+                              id="materi_pembelajaran" name="materi_pembelajaran"
+                              rows="4"
+                              placeholder="Tuliskan materi yang dibahas pada pertemuan ini...">{{ old('materi_pembelajaran') }}</textarea>
+                    @error('materi_pembelajaran')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
         </div>
+
+        {{-- Card: Daftar Siswa --}}
+        <div class="card border-0 mb-5" style="border-radius: 14px; box-shadow: 0 4px 18px rgba(0,0,0,0.09);">
+            <div class="card-body p-0">
+                {{-- Header card --}}
+                <div class="d-flex align-items-center px-4 py-3" style="border-bottom: 1.5px solid #f1f5f9; gap: 12px;">
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #4f46e5, #6366f1); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1rem; flex-shrink: 0;">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <div>
+                        <h5 class="font-weight-bold text-dark mb-0">Daftar Siswa & Catatan Pembelajaran</h5>
+                        <small class="text-muted">{{ count($siswa) }} siswa — Klik pilihan kehadiran tiap siswa</small>
+                    </div>
+                </div>
+
+                {{-- Header kolom (desktop only) --}}
+                <div class="d-none d-md-flex px-4 py-2" style="background: #f8fafc; border-bottom: 1px solid #f1f5f9;">
+                    <div style="flex: 0 0 42%; font-size: 0.78rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Nama Siswa</div>
+                    <div style="flex: 0 0 25%; font-size: 0.78rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Kehadiran</div>
+                    <div style="flex: 1; font-size: 0.78rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Catatan</div>
+                </div>
+
+                {{-- List siswa --}}
+                @forelse($siswa as $index => $row)
+                    <div class="siswa-row">
+                        <div class="row align-items-center">
+
+                            {{-- Profil siswa --}}
+                            <div class="col-12 col-md-5 d-flex align-items-center mb-3 mb-md-0" style="gap: 12px;">
+                                <span class="font-weight-bold text-muted" style="font-size: 0.82rem; min-width: 22px;">{{ $loop->iteration }}.</span>
+                                @if(!empty($row->siswa->foto))
+                                    <img src="{{ asset($row->siswa->foto) }}" alt="Foto"
+                                         class="rounded-circle flex-shrink-0"
+                                         style="width: 42px; height: 42px; object-fit: cover; border: 2px solid #e0f2fe;">
+                                @else
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($row->siswa->nama ?? 'Siswa') }}&background=e0f2fe&color=0891b2&rounded=true&bold=true&size=100"
+                                         alt="Foto" class="rounded-circle flex-shrink-0"
+                                         style="width: 42px; height: 42px;">
+                                @endif
+                                <div style="min-width: 0;">
+                                    <div class="font-weight-bold text-dark" style="font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                        {{ $row->siswa->nama ?? 'N/A' }}
+                                    </div>
+                                    <small class="text-muted">{{ $row->siswa->nisn ?? '-' }}</small>
+                                </div>
+                            </div>
+
+                            {{-- Absensi --}}
+                            <div class="col-12 col-md-3 mb-3 mb-md-0">
+                                <div class="d-md-none text-muted mb-2" style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Kehadiran</div>
+                                <div class="absen-group">
+                                    @foreach(['H' => 'H', 'S' => 'S', 'I' => 'I', 'A' => 'A', 'D' => 'D'] as $val => $label)
+                                        <input class="absen-radio" type="radio"
+                                               name="kehadiran[{{ $row->id_siswa }}]"
+                                               id="{{ strtolower($val) }}_{{ $row->id_siswa }}"
+                                               value="{{ $val }}"
+                                               {{ $val === 'H' ? 'checked' : '' }}>
+                                        <label class="absen-label" for="{{ strtolower($val) }}_{{ $row->id_siswa }}" title="{{ ['H'=>'Hadir','S'=>'Sakit','I'=>'Izin','A'=>'Alpa','D'=>'Dispensasi'][$val] }}">
+                                            {{ $label }}
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            {{-- Catatan --}}
+                            <div class="col-12 col-md-4">
+                                <div class="d-md-none text-muted mb-2" style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Catatan (Opsional)</div>
+                                <textarea name="catatan[{{ $row->id_siswa }}]"
+                                          class="form-control"
+                                          rows="2"
+                                          placeholder="Catatan untuk siswa ini..."
+                                          style="border-radius: 10px; border: 1.5px solid #e2e8f0; font-size: 0.88rem; resize: none;"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                @empty
+                    <div class="text-center py-5">
+                        <i class="fa fa-users text-muted mb-3" style="font-size: 3rem; opacity: 0.3;"></i>
+                        <p class="text-muted">Belum ada data siswa di kelas ini.</p>
+                    </div>
+                @endforelse
+            </div>
+
+            {{-- Footer: tombol simpan --}}
+            <div class="card-footer bg-white d-flex justify-content-end px-4 py-3" style="border-radius: 0 0 14px 14px; border-top: 1.5px solid #f1f5f9;">
+                <a href="{{ route('gurumapel.show_kelas', $penetapan->id) }}"
+                   class="btn btn-sm mr-2 font-weight-bold"
+                   style="background:#f1f5f9; color:#475569; border:none; padding: 10px 22px;">
+                    Batal
+                </a>
+                <button type="submit" class="btn btn-primary font-weight-bold px-4" style="padding: 10px 28px; box-shadow: 0 3px 12px rgba(8,145,178,0.35); background: linear-gradient(135deg, #0891b2, #0ea5e9); border: none;">
+                    <i class="fa fa-save mr-1"></i> Simpan Catatan
+                </button>
+            </div>
+        </div>
+
     </form>
 </div>
 @endsection
@@ -155,7 +261,7 @@
 @section('script')
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#materi_pembelajaran').summernote({
                 placeholder: 'Tuliskan materi yang dibahas pada pertemuan ini...',
                 tabsize: 2,
